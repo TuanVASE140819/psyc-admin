@@ -119,8 +119,6 @@
   },
   "engines": {
     "node": "14.15.3"
-  },
-  "gitHooks": {
-    "commit-msg": "fabric verify-commit"
   }
+
 }
