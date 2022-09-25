@@ -121,5 +121,5 @@
   },
   "engines": {
     "node": "16.15.0"
-  }
+  },"scripts": { "start": "react-scripts start", "build": "react-scripts --max_old_space_size=4096 build", "test": "react-scripts test", "precommit": "lint-staged" }
 }
