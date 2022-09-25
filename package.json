@@ -118,9 +118,7 @@
     "umi-serve": "^1.9.10"
   },
   "engines": {
-    "node": "14.15.3"
-  },
-  "gitHooks": {
-    "commit-msg": "fabric verify-commit"
+    "node": "14.19.3"
   }
+
 }
