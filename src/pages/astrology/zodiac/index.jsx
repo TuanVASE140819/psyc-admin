@@ -220,12 +220,12 @@ const Zodiac = () => {
     (async () => {
       setLoadingZodiac(true);
       const listZodiac = await getZodiacs();
-      if (listZodiac?.payload) {
+      if (listZodiac?.data) {
         const listDataSrc = [];
-        listZodiac?.payload?.map((item) => {
+        listZodiac.data?.map((item) => {
           const zodiac = {};
           zodiac.id = item?.id;
-          zodiac.avatar = item?.icon;
+          zodiac.avatar = item?.imageUrl;
           zodiac.name = item?.name;
           zodiac.title = item?.name;
           zodiac.selected = false;

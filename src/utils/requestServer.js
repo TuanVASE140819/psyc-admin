@@ -30,7 +30,7 @@ const errorHandler = (error) => {
 };
 
 const request = extend({
-  prefix: 'https://stg-api.tranastro.com',
+  prefix: 'https://www.psychologicalcounselingv1.somee.com',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',

@@ -28,7 +28,7 @@ export const editUser = (userId, body) => {
   });
 };
 export const login = async (body) => {
-  return await request.post('/api/v1/login/firebase', {
+  return await request.post('/api/FirebaseServices/loginadmin', {
     data: body,
   });
 };

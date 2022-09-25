@@ -24,7 +24,7 @@ const DetailZodiac = (props) => {
       try {
         setLoading(true);
         const zodiac = await getAnZodiac(zodiacId);
-        setZodiac(zodiac);
+        setZodiac(zodiac.data);
       } catch (error) {
         console.log('errorLoadDetailZodiac', error);
       }

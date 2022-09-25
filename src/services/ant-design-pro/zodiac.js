@@ -6,7 +6,7 @@ export const addZodiac = (body) => {
 
 export const getZodiacs = async (params) => {
   return await request
-    .get('/api/v1/zodiacs', {
+    .get('/api/Zodiacs/Getallzodiacs', {
       params: params,
     })
     .then((response) => {
@@ -23,7 +23,7 @@ export const deleteZodiac = (zodiacId) => {
 
 export const getAnZodiac = async (zodiacId) => {
   return await request
-    .get(`/api/v1/zodiacs/${zodiacId}`)
+    .get(`/api/Zodiacs/getbyid/?id=${zodiacId}`)
     .then((res) => {
       console.log('A');
       return res;

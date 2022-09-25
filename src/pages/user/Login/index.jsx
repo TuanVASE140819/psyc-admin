@@ -47,7 +47,14 @@ const Login = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
+    // const userInfo = await initialState?.fetchUserInfo?.();
+
+    // console.log('user info', userInfo);
+    const userInfo = {
+      role: {
+        name: 'admin',
+      },
+    };
 
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
@@ -57,25 +64,43 @@ const Login = () => {
   const handleSubmit = async (values) => {
     setButtonLoading(true);
     try {
-      const result = await logInWithEmailAndPassword(values.username, values.password);
-      if (result) {
-        const token = {};
-        token.token = result;
-        const jwtToken = await login(token);
-        if (jwtToken) {
-          const defaultLoginSuccessMessage = intl.formatMessage({
-            id: 'pages.login.success',
-            defaultMessage: 'Login Success!',
-          });
-          setAppToken(jwtToken);
-          message.success(defaultLoginSuccessMessage);
-          await fetchUserInfo();
-          if (!history) return;
-          const { query } = history.location;
-          const { redirect } = query;
-          history.push(redirect || '/');
-          return;
-        }
+      // const result = await logInWithEmailAndPassword(values.username, values.password);
+      // if (result) {
+      //   const token = {};
+      //   token.token = result;
+      //   const jwtToken = await login(token);
+      //   if (jwtToken) {
+      //     const defaultLoginSuccessMessage = intl.formatMessage({
+      //       id: 'pages.login.success',
+      //       defaultMessage: 'Login Success!',
+      //     });
+      //     setAppToken(jwtToken);
+      //     message.success(defaultLoginSuccessMessage);
+      //     await fetchUserInfo();
+      //     if (!history) return;
+      //     const { query } = history.location;
+      //     const { redirect } = query;
+      //     history.push(redirect || '/');
+      //     return;
+      //   }
+      // }
+      const res = await login({
+        userName: values.username,
+        passWord: values.password,
+      });
+      if (res) {
+        const defaultLoginSuccessMessage = intl.formatMessage({
+          id: 'pages.login.success',
+          defaultMessage: 'Login Success!',
+        });
+        setAppToken('Bearer ' + res.jwttoken);
+        message.success(defaultLoginSuccessMessage);
+        await fetchUserInfo();
+        if (!history) return;
+        const { query } = history.location;
+        const { redirect } = query;
+        history.push(redirect || '/');
+        return;
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {

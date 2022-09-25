@@ -24,7 +24,9 @@ export async function getInitialState() {
     try {
       const token = getAppToken();
       if (token) {
-        const msg = await getCurrentUser();
+        // const msg = await getCurrentUser();
+        // Không có api get current user nên set cứng, thêm các field cần thiết sau
+        const msg = { role: { name: 'admin test' } };
         setUserInfo(msg);
         access = msg.role.name;
         if (msg) {
