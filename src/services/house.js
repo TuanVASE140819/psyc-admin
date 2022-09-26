@@ -8,7 +8,7 @@ export const addHouse = (body) => {
 
 export const getHouses = async (params) => {
   return await request
-    .get('/api/v1/houses', {
+    .get('/api/ZodiacHouses/Getallzodiachouse', {
       params: params,
     })
     .then((response) => {

@@ -6,11 +6,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify';
 import style from './zodiacdetail.less';
 import { Content } from 'antd/lib/layout/layout';
+import dayjs from 'dayjs';
 
 const ShortZodiacDetail = (props) => {
   const { zodiac } = props;
 
-  const safeDescription = DOMPurify.sanitize(zodiac.descreiption);
+  const safeDescription = DOMPurify.sanitize(zodiac.descriptionShort);
 
   return (
     <>
@@ -36,7 +37,9 @@ const ShortZodiacDetail = (props) => {
           }}
         >
           {zodiac.id
-            ? `(${zodiac?.zodiacDayStart}/${zodiac?.zodiacMonthStart})-(${zodiac?.zodiacDayEnd}/${zodiac?.zodiacMonthEnd})`
+            ? `(${dayjs(zodiac?.dateStart).format('DD/MM')})-(${dayjs(zodiac?.endDate).format(
+                'DD/MM',
+              )})`
             : ''}
         </Title>
 
@@ -57,7 +60,7 @@ const ShortZodiacDetail = (props) => {
           >
             <Image
               width={150}
-              src={zodiac?.icon}
+              src={zodiac?.imageUrl}
               preview={false}
               style={{
                 marginRight: '16px',

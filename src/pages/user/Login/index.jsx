@@ -93,7 +93,7 @@ const Login = () => {
           id: 'pages.login.success',
           defaultMessage: 'Login Success!',
         });
-        setAppToken('Bearer ' + res.jwttoken);
+        setAppToken(res.jwttoken);
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
         if (!history) return;

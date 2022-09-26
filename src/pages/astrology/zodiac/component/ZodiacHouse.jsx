@@ -114,9 +114,9 @@ const ZodiacHouse = (props) => {
       setLoadingListHouse(true);
       const result = await getHouses();
 
-      if (result?.payload?.length > 0) {
+      if (result?.data?.length > 0) {
         const listDataSrc = [];
-        result?.payload?.map((item) => {
+        result?.data?.map((item) => {
           const house = {};
           house.id = item.id;
           house.avatar = item.icon;
@@ -128,7 +128,7 @@ const ZodiacHouse = (props) => {
         setDataList(listDataSrc);
         //set field
         const valueEnum = [];
-        result?.payload?.map((item) => {
+        result?.data?.map((item) => {
           const el = {
             valueName: item.id,
             valueDisplay: item.name,

@@ -119,8 +119,8 @@ const ZodiacDetail = (props) => {
   const [buttonSubmitterZodiac, setButtonSubmitterZodiac] = React.useState(buttonSubmitter);
   const [formFieldEditZodiac, setFormFieldEditZodiac] = React.useState(formFieldEdit);
   const [flag, setFlag] = React.useState(false);
-  const safeMainContent = DOMPurify.sanitize(zodiac?.mainContent);
-  const safeDescription = DOMPurify.sanitize(zodiac?.descreiption);
+  const safeMainContent = DOMPurify.sanitize(zodiac?.descriptionDetail);
+  const safeDescription = DOMPurify.sanitize(zodiac?.descriptionShort);
 
   //xuli loading upload img firebase
   useEffect(() => {
@@ -303,7 +303,7 @@ const ZodiacDetail = (props) => {
           <Title className={style.title}>{zodiac?.name}</Title>
           <Image
             width={50}
-            src={zodiac?.icon}
+            src={zodiac?.imageUrl}
             preview={false}
             style={{
               marginLeft: '12px',
