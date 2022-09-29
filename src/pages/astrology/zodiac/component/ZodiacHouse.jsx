@@ -1,5 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Tag } from 'antd';
+import { message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { getHouses } from '@/services/house';
 import {
@@ -9,11 +8,9 @@ import {
   addZodiacHouse,
 } from '@/services/zodiachouse';
 import { uploadFile } from '@/utils/uploadFile';
-import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
 import { Content } from 'antd/lib/layout/layout';
 import ListHouse from '@/components/ListHouse/ListHouse';
-import ZodiacHouseDetail from './ZodiacHouseDetail';
 import ProSkeleton from '@ant-design/pro-skeleton';
 
 const ZodiacHouse = (props) => {
@@ -120,9 +117,10 @@ const ZodiacHouse = (props) => {
           const house = {};
           house.id = item.id;
           house.avatar = item.icon;
-          house.name = item.name;
-          house.title = item.name;
+          house.name = `Nhà ${item.houseId}`;
+          house.title = `Nhà ${item.houseId}`;
           house.selected = false;
+          house.content = item.description;
           listDataSrc.push(house);
         });
         setDataList(listDataSrc);
@@ -276,8 +274,6 @@ const ZodiacHouse = (props) => {
     };
   };
 
-  const handleClickCard = (item) => {};
-
   const handleButtonView = async (item) => {
     const params = {};
     params.HouseId = item?.id;
@@ -290,11 +286,10 @@ const ZodiacHouse = (props) => {
     setViewLoading(false);
   };
 
-  const handleButtonEdit = (item) => {};
-
   const handleCancelModalViewDetail = () => {
     setModalViewDetail(false);
   };
+
   return (
     <>
       <Content
@@ -303,92 +298,33 @@ const ZodiacHouse = (props) => {
           background: '#fff',
         }}
       >
-        <Button
-          size="middle"
-          key="buttonAddZodiacHouse"
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => handleModal()}
-          style={{
-            marginBottom: '16px',
-          }}
-        >
-          Thêm Dữ Liệu
-        </Button>
         {loadingListHouse ? (
           <ProSkeleton type="list" list="12" />
         ) : (
           <ListHouse
             houseList={dataList}
             span={6}
-            handleClickCard={handleClickCard}
+            handleClickCard={handleEditZodiacHouseForm}
             button={true}
             handleButtonView={handleButtonView}
           />
         )}
       </Content>
-      {flagEditForm === 'edit' ? (
-        <ModalForm
-          showModal={showModal}
-          titleModal="Editing"
-          widthModal="900"
-          handleCancelModel={handleCancelModal}
-          formRef={formZodiacHouseRef}
-          buttonSubmitter={buttonSubmitterZodiacHouse}
-          handleSubmitForm={handleSubmitFormZodiacHouse}
-          formField={formFieldEditZodiacHouse}
-          stateEditor={stateEditor}
-          handleChangeStateEditor={handleChangeStateEditor}
-          editorRef={editorRef}
-          handleUploadImgInEditor={handleUploadImgInEditor}
-          handleResetForm={handleResetForm}
-        />
-      ) : (
-        <ModalForm
-          showModal={showModal}
-          titleModal="Add"
-          widthModal="900"
-          handleCancelModel={handleCancelModal}
-          formRef={formZodiacHouseRef}
-          buttonSubmitter={buttonSubmitterZodiacHouse}
-          handleSubmitForm={handleSubmitFormZodiacHouse}
-          formField={formFieldAddZodiacHouse}
-          stateEditor={stateEditor}
-          handleChangeStateEditor={handleChangeStateEditor}
-          editorRef={editorRef}
-          handleUploadImgInEditor={handleUploadImgInEditor}
-          handleResetForm={handleResetForm}
-        />
-      )}
-      <Modal
-        visible={modalViewDetail}
-        onCancel={() => handleCancelModalViewDetail()}
-        closable={false}
-        title={
-          zodiacHouseRecord
-            ? `Nội Dung Chi Tiết Của ${zodiacHouseRecord?.zodiacName} và ${zodiacHouseRecord?.houseName}`
-            : 'Dữ liệu trống'
-        }
-        footer={[
-          <Button
-            key="cancelModelView"
-            type="default"
-            onClick={() => handleCancelModalViewDetail()}
-          >
-            Close
-          </Button>,
-        ]}
-      >
-        {zodiacHouseRecord ? (
-          <ZodiacHouseDetail
-            zodiacHouse={zodiacHouseRecord}
-            handleEditZodiacHouseForm={handleEditZodiacHouseForm}
-            handleCancelModalViewDetail={handleCancelModalViewDetail}
-          />
-        ) : (
-          <p>Chưa có dữ liệu</p>
-        )}
-      </Modal>
+      <ModalForm
+        showModal={showModal}
+        titleModal="Editing"
+        widthModal="900"
+        handleCancelModel={handleCancelModal}
+        formRef={formZodiacHouseRef}
+        buttonSubmitter={buttonSubmitterZodiacHouse}
+        handleSubmitForm={handleSubmitFormZodiacHouse}
+        formField={formFieldEditZodiacHouse}
+        stateEditor={stateEditor}
+        handleChangeStateEditor={handleChangeStateEditor}
+        editorRef={editorRef}
+        handleUploadImgInEditor={handleUploadImgInEditor}
+        handleResetForm={handleResetForm}
+      />
     </>
   );
 };
