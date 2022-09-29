@@ -119,7 +119,7 @@ const ZodiacDetail = (props) => {
   const [buttonSubmitterZodiac, setButtonSubmitterZodiac] = React.useState(buttonSubmitter);
   const [formFieldEditZodiac, setFormFieldEditZodiac] = React.useState(formFieldEdit);
   const [flag, setFlag] = React.useState(false);
-  const safeMainContent = DOMPurify.sanitize(zodiac?.descriptionDetail);
+  const safeMainContent = DOMPurify.sanitize(zodiac?.ShortDescription);
   const safeDescription = DOMPurify.sanitize(zodiac?.descriptionShort);
 
   //xuli loading upload img firebase
@@ -138,11 +138,11 @@ const ZodiacDetail = (props) => {
     const updateDescriptionZodiac = { ...zodiac };
     updateDescriptionZodiac.zodiacName = updateDescriptionZodiac.name;
     delete updateDescriptionZodiac.name;
-    updateDescriptionZodiac.zodiacIcon = updateDescriptionZodiac.icon;
+    updateDescriptionZodiac.zodiacIcon = updateDescriptionZodiac.imageUrl;
     delete updateDescriptionZodiac.icon;
-    updateDescriptionZodiac.zodiacDescription = updateDescriptionZodiac.descreiption;
+    updateDescriptionZodiac.zodiacDescription = updateDescriptionZodiac.descriptionShort;
     delete updateDescriptionZodiac.descreiption;
-    updateDescriptionZodiac.zodiacMainContent = updateDescriptionZodiac.mainContent;
+    updateDescriptionZodiac.zodiacMainContent = updateDescriptionZodiac.descriptionDetail;
     delete updateDescriptionZodiac.mainContent;
     formZodiacRef?.current?.setFieldsValue(updateDescriptionZodiac);
   }, [flag]);
@@ -232,10 +232,10 @@ const ZodiacDetail = (props) => {
   const handleEditZodiacForm = () => {
     if (zodiac?.name) {
       const newObjRecord = { ...zodiac };
-      newObjRecord.zodiacDescription = newObjRecord.descreiption;
+      newObjRecord.zodiacDescription = newObjRecord.descriptionShort;
       delete newObjRecord.descreiption;
-      setStateEditor(newObjRecord.mainContent);
-      setStateShortDescriptionEditor(newObjRecord.zodiacDescription);
+      setStateEditor(newObjRecord.descriptionDetail);
+      setStateShortDescriptionEditor(newObjRecord.descriptionShort);
       setShowModal(!showModal);
       setFlag(!flag);
     }
