@@ -13,7 +13,7 @@ export const addPlanet = async (body) => {
 
 export const getPlanets = async (params) => {
   return await request
-    .get('/api/v1/planets', {
+    .get('/api/Planets/Getallplanets', {
       params: params,
     })
     .then((response) => {
