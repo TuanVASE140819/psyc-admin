@@ -136,12 +136,12 @@ const Planet = () => {
     (async () => {
       setLoadingPlanet(true);
       const listPlanet = await getPlanets();
-      if (listPlanet?.payload) {
+      if (listPlanet?.data) {
         const listDataSrc = [];
-        listPlanet?.payload?.map((item) => {
+        listPlanet?.data.map((item) => {
           const planet = {};
           planet.id = item?.id;
-          planet.avatar = item?.icon;
+          planet.avatar = item?.description;
           planet.name = item?.name;
           planet.title = item?.name;
           planet.selected = false;

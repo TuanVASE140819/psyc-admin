@@ -44,9 +44,9 @@ const Zodiac = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddZodiacName',
-      label: 'Zodiac Name',
+      label: 'Tên cung hoàng đạo',
       width: 'lg',
-      placeholder: 'Enter Zodiac Name',
+      placeholder: 'Nhập tên cung hoàng đạo',
       name: 'zodiacName',
       requiredField: 'true',
       ruleMessage: 'Input Zodiac Name before submit',
@@ -117,9 +117,9 @@ const Zodiac = () => {
     {
       fieldType: 'formText',
       key: 'fieldEditZodiacName',
-      label: 'Zodiac Name',
+      label: 'Tên cung hoàng đạo',
       width: 'lg',
-      placeholder: 'Enter Zodiac Name',
+      placeholder: 'Nhập tên cung hoàng đạo',
       name: 'name',
       requiredField: 'true',
       ruleMessage: 'Input Zodiac Name before submit',

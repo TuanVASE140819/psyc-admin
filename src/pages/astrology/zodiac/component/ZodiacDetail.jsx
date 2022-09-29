@@ -33,9 +33,9 @@ const ZodiacDetail = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldEditZodiacName',
-      label: 'Zodiac Name',
+      label: 'Tên cung',
       width: 'lg',
-      placeholder: 'Enter Zodiac Name',
+      placeholder: 'nhập tên cung hoàng đạo',
       name: 'zodiacName',
       requiredField: 'true',
       ruleMessage: 'Input Zodiac Name before submit',
@@ -76,7 +76,7 @@ const ZodiacDetail = (props) => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Zodiac Icon',
+      label: 'Hình ảnh',
       width: 'lg',
       placeholder: 'Icon Link',
       name: 'zodiacIcon',
@@ -88,12 +88,12 @@ const ZodiacDetail = (props) => {
     },
     {
       fieldType: 'ShortDescription',
-      title: 'Short Description',
+      title: 'Mô tả ngắn',
       nameTextArea: 'zodiacDescription',
     },
     {
       fieldType: 'EditorMainContent',
-      title: 'MainContent',
+      title: 'Nội dung chính',
       nameTextArea: 'zodiacMainContent',
     },
     {
@@ -119,7 +119,7 @@ const ZodiacDetail = (props) => {
   const [buttonSubmitterZodiac, setButtonSubmitterZodiac] = React.useState(buttonSubmitter);
   const [formFieldEditZodiac, setFormFieldEditZodiac] = React.useState(formFieldEdit);
   const [flag, setFlag] = React.useState(false);
-  const safeMainContent = DOMPurify.sanitize(zodiac?.descriptionDetail);
+  const safeMainContent = DOMPurify.sanitize(zodiac?.ShortDescription);
   const safeDescription = DOMPurify.sanitize(zodiac?.descriptionShort);
 
   //xuli loading upload img firebase
@@ -138,11 +138,11 @@ const ZodiacDetail = (props) => {
     const updateDescriptionZodiac = { ...zodiac };
     updateDescriptionZodiac.zodiacName = updateDescriptionZodiac.name;
     delete updateDescriptionZodiac.name;
-    updateDescriptionZodiac.zodiacIcon = updateDescriptionZodiac.icon;
+    updateDescriptionZodiac.zodiacIcon = updateDescriptionZodiac.imageUrl;
     delete updateDescriptionZodiac.icon;
-    updateDescriptionZodiac.zodiacDescription = updateDescriptionZodiac.descreiption;
+    updateDescriptionZodiac.zodiacDescription = updateDescriptionZodiac.descriptionShort;
     delete updateDescriptionZodiac.descreiption;
-    updateDescriptionZodiac.zodiacMainContent = updateDescriptionZodiac.mainContent;
+    updateDescriptionZodiac.zodiacMainContent = updateDescriptionZodiac.descriptionDetail;
     delete updateDescriptionZodiac.mainContent;
     formZodiacRef?.current?.setFieldsValue(updateDescriptionZodiac);
   }, [flag]);
@@ -232,10 +232,10 @@ const ZodiacDetail = (props) => {
   const handleEditZodiacForm = () => {
     if (zodiac?.name) {
       const newObjRecord = { ...zodiac };
-      newObjRecord.zodiacDescription = newObjRecord.descreiption;
+      newObjRecord.zodiacDescription = newObjRecord.descriptionShort;
       delete newObjRecord.descreiption;
-      setStateEditor(newObjRecord.mainContent);
-      setStateShortDescriptionEditor(newObjRecord.zodiacDescription);
+      setStateEditor(newObjRecord.descriptionDetail);
+      setStateShortDescriptionEditor(newObjRecord.descriptionShort);
       setShowModal(!showModal);
       setFlag(!flag);
     }
@@ -327,7 +327,7 @@ const ZodiacDetail = (props) => {
 
       <ModalForm
         showModal={showModal}
-        titleModal={`Edit ${zodiac.name}`}
+        titleModal={`Chỉnh sửa cung: ${zodiac.name}`}
         widthModal="900"
         handleCancelModel={handleCancelModal}
         formRef={formZodiacRef}
