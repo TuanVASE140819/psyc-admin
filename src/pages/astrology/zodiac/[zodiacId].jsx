@@ -61,10 +61,10 @@ const DetailZodiac = (props) => {
           onChange={handleChange}
           onTabClick={handleTabClick}
         >
-          <TabPane tab="Detail Zodiac" key="1">
+          <TabPane tab="CHI TIẾT CUNG HOÀNG ĐẠO" key="1">
             <ZodiacDetail zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
-          <TabPane tab="Zodiac & House" key="2">
+          <TabPane tab="CUNG HOÀNG ĐẠO & NHÀ" key="2">
             <ZodiacHouse zodiac={zodiac} />
           </TabPane>
           {/* <TabPane tab="Quote" key="3">

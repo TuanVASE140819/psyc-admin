@@ -59,7 +59,7 @@ export default defineConfig({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
+      name: 'Bảng Điều Khiển',
       icon: 'dashboard',
       access: 'admin',
       component: './dashboard',
@@ -130,7 +130,7 @@ export default defineConfig({
     },
     {
       path: '/astrology',
-      name: 'Astrology',
+      name: 'Chiêm tinh học',
       icon: 'snippets',
       access: 'admin',
       routes: [
@@ -140,20 +140,20 @@ export default defineConfig({
         },
         {
           path: '/astrology/zodiac',
-          name: 'Zodiac',
+          name: 'Cung hoàng đạo',
           access: 'admin',
           component: './astrology/zodiac',
         },
         {
           path: '/astrology/house',
-          name: 'House',
+          name: 'Nhà',
           access: 'admin',
           component: './astrology/house',
         },
 
         {
           path: '/astrology/planet',
-          name: 'Planet',
+          name: 'Hành tinh',
           access: 'admin',
           component: './astrology/planet',
         },

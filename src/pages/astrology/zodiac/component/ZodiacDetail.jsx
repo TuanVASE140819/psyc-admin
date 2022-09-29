@@ -33,9 +33,9 @@ const ZodiacDetail = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldEditZodiacName',
-      label: 'Zodiac Name',
+      label: 'Tên cung',
       width: 'lg',
-      placeholder: 'Enter Zodiac Name',
+      placeholder: 'nhập tên cung hoàng đạo',
       name: 'zodiacName',
       requiredField: 'true',
       ruleMessage: 'Input Zodiac Name before submit',
@@ -76,7 +76,7 @@ const ZodiacDetail = (props) => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Zodiac Icon',
+      label: 'Hình ảnh',
       width: 'lg',
       placeholder: 'Icon Link',
       name: 'zodiacIcon',
@@ -88,12 +88,12 @@ const ZodiacDetail = (props) => {
     },
     {
       fieldType: 'ShortDescription',
-      title: 'Short Description',
+      title: 'Mô tả ngắn',
       nameTextArea: 'zodiacDescription',
     },
     {
       fieldType: 'EditorMainContent',
-      title: 'MainContent',
+      title: 'Nội dung chính',
       nameTextArea: 'zodiacMainContent',
     },
     {
@@ -327,7 +327,7 @@ const ZodiacDetail = (props) => {
 
       <ModalForm
         showModal={showModal}
-        titleModal={`Edit ${zodiac.name}`}
+        titleModal={`Chỉnh sửa cung: ${zodiac.name}`}
         widthModal="900"
         handleCancelModel={handleCancelModal}
         formRef={formZodiacRef}
