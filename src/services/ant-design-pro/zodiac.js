@@ -33,11 +33,8 @@ export const getAnZodiac = async (zodiacId) => {
     });
 };
 
-export const updateZodiac = async (zodiacId, body) => {
-  return await request.put('/api/v1/zodiacs', {
-    params: {
-      id: zodiacId,
-    },
-    data: body,
+export const updateZodiac = async (data) => {
+  return await request.put('/api/Zodiacs/update', {
+    data,
   });
 };

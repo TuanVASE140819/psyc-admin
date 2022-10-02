@@ -365,11 +365,7 @@ const ZodiacHouse = () => {
   const handleEditZodiacHouseForm = async (record) => {
     const idZodiacHouse = record.id;
     setButtonEditLoading(true);
-    const zodiacHouse = await getAnZodiacHouse(
-      zodiacSelected.name,
-      zodiacSelected.id,
-      idZodiacHouse,
-    );
+    const zodiacHouse = await getAnZodiacHouse(zodiacSelected.id, idZodiacHouse);
     setButtonEditLoading(false);
     if (zodiacHouse?.id) {
       setZodiacHouseRecord(zodiacHouse);

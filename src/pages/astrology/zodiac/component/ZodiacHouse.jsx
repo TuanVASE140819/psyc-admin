@@ -14,7 +14,7 @@ import ListHouse from '@/components/ListHouse/ListHouse';
 import ProSkeleton from '@ant-design/pro-skeleton';
 
 const ZodiacHouse = (props) => {
-  const { zodiac } = props;
+  const { zodiac, handleTriggerLoadZodiac } = props;
 
   const buttonSubmitter = [
     {
@@ -63,7 +63,7 @@ const ZodiacHouse = (props) => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'content',
+      nameTextArea: 'description',
     },
     {
       fieldType: 'checkEdit',
@@ -117,10 +117,10 @@ const ZodiacHouse = (props) => {
           const house = {};
           house.id = item.id;
           house.avatar = item.icon;
-          house.name = `Nhà ${item.houseId}`;
-          house.title = `Nhà ${item.houseId}`;
+          house.name = item.name;
+          house.title = item.name;
           house.selected = false;
-          house.content = item.description;
+          house.description = item.description;
           listDataSrc.push(house);
         });
         setDataList(listDataSrc);
@@ -209,48 +209,66 @@ const ZodiacHouse = (props) => {
     if (modalViewDetail) {
       handleCancelModalViewDetail();
     }
-    const idZodiacHouse = record.id;
-    setButtonEditLoading(true);
-    const zodiacHouse = await getAnZodiacHouse(zodiac.name, zodiac.id, idZodiacHouse);
-    setButtonEditLoading(false);
-    if (zodiacHouse?.id) {
-      setZodiacHouseRecord(zodiacHouse);
-      setStateEditor(zodiacHouse.content);
-      setFlagEditForm('edit');
-      setShowModal(!showModal);
-      formZodiacHouseRef?.current?.setFieldsValue(zodiacHouse);
+    try {
+      const idZodiacHouse = record.id;
+      setButtonEditLoading(true);
+      const zodiacHouse = await getAnZodiacHouse(zodiac.id, idZodiacHouse);
+
+      if (zodiacHouse?.id) {
+        setZodiacHouseRecord(zodiacHouse);
+        setStateEditor(zodiacHouse.description);
+        setFlagEditForm('edit');
+        setShowModal(!showModal);
+        formZodiacHouseRef?.current?.setFieldsValue(zodiacHouse);
+      }
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setButtonEditLoading(false);
     }
   };
 
   //handle submit form
   const handleSubmitFormZodiacHouse = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.content);
-    values.zodiacId = zodiac?.id;
-    values.id = zodiacHouseRecord?.id;
-    if (values.edit) {
-      const idZodiacHouse = zodiacHouseRecord.id;
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      await updateZodiacHouse(zodiac?.name, zodiac?.id, idZodiacHouse, dataEdit);
-    } else {
-      await addZodiacHouse(zodiac?.name, zodiac?.id, values);
-      handleResetForm();
-      setStateEditor(null);
+    // setStateEditor(values.content);
+    // values.zodiacId = zodiac?.id;
+    // values.id = zodiacHouseRecord?.id;
+    // if (values.edit) {
+    //   const idZodiacHouse = zodiacHouseRecord.id;
+    //   const newValues = Object.assign({}, values);
+    //   const attr = 'edit';
+    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //     if (key !== attr) {
+    //       item[key] = newValues[key];
+    //     }
+    //     return item;
+    //   }, {});
+    try {
+      console.log(zodiacHouseRecord);
+      setButtonLoading(true);
+      await updateZodiacHouse({
+        // ...values,
+        id: zodiacHouseRecord.id,
+        zodiacid: zodiac.id,
+        houseid: zodiacHouseRecord.houseId,
+        description: values.description,
+      });
+      setShowModal(false);
+      handleTriggerLoadZodiac();
+    } catch (error) {
+    } finally {
+      setButtonLoading(false);
     }
-    setTriggerDataTable(!triggerDataTable);
-    setButtonLoading(false);
+    // } else {
+    //   await addZodiacHouse(zodiac?.name, zodiac?.id, values);
+    //   handleResetForm();
+    //   setStateEditor(null);
+    // }
   };
 
   const handleChangeStateEditor = (content) => {
     formZodiacHouseRef?.current?.setFieldsValue({
-      ['content']: content,
+      ['description']: content,
     });
   };
 

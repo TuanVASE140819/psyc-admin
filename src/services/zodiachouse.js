@@ -19,20 +19,22 @@ export const addZodiacHouse = (zodiacName, zodiacId, body) => {
   });
 };
 
-export const updateZodiacHouse = async (zodiacName, zodiacId, zodiacHouseId, body) => {
-  return await request.put(`/api/v1/zodiacs/${zodiacName}-${zodiacId}/houses`, {
-    params: {
-      id: zodiacHouseId,
-    },
-    data: body,
+export const updateZodiacHouse = async (data) => {
+  return await request.put(`/api/ZodiacHouses/update`, {
+    data,
   });
 };
 
-export const getAnZodiacHouse = async (zodiacName, zodiacId, zodiacHouseId) => {
+export const getAnZodiacHouse = async (zodiacid, houseid) => {
   return await request
-    .get(`/api/v1/zodiacs/${zodiacName}-${zodiacId}/houses/${zodiacHouseId}`)
+    .get(`/api/ZodiacHouses/getbyidzoho`, {
+      params: {
+        zodiacid,
+        houseid,
+      },
+    })
     .then((res) => {
-      return res;
+      return res.data[0];
     })
     .catch((error) => {
       console.log('errorGetAnZodiacHouse', error);

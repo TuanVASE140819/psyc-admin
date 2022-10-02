@@ -11,14 +11,14 @@ const House = () => {
   //config column table
   const column = [
     {
-      title: 'No.',
+      title: 'STT',
       dataIndex: 'number',
       sorter: (a, b) => a.number - b.number,
       search: false,
       width: '15%',
     },
     {
-      title: 'House Name',
+      title: 'Tên nhà',
       dataIndex: 'name',
       copyable: true,
       sorter: (a, b) => a.name.localeCompare(b.name),
@@ -35,21 +35,21 @@ const House = () => {
       width: '25%',
     },
     {
-      title: 'House Icon',
+      title: 'Hình ảnh',
       dataIndex: 'icon',
       copyable: true,
       search: false,
       render: (_, record) => {
         return (
           <Space>
-            <Image width={50} src={record.icon} />
+            <Image width={50} src={record.imageUrl} />
           </Space>
         );
       },
       width: '25%',
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -140,7 +140,7 @@ const House = () => {
       label: 'House Icon',
       width: 'lg',
       placeholder: 'Icon Link',
-      name: 'icon',
+      name: 'imageUrl',
       nameUpload: 'iconHouse',
       nameInputFile: 'houseFileToFirebase',
       readOnly: 'true',
@@ -159,7 +159,7 @@ const House = () => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'mainContent',
+      nameTextArea: 'maincontent',
     },
   ];
 
@@ -173,16 +173,6 @@ const House = () => {
       name: 'name',
       requiredField: 'true',
       ruleMessage: 'Input House Name before submit',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddHouseTitle',
-      label: 'House Title',
-      width: 'lg',
-      placeholder: 'Enter House Title',
-      name: 'title',
-      requiredField: 'true',
-      ruleMessage: 'Input House Title before submit',
     },
     {
       fieldType: 'formText',
@@ -200,11 +190,11 @@ const House = () => {
       label: 'House Icon',
       width: 'lg',
       placeholder: 'Icon Link',
-      name: 'icon',
+      name: 'imageUrl',
       nameUpload: 'iconHouse',
       nameInputFile: 'houseFileToFirebase',
       readOnly: 'true',
-      requiredField: 'true',
+      // requiredField: 'true',
       ruleMessage: 'Upload image before submit',
     },
     {
@@ -219,12 +209,7 @@ const House = () => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'mainContent',
-    },
-    {
-      fieldType: 'checkEdit',
-      name: 'edit',
-      value: 'edit',
+      nameTextArea: 'maincontent',
     },
   ];
 
@@ -305,14 +290,14 @@ const House = () => {
       if (imgLink) {
         setImgLinkFirebase(imgLink);
         formHouseRef?.current?.setFieldsValue({
-          ['icon']: imgLink,
+          imageUrl: imgLink,
         });
-        setLoadingUploadingImgFirebase(false);
         message.success('Upload Image Success!');
       }
     } catch (error) {
-      setLoadingUploadingImgFirebase(false);
       onError(error);
+    } finally {
+      setLoadingUploadingImgFirebase(false);
     }
   };
 
@@ -331,7 +316,7 @@ const House = () => {
     setFlagEditForm('');
     setHouseRecord(null);
     setImgLinkFirebase(null);
-    setStateEditor(null);
+    // setStateEditor(null);
     if (formHouseRef) {
       formHouseRef?.current?.resetFields();
     }
@@ -345,25 +330,27 @@ const House = () => {
 
   //xuli submit form
   const handleSubmitFormHouse = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.mainContent);
-    if (values.edit) {
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      await updateHouse(houseRecord.id, dataEdit);
-    } else {
-      await addHouse(values);
-      handleResetForm();
-      setStateEditor(null);
-    }
+    console.log(values);
+    // setButtonLoading(true);
+    // setStateEditor(values.mainContent);
+    // if (values.edit) {
+    // const newValues = Object.assign({}, { ...values, maincontent: values.mainContent });
+    // const attr = 'edit';
+    // const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //   if (key !== attr) {
+    //     item[key] = newValues[key];
+    //   }
+    //   return item;
+    // }, {});
+    await updateHouse({ ...values, id: houseRecord.id });
+    setShowModal(false);
+    // } else {
+    //   await addHouse(values);
+    // handleResetForm();
+    // setStateEditor(null);
+    // }
     tableHouseRef?.current?.reload();
-    setButtonLoading(false);
+    // setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
@@ -372,13 +359,14 @@ const House = () => {
     setButtonEditLoading(true);
     const house = await getAnHouse(houseId);
     setButtonEditLoading(false);
-    if (house?.name) {
+    if (house) {
       const newObjRecord = { ...house };
-      newObjRecord.description = newObjRecord.decription;
+      newObjRecord.description = newObjRecord.description;
       delete newObjRecord.decription;
       setHouseRecord(newObjRecord);
-      setStateEditor(newObjRecord.mainContent);
+      setStateEditor(newObjRecord.maincontent);
       setFlagEditForm('edit');
+      setImgLinkFirebase(newObjRecord.imageUrl);
       setShowModal(!showModal);
       formHouseRef?.current?.setFieldsValue(newObjRecord);
     }
@@ -396,7 +384,7 @@ const House = () => {
   const handleChangeStateEditor = (state) => {
     if (state) {
       formHouseRef?.current?.setFieldsValue({
-        ['mainContent']: state,
+        ['maincontent']: state,
       });
     }
   };
@@ -453,9 +441,9 @@ const House = () => {
             submittext: 'Submit',
             resetText: 'Reset',
           }}
-          expandable={{
-            expandedRowRender,
-          }}
+          // expandable={{
+          //   expandedRowRender,
+          // }}
           // toolBarRender={(action) => [
           //   <Button
           //     size="middle"
@@ -468,39 +456,14 @@ const House = () => {
           //   </Button>,
           // ]}
           request={async (params, sort, filter) => {
-            const currentAttr = 'current';
-            const pageSizeAttr = 'pageSize';
-            console.log(params);
             const data = [];
-            if (params.name) {
-              const newParams = Object.keys(params).reduce((item, key) => {
-                if (key != currentAttr && key != pageSizeAttr) {
-                  if (key === 'name') {
-                    item.name = params[key];
-                  } else {
-                    item[key] = params[key];
-                  }
-                }
-                return item;
-              }, {});
-              console.log('params', newParams);
-
-              await getHouses(newParams).then((res) => {
-                res?.payload?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
+            await getHouses(params.name ?? '').then((res) => {
+              res?.data?.map((item, index) => {
+                item.number = index + 1;
+                data[index] = item;
               });
-            } else {
-              await getHouses().then((res) => {
-                res?.payload?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
-              });
-            }
+              setTotal(res?.total);
+            });
 
             return {
               data: data,

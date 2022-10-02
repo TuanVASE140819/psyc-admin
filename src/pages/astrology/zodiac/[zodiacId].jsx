@@ -65,7 +65,7 @@ const DetailZodiac = (props) => {
             <ZodiacDetail zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
           <TabPane tab="CUNG HOÀNG ĐẠO & NHÀ" key="2">
-            <ZodiacHouse zodiac={zodiac} />
+            <ZodiacHouse zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
           {/* <TabPane tab="Quote" key="3">
                 <Quote zodiac={zodiac} />

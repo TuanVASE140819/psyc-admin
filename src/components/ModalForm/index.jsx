@@ -77,53 +77,53 @@ const ModalForm = (props) => {
   //setField vs item
 
   // xuli khi co link img de bo vao preview
-  React.useEffect(() => {
-    if (imgLinkFirebase) {
-      const newFileList = [];
-      fileList.map((item) => {
-        item['thumbUrl'] = imgLinkFirebase;
-        newFileList.push(item);
-      });
-      setFileList(newFileList);
-    }
-    return () => {
-      const newFileList = [];
-      fileList.map((item) => {
-        item['thumbUrl'] = null;
-        newFileList.push(item);
-      });
-      setFileList(newFileList);
-    };
-  }, [imgLinkFirebase]);
+  // React.useEffect(() => {
+  //   if (imgLinkFirebase) {
+  //     const newFileList = [];
+  //     fileList.map((item) => {
+  //       item['thumbUrl'] = imgLinkFirebase;
+  //       newFileList.push(item);
+  //     });
+  //     setFileList(newFileList);
+  //   }
+  //   return () => {
+  //     const newFileList = [];
+  //     fileList.map((item) => {
+  //       item['thumbUrl'] = null;
+  //       newFileList.push(item);
+  //     });
+  //     setFileList(newFileList);
+  //   };
+  // }, [imgLinkFirebase]);
 
-  React.useEffect(() => {
-    // set lai list img
+  // React.useEffect(() => {
+  //   // set lai list img
 
-    if (listImgLinkFirebase) {
-      if (listImgLinkFirebase.length > 0) {
-        const newFileList = [];
-        listImgLinkFirebase.map((item, index) => {
-          const el = {};
-          el.uid = Math.random();
-          el.status = 'done';
-          el.thumbUrl = item;
-          newFileList.push(el);
-        });
-        setFileList(newFileList);
-      }
-    }
+  //   if (listImgLinkFirebase) {
+  //     if (listImgLinkFirebase.length > 0) {
+  //       const newFileList = [];
+  //       listImgLinkFirebase.map((item, index) => {
+  //         const el = {};
+  //         el.uid = Math.random();
+  //         el.status = 'done';
+  //         el.thumbUrl = item;
+  //         newFileList.push(el);
+  //       });
+  //       setFileList(newFileList);
+  //     }
+  //   }
 
-    return () => {
-      setFileList([
-        {
-          uid: '-1',
-          name: '',
-          status: 'done',
-          thumbUrl: imgLinkFirebase,
-        },
-      ]);
-    };
-  }, [listImgLinkFirebase]);
+  //   return () => {
+  //     setFileList([
+  //       {
+  //         uid: '-1',
+  //         name: '',
+  //         status: 'done',
+  //         thumbUrl: imgLinkFirebase,
+  //       },
+  //     ]);
+  //   };
+  // }, [listImgLinkFirebase]);
 
   const handleCancelModelChild = (valuses) => {
     if (handleCancelModel) {
@@ -365,9 +365,20 @@ const ModalForm = (props) => {
                       name={item?.nameUpload}
                       customRequest={customUploadChild}
                       listType="picture-card"
-                      fileList={fileList}
+                      fileList={
+                        imgLinkFirebase
+                          ? [
+                              {
+                                uid: '-1',
+                                name: '',
+                                status: 'done',
+                                thumbUrl: imgLinkFirebase,
+                              },
+                            ]
+                          : []
+                      }
                     >
-                      {imgLinkFirebase ? null : uploadButton}
+                      {uploadButton}
                     </Upload>
                   </ProForm.Group>
                 )}
@@ -433,9 +444,9 @@ const ModalForm = (props) => {
                               ['link'],
                               ['image'],
                             ],
-                            handlers: {
-                              image: handleImg,
-                            },
+                            // handlers: {
+                            //   image: handleImg,
+                            // },
                           },
                         }}
                         formats={[
@@ -499,9 +510,9 @@ const ModalForm = (props) => {
                               ['link'],
                               ['image'],
                             ],
-                            handlers: {
-                              image: handleImg,
-                            },
+                            // handlers: {
+                            //   image: handleImg,
+                            // },
                           },
                         }}
                         formats={[

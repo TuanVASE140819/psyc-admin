@@ -3,13 +3,13 @@ import '@firebase/storage';
 import '@firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBk4Z_g5vowQemjfjtfzlZIRbG2JIDiCB0',
-  authDomain: 'astrology-a5858.firebaseapp.com',
-  projectId: 'astrology-a5858',
-  storageBucket: 'astrology-a5858.appspot.com',
-  messagingSenderId: '337672317403',
-  appId: '1:337672317403:web:08d65d851d5a53ed491ffe',
-  measurementId: 'G-G9T0EG3L5C',
+  apiKey: 'AIzaSyD4wde62JjvquWn7izXRPgpaja6Aibm3-k',
+  authDomain: 'psychologicalcounseling-28efa.firebaseapp.com',
+  projectId: 'psychologicalcounseling-28efa',
+  storageBucket: 'psychologicalcounseling-28efa.appspot.com',
+  messagingSenderId: '1021397689910',
+  appId: '1:1021397689910:web:74f22cb6cd37293f79da97',
+  measurementId: 'G-HN1C145KHM',
 };
 firebase.initializeApp(firebaseConfig);
 

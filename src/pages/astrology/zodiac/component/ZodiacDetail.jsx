@@ -36,21 +36,21 @@ const ZodiacDetail = (props) => {
       label: 'Tên cung',
       width: 'lg',
       placeholder: 'nhập tên cung hoàng đạo',
-      name: 'zodiacName',
+      name: 'name',
       requiredField: 'true',
       ruleMessage: 'Input Zodiac Name before submit',
     },
     {
       fieldType: 'formCalendar',
-      labelTimeDay: 'Zodiac Time Day Start',
-      nameTimeDay: 'zodiacDayStart',
+      labelTimeDay: 'Ngày bắt đầu',
+      nameTimeDay: 'dayStart',
       minTimeDay: '1',
       maxTimeDay: '31',
       placeholderTimeDay: 'Zodiac Day Start',
       controlsTimeDay: 'false',
 
-      labelTimeMonth: 'Zodiac Time Month Start',
-      nameTimeMonth: 'zodiacMonthStart',
+      labelTimeMonth: 'Tháng bắt đầu',
+      nameTimeMonth: 'monthStart',
       minTimeMonth: '1',
       maxTimeMonth: '12',
       placeholderTimeMonth: 'Zodiac Month Start',
@@ -58,16 +58,16 @@ const ZodiacDetail = (props) => {
     },
     {
       fieldType: 'formCalendar',
-      labelTimeDay: 'Zodiac Time Day End',
-      nameTimeDay: 'zodiacDayEnd',
+      labelTimeDay: 'Ngày kết thúc',
+      nameTimeDay: 'dayEnd',
       minTimeDay: '1',
       maxTimeDay: '31',
       placeholderTimeDay: 'Zodiac Day End',
       controlsTimeDay: 'false',
 
       fieldType: 'formCalendar',
-      labelTimeMonth: 'Zodiac Time Month End',
-      nameTimeMonth: 'zodiacMonthEnd',
+      labelTimeMonth: 'Tháng kết thúc',
+      nameTimeMonth: 'monthEnd',
       minTimeMonth: '1',
       maxTimeMonth: '12',
       placeholderTimeMonth: 'Zodiac Month End',
@@ -79,7 +79,7 @@ const ZodiacDetail = (props) => {
       label: 'Hình ảnh',
       width: 'lg',
       placeholder: 'Icon Link',
-      name: 'zodiacIcon',
+      name: 'imageUrl',
       nameUpload: 'iconZodiac',
       nameInputFile: 'zodiacFileToFirebase',
       readOnly: true,
@@ -89,12 +89,12 @@ const ZodiacDetail = (props) => {
     {
       fieldType: 'ShortDescription',
       title: 'Mô tả ngắn',
-      nameTextArea: 'zodiacDescription',
+      nameTextArea: 'descriptionShort',
     },
     {
       fieldType: 'EditorMainContent',
       title: 'Nội dung chính',
-      nameTextArea: 'zodiacMainContent',
+      nameTextArea: 'descriptionDetail',
     },
     {
       fieldType: 'checkEdit',
@@ -107,7 +107,7 @@ const ZodiacDetail = (props) => {
   const editorRef = useRef();
   const editorShortDescriptionRef = useRef();
   //state cua upload img len firebase
-  const [imgLinkFirebase, setImgLinkFirebase] = React.useState(null);
+  const [imgLinkFirebase, setImgLinkFirebase] = React.useState(zodiac.imageUrl);
   const [loadingUploadImgFirebase, setLoadingUploadingImgFirebase] = React.useState(false);
   //state cua editor
   const [stateEditor, setStateEditor] = React.useState(null);
@@ -119,7 +119,7 @@ const ZodiacDetail = (props) => {
   const [buttonSubmitterZodiac, setButtonSubmitterZodiac] = React.useState(buttonSubmitter);
   const [formFieldEditZodiac, setFormFieldEditZodiac] = React.useState(formFieldEdit);
   const [flag, setFlag] = React.useState(false);
-  const safeMainContent = DOMPurify.sanitize(zodiac?.ShortDescription);
+  const safeMainContent = DOMPurify.sanitize(zodiac?.descriptionDetail);
   const safeDescription = DOMPurify.sanitize(zodiac?.descriptionShort);
 
   //xuli loading upload img firebase
@@ -136,14 +136,6 @@ const ZodiacDetail = (props) => {
 
   useEffect(() => {
     const updateDescriptionZodiac = { ...zodiac };
-    updateDescriptionZodiac.zodiacName = updateDescriptionZodiac.name;
-    delete updateDescriptionZodiac.name;
-    updateDescriptionZodiac.zodiacIcon = updateDescriptionZodiac.imageUrl;
-    delete updateDescriptionZodiac.icon;
-    updateDescriptionZodiac.zodiacDescription = updateDescriptionZodiac.descriptionShort;
-    delete updateDescriptionZodiac.descreiption;
-    updateDescriptionZodiac.zodiacMainContent = updateDescriptionZodiac.descriptionDetail;
-    delete updateDescriptionZodiac.mainContent;
     formZodiacRef?.current?.setFieldsValue(updateDescriptionZodiac);
   }, [flag]);
 
@@ -179,7 +171,7 @@ const ZodiacDetail = (props) => {
       if (imgLink) {
         setImgLinkFirebase(imgLink);
         formZodiacRef?.current?.setFieldsValue({
-          ['zodiacIcon']: imgLink,
+          ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
         message.success('Upload Image Success!');
@@ -210,22 +202,30 @@ const ZodiacDetail = (props) => {
 
   //xuli submit form
   const handleSubmitFormZodiac = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.zodiacMainContent);
-    setStateShortDescriptionEditor(values.zodiacDescription);
-    if (values.edit) {
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      await updateZodiac(zodiac?.id, dataEdit);
+    try {
+      setButtonLoading(true);
+      await updateZodiac({ ...values, id: zodiac.id });
+      handleTriggerLoadZodiac();
+      setShowModal(false);
+    } catch (error) {
+    } finally {
+      setButtonLoading(false);
     }
-    handleTriggerLoadZodiac();
-    setButtonLoading(false);
+    // setStateEditor(values.zodiacMainContent);
+    // setStateShortDescriptionEditor(values.zodiacDescription);
+    // if (values.edit) {
+    //   const newValues = Object.assign({}, values);
+    //   const attr = 'edit';
+    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //     if (key !== attr) {
+    //       item[key] = newValues[key];
+    //     }
+    //     return item;
+    //   }, {});
+    //   await updateZodiac(zodiac?.id, dataEdit);
+    // }
+    // handleTriggerLoadZodiac();
+    // setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
@@ -245,14 +245,14 @@ const ZodiacDetail = (props) => {
   const handleChangeStateEditor = (state) => {
     if (state) {
       formZodiacRef?.current?.setFieldsValue({
-        ['zodiacMainContent']: state,
+        ['descriptionDetail']: state,
       });
     }
   };
 
   const handleChangeStateShortDescriptionEditor = (content) => {
     formZodiacRef?.current?.setFieldsValue({
-      ['zodiacDescription']: content,
+      ['descriptionShort']: content,
     });
   };
 
