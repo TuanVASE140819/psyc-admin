@@ -10,7 +10,7 @@ import { Content } from 'antd/lib/layout/layout';
 const ShortPlanetDetail = (props) => {
   const { planet } = props;
 
-  const safeDescription = DOMPurify.sanitize(planet.decription);
+  const safeDescription = DOMPurify.sanitize(planet.description);
 
   return (
     <>
@@ -29,15 +29,6 @@ const ShortPlanetDetail = (props) => {
         >
           <Title className={style.title}>{planet?.name}</Title>
         </div>
-        <Title
-          level={4}
-          style={{
-            paddingTop: '8px',
-            paddingBottom: '8px',
-          }}
-        >
-          {planet?.title}
-        </Title>
         {planet?.tag?.split('-').map((item, index) => {
           if (index % 2 === 0 && index <= 5) {
             return <Tag color="blue">{item}</Tag>;
@@ -64,7 +55,7 @@ const ShortPlanetDetail = (props) => {
           >
             <Image
               width={200}
-              src={planet?.icon}
+              src={planet?.imageUrl}
               preview={false}
               style={{
                 marginRight: '16px',

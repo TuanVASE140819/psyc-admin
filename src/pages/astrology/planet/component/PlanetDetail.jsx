@@ -41,16 +41,6 @@ const PlanetDetail = (props) => {
     },
     {
       fieldType: 'formText',
-      key: 'fieldAddPlanetTitle',
-      label: 'Planet Title',
-      width: 'lg',
-      placeholder: 'Enter Planet Title',
-      name: 'title',
-      requiredField: 'true',
-      ruleMessage: 'Input Planet Title before submit',
-    },
-    {
-      fieldType: 'formText',
       key: 'fieldAddPlanetTag',
       label: 'Planet Tag',
       width: 'lg',
@@ -65,7 +55,7 @@ const PlanetDetail = (props) => {
       label: 'Planet Icon',
       width: 'lg',
       placeholder: 'Icon Link',
-      name: 'icon',
+      name: 'imageUrl',
       nameUpload: 'iconPlanet',
       nameInputFile: 'planetFileToFirebase',
       readOnly: 'true',
@@ -79,7 +69,7 @@ const PlanetDetail = (props) => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'mainContent',
+      nameTextArea: 'maincontent',
     },
     {
       fieldType: 'checkEdit',
@@ -92,7 +82,7 @@ const PlanetDetail = (props) => {
   const editorRef = useRef();
   const editorShortDescriptionRef = useRef();
   //state cua upload img len firebase
-  const [imgLinkFirebase, setImgLinkFirebase] = React.useState(null);
+  const [imgLinkFirebase, setImgLinkFirebase] = React.useState(planet.imageUrl);
   const [loadingUploadImgFirebase, setLoadingUploadingImgFirebase] = React.useState(false);
   //state cua editor
   const [stateShortDescriptionEditor, setStateShortDescriptionEditor] = useState(null);
@@ -103,8 +93,8 @@ const PlanetDetail = (props) => {
   const [buttonSubmitterPlanet, setButtonSubmitterPlanet] = React.useState(buttonSubmitter);
   const [formFieldEditPlanet, setFormFieldEditPlanet] = React.useState(formFieldEdit);
   const [flag, setFlag] = React.useState(false);
-  const safeMainContent = DOMPurify.sanitize(planet.mainContent);
-  const safeDescription = DOMPurify.sanitize(planet.decription);
+  const safeMainContent = DOMPurify.sanitize(planet.maincontent);
+  const safeDescription = DOMPurify.sanitize(planet.description);
 
   //xuli loading upload img firebase
   useEffect(() => {
@@ -120,8 +110,6 @@ const PlanetDetail = (props) => {
 
   useEffect(() => {
     const updateDescriptionPlanet = { ...planet };
-    updateDescriptionPlanet.description = updateDescriptionPlanet.decription;
-    delete updateDescriptionPlanet.decription;
     formPlanetRef?.current?.setFieldsValue(updateDescriptionPlanet);
   }, [flag]);
 
@@ -157,7 +145,7 @@ const PlanetDetail = (props) => {
       if (imgLink) {
         setImgLinkFirebase(imgLink);
         formPlanetRef?.current?.setFieldsValue({
-          ['icon']: imgLink,
+          ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
         message.success('Upload Image Success!');
@@ -188,31 +176,34 @@ const PlanetDetail = (props) => {
 
   //xuli submit form
   const handleSubmitFormPlanet = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.mainContent);
-    setStateShortDescriptionEditor(values.description);
-    if (values.edit) {
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      await updatePlanet(planet.id, dataEdit);
+    try {
+      setButtonLoading(true);
+      setStateEditor(values.maincontent);
+      setStateShortDescriptionEditor(values.description);
+      // if (values.edit) {
+      //   const newValues = Object.assign({}, values);
+      //   const attr = 'edit';
+      //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+      //     if (key !== attr) {
+      //       item[key] = newValues[key];
+      //     }
+      //     return item;
+      //   }, {});
+      await updatePlanet({ ...values, id: planet.id });
+      // }
+      setShowModal(false);
+      handleTriggerLoadPlanet();
+    } catch (error) {
+    } finally {
+      setButtonLoading(false);
     }
-    handleTriggerLoadPlanet();
-    setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
   const handleEditPlanetForm = () => {
     if (planet?.name) {
       const newObjRecord = { ...planet };
-      newObjRecord.description = newObjRecord.decription;
-      delete newObjRecord.decription;
-      setStateEditor(newObjRecord.mainContent);
+      setStateEditor(newObjRecord.maincontent);
       setStateShortDescriptionEditor(newObjRecord.description);
       setShowModal(!showModal);
       setFlag(!flag);
@@ -223,7 +214,7 @@ const PlanetDetail = (props) => {
   const handleChangeStateEditor = (state) => {
     if (state) {
       formPlanetRef?.current?.setFieldsValue({
-        ['mainContent']: state,
+        ['maincontent']: state,
       });
     }
   };

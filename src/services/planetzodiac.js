@@ -1,9 +1,11 @@
 import request from '@/utils/requestServer';
 
-export const getPlanetZodiacs = async (planetName, planetId, params) => {
+export const getPlanetZodiacs = async (id) => {
   return await request
-    .get(`/api/v1/planets/${planetName}-${planetId}/zodiacs`, {
-      params: params,
+    .get('/api/ZodiacPlanets/getbyid', {
+      params: {
+        id,
+      },
     })
     .then((response) => {
       return response;

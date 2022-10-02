@@ -118,21 +118,11 @@ const PlanetZodiac = (props) => {
     (async () => {
       setLoadingListZodiac(true);
       const result = await getZodiacs();
-      if (result?.payload?.length > 0) {
-        const listDataSrc = [];
-        result?.payload?.map((item) => {
-          const zodiac = {};
-          zodiac.id = item.id;
-          zodiac.avatar = item.icon;
-          zodiac.name = item.name;
-          zodiac.title = item.name;
-          zodiac.selected = false;
-          listDataSrc.push(zodiac);
-        });
-        setDataList(listDataSrc);
+      if (result?.data?.length > 0) {
+        setDataList(result?.data);
         //set field
         const valueEnum = [];
-        result?.payload?.map((item) => {
+        result?.data?.map((item) => {
           const el = {
             valueName: item.id,
             valueDisplay: item.name,

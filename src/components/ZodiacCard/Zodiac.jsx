@@ -38,8 +38,8 @@ const Zodiac = (props) => {
                     display: 'flex',
                     alignItems: 'center',
                   }}
-                  avatar={<Avatar src={zodiac.avatar} />}
-                  title={zodiac.title}
+                  avatar={<Avatar src={zodiac.imageUrl} />}
+                  title={zodiac.name}
                 />
               </Col>
               <Col
@@ -58,7 +58,7 @@ const Zodiac = (props) => {
               </Col>
             </Row>
           ) : (
-            <Meta avatar={<Avatar src={zodiac.avatar} />} title={zodiac.title} />
+            <Meta avatar={<Avatar src={zodiac.imageUrl} />} title={zodiac.name} />
           )}
         </Card>
       ) : (
@@ -78,8 +78,8 @@ const Zodiac = (props) => {
                     display: 'flex',
                     alignItems: 'center',
                   }}
-                  avatar={<Avatar src={zodiac.avatar} />}
-                  title={zodiac.title}
+                  avatar={<Avatar src={zodiac.imageUrl} />}
+                  title={zodiac.name}
                 />
               </Col>
               <Col
@@ -98,7 +98,7 @@ const Zodiac = (props) => {
               </Col>
             </Row>
           ) : (
-            <Meta avatar={<Avatar src={zodiac.avatar} />} title={zodiac.title} />
+            <Meta avatar={<Avatar src={zodiac.imageUrl} />} title={zodiac.name} />
           )}
         </Card>
       )}

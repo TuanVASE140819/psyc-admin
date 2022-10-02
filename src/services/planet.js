@@ -29,22 +29,23 @@ export const deletePlanet = (planetId) => {
   return request.delete(`/api/v1/planets/${planetId}`);
 };
 
-export const getAnPlanet = async (planetId) => {
+export const getAnPlanet = async (id) => {
   return await request
-    .get(`/api/v1/planets/${planetId}`)
+    .get('/api/Planets/getbyid', {
+      params: {
+        id,
+      },
+    })
     .then((res) => {
-      return res;
+      return res.data[0];
     })
     .catch((error) => {
       console.log('errorGetAnPlanet', error);
     });
 };
 
-export const updatePlanet = (planetId, body) => {
-  return request.put('/api/v1/planets', {
-    params: {
-      id: planetId,
-    },
-    data: body,
+export const updatePlanet = (data) => {
+  return request.put('/api/Planets/update', {
+    data,
   });
 };
