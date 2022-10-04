@@ -236,7 +236,7 @@ const HoroScopeItem = (props) => {
 
   useEffect(() => {
     if (buttonEditLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -658,7 +658,7 @@ const HoroScopeItem = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit`}
+          titleModal={`Chỉnh sửa `}
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formHoroscopeItemRef}

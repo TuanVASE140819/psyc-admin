@@ -293,7 +293,7 @@ const Category = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${categoryRecord.name}`}
+          titleModal={`Chỉnh sửa  ${categoryRecord.name}`}
           handleCancelModel={handleCancelModel}
           formRef={formAddCategoryRef}
           buttonSubmitter={buttonSubmitterCategory}

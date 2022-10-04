@@ -156,7 +156,7 @@ const PlanetZodiac = (props) => {
 
   React.useEffect(() => {
     if (buttonEditLoading || viewLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

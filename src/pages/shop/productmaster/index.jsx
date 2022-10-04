@@ -623,7 +623,7 @@ const ProductMaster = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${productMasterRecord.name}`}
+          titleModal={`Chỉnh sửa  ${productMasterRecord.name}`}
           handleCancelModel={handleCancelModal}
           formRef={formProductMasterRef}
           buttonSubmitter={buttonSubmitterProductMaster}

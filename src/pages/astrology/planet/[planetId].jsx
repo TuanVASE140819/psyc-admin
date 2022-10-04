@@ -61,18 +61,18 @@ const DetailPlanet = (props) => {
           onChange={handleChange}
           onTabClick={handleTabClick}
         >
-          <TabPane tab="Detail Planet" key="1">
+          <TabPane tab="Chi tiết hành tinh" key="1">
             <PlanetDetail planet={planet} handleTriggerLoadPlanet={handleTriggerLoadPlanet} />
           </TabPane>
-          <TabPane tab="Planet & Zodiac" key="2">
+          <TabPane tab="Hành tinh & Cung" key="2">
             <PlanetZodiac planet={planet} />
           </TabPane>
-          <TabPane tab="Planet & House" key={3}>
+          <TabPane tab="Hành tinh & Nhà" key={3}>
             <PlanetHouse planet={planet} />
           </TabPane>
-          <TabPane tab="Aspect" key={4}>
+          {/* <TabPane tab="Aspect" key={4}>
             <Aspect planet={planet} />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </Content>
     </>

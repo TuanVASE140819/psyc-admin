@@ -65,30 +65,30 @@ export default defineConfig({
       component: './dashboard',
     },
     {
-      path: '/shop',
-      name: 'Shop',
-      icon: 'shop',
+      path: '/users',
+      name: 'Người dùng',
+      icon: 'user',
       routes: [
         {
-          path: '/shop',
-          redirect: '/shop/category',
+          path: '/users',
+          redirect: '/users/category',
         },
         {
-          path: '/shop/category',
-          name: 'Category',
+          path: '/users/specialize',
+          name: 'Chuyên môn',
           // icon: 'smile',
           access: 'admin',
           component: './shop/category',
         },
         {
-          path: '/shop/users',
-          name: 'Users',
+          path: '/users/users',
+          name: 'Khách Hàng',
           // icon: 'user',
           access: 'admin',
           component: './shop/users',
         },
         {
-          path: '/shop/productmaster',
+          path: '/users/productmaster',
           name: 'Product',
           access: 'admin',
           component: './shop/productmaster',
@@ -100,7 +100,7 @@ export default defineConfig({
     },
     {
       path: '/data',
-      name: 'Data',
+      name: 'Dữ liệu',
       icon: 'database',
       access: 'admin',
       routes: [
@@ -110,7 +110,7 @@ export default defineConfig({
         },
         {
           path: '/data/news',
-          name: 'News',
+          name: 'Bài viết',
           access: 'admin',
           component: './data/news',
         },
@@ -159,7 +159,7 @@ export default defineConfig({
         },
         {
           path: '/astrology/planet/:planetId',
-          name: 'Detail Planet',
+          name: 'Chi tiết hành tinh',
           hideInMenu: true,
           access: 'admin',
           component: './astrology/planet/[planetId]',
