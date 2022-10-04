@@ -2,7 +2,7 @@ import request from '@/utils/requestServer';
 
 export const getUsers = async (params) => {
   return await request
-    .get('/api/v1/users', {
+    .get('/api/Users/Getalluser', {
       params: params,
     })
     .then((response) => {

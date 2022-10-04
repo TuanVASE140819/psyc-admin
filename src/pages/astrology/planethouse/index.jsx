@@ -257,7 +257,7 @@ const Planet = () => {
 
   React.useEffect(() => {
     if (buttonEditLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

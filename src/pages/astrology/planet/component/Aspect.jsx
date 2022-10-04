@@ -327,7 +327,7 @@ const Aspect = (props) => {
 
   React.useEffect(() => {
     if (buttonEditLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -338,7 +338,7 @@ const Aspect = (props) => {
 
   React.useEffect(() => {
     if (viewLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

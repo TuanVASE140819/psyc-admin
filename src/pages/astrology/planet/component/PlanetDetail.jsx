@@ -32,27 +32,27 @@ const PlanetDetail = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldAddPlanetName',
-      label: 'Planet Name',
+      label: 'Tên hành tinh',
       width: 'lg',
-      placeholder: 'Enter Planet Name',
+      placeholder: 'Nhập tên hành tinh',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input Planet Name before submit',
+      ruleMessage: 'Nhập Tên hành tinh trước khi gửi',
     },
     {
       fieldType: 'formText',
       key: 'fieldAddPlanetTag',
-      label: 'Planet Tag',
+      label: 'Biểu Tượng',
       width: 'lg',
-      placeholder: 'Enter Planet Tag',
+      placeholder: 'Nhập biểu tượng',
       name: 'tag',
       requiredField: 'true',
-      ruleMessage: 'Input Planet Tag before submit',
+      ruleMessage: 'Nhập Thẻ hành tinh trước khi gửi',
     },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Planet Icon',
+      label: 'Ảnh',
       width: 'lg',
       placeholder: 'Icon Link',
       name: 'imageUrl',
@@ -60,15 +60,16 @@ const PlanetDetail = (props) => {
       nameInputFile: 'planetFileToFirebase',
       readOnly: 'true',
       requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
+      ruleMessage: 'Tải lên hình ảnh trước khi gửi',
     },
     {
       fieldType: 'ShortDescription',
-      title: 'Short Description',
+      title: 'Mô tả ngắn :',
       nameTextArea: 'description',
     },
     {
       fieldType: 'EditorMainContent',
+      title: 'Nội dung :',
       nameTextArea: 'maincontent',
     },
     {
@@ -313,7 +314,7 @@ const PlanetDetail = (props) => {
 
       <ModalForm
         showModal={showModal}
-        titleModal={`Edit ${planet.name}`}
+        titleModal={`Chỉnh sửa  ${planet.name}`}
         widthModal="900"
         handleCancelModel={handleCancelModal}
         formRef={formPlanetRef}

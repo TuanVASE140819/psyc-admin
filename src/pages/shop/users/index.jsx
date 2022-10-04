@@ -16,14 +16,14 @@ const User = () => {
   //config column
   const column = [
     {
-      title: 'No.',
+      title: 'STT',
       dataIndex: 'number',
       sorter: (a, b) => a.number - b.number,
       search: false,
     },
     {
-      title: 'Username',
-      dataIndex: 'userName',
+      title: 'Họ và tên',
+      dataIndex: 'username',
       copyable: true,
       valueType: 'userName',
       sorter: (a, b) => a.userName.localeCompare(b.userName),
@@ -39,8 +39,8 @@ const User = () => {
       },
     },
     {
-      title: 'PhoneNumber',
-      dataIndex: 'phoneNumber',
+      title: 'Gmail',
+      dataIndex: 'email',
       copyable: true,
       valueType: 'phoneNumber',
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
@@ -56,15 +56,15 @@ const User = () => {
       },
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       valueType: 'status',
       search: false,
       sorter: (a, b) => a.status - b.status,
       render: (_, record) => (
         <Space>
-          {record.status == '1' && <Tag color="green">Active</Tag>}
-          {record.status == '0' && <Tag color="red">Unactive</Tag>}
+          {record.status == 'active' && <Tag color="green">hoạt động</Tag>}
+          {record.status == 'inactive' && <Tag color="red">Ngừng hoạt động</Tag>}
         </Space>
       ),
     },
@@ -84,7 +84,7 @@ const User = () => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Edit
+                Sửa
               </Button>
             </div>
           </div>
@@ -386,50 +386,50 @@ const User = () => {
             expandedRowRender,
           }}
           request={async (params, sort, filter) => {
-            const currentAttr = 'current';
-            const pageSizeAttr = 'pageSize';
+            // const currentAttr = 'current';
+            // const pageSizeAttr = 'pageSize';
             const data = [];
-            console.log(params);
-            if (params.userName || params.phoneNumber || params.status) {
-              console.log('A');
-              const newParams = Object.keys(params).reduce((item, key) => {
-                if (key != currentAttr && key != pageSizeAttr) {
-                  if (key === 'userName') {
-                    item.name = params[key];
-                  } else if (key === 'phoneNumber') {
-                    item.phone = params[key];
-                  } else if (key === 'status') {
-                    if (params[key].toString().toLowerCase() === 'active') {
-                      item.status = 1;
-                    } else if (params[key].toString().toLowerCase() === 'unactive') {
-                      item.status = 0;
-                    }
-                  } else {
-                    item[key] = params[key];
-                  }
-                }
-                return item;
-              }, {});
-              console.log('params', newParams);
-              await getUsers(newParams).then((res) => {
-                console.log('res at table query', res);
-                res?.payload?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
+            // console.log(params);
+            // if (params.userName || params.phoneNumber || params.status) {
+            //   console.log('A');
+            //   const newParams = Object.keys(params).reduce((item, key) => {
+            //     if (key != currentAttr && key != pageSizeAttr) {
+            //       if (key === 'userName') {
+            //         item.name = params[key];
+            //       } else if (key === 'phoneNumber') {
+            //         item.phone = params[key];
+            //       } else if (key === 'status') {
+            //         if (params[key].toString().toLowerCase() === 'active') {
+            //           item.status = 1;
+            //         } else if (params[key].toString().toLowerCase() === 'unactive') {
+            //           item.status = 0;
+            //         }
+            //       } else {
+            //         item[key] = params[key];
+            //       }
+            //     }
+            //     return item;
+            //   }, {});
+            //   console.log('params', newParams);
+            //   await getUsers(newParams).then((res) => {
+            //     console.log('res at table query', res);
+            //     res?.payload?.map((item, index) => {
+            //       item.number = index + 1;
+            //       data[index] = item;
+            //     });
+            //     setTotal(res?.total);
+            //   });
+            // } else {
+            //   console.log('B');
+            await getUsers(params).then((res) => {
+              console.log('res at table query', res);
+              res?.data?.map((item, index) => {
+                item.number = index + 1;
+                data[index] = item;
               });
-            } else {
-              console.log('B');
-              await getUsers(params).then((res) => {
-                console.log('res at table query', res);
-                res?.payload?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
-              });
-            }
+              setTotal(res?.total);
+            });
+            // }
 
             return {
               data: data,
@@ -449,27 +449,27 @@ const User = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Search',
+            searchText: 'Tìm kiếm',
             submittext: 'Submit',
             resetText: 'Reset',
           }}
           toolBarRender={(action) => [
-            <Button
-              size="middle"
-              key="buttonAddUser"
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => handleModal()}
-            >
-              Add
-            </Button>,
+            // <Button
+            //   size="middle"
+            //   key="buttonAddUser"
+            //   type="primary"
+            //   icon={<PlusOutlined />}
+            //   onClick={() => handleModal()}
+            // >
+            //   Add
+            // </Button>,
           ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${userRecord.userName}`}
+          titleModal={`Edit ${userRecord.username}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
