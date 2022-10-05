@@ -134,7 +134,7 @@ const Login = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          title="AstroloZ Admin"
+          title="Quản trị viên Psyc"
           style={{
             width: '100%',
           }}
@@ -145,7 +145,7 @@ const Login = () => {
             render: (props, doms) => {
               return [
                 <Button type="primary" block="true" htmlType="submit" loading={buttonLoading}>
-                  Login
+                  Đăng nhập
                 </Button>,
               ];
             },
@@ -180,7 +180,7 @@ const Login = () => {
                 size: 'large',
                 prefix: <UserOutlined className={styles.prefixIcon} />,
               }}
-              placeholder="Email"
+              placeholder="Tài khoản"
               rules={[
                 {
                   required: true,
@@ -195,9 +195,7 @@ const Login = () => {
                 size: 'large',
                 prefix: <LockOutlined className={styles.prefixIcon} />,
               }}
-              placeholder={intl.formatMessage({
-                id: 'pages.login.password.placeholder',
-              })}
+              placeholder="Mật khẩu"
               rules={[
                 {
                   required: true,

@@ -55,6 +55,17 @@ const News = () => {
       width: '30%',
     },
     {
+      title: 'trạng thái',
+      dataIndex: 'status',
+      valueType: 'select',
+      valueEnum: {
+        null: { text: 'Đang chờ', status: 'Default' },
+        active: { text: 'Đã duyệt', status: 'Success' },
+        inactive: { text: 'Đã từ chối', status: 'Error' },
+      },
+      width: '20%',
+    },
+    {
       title: 'Action',
       dataIndex: 'action',
       search: false,
@@ -81,9 +92,7 @@ const News = () => {
                 block={true}
                 icon={<EditOutlined />}
                 onClick={() => handleEditNewsForm(record)}
-              >
-                Edit
-              </Button>
+              ></Button>
             </div>
             <div
               style={{
@@ -97,9 +106,7 @@ const News = () => {
                 block="true"
                 icon={<DeleteOutlined />}
                 onClick={() => handleOkDeleteNews(record)}
-              >
-                Delete
-              </Button>
+              ></Button>
             </div>
           </div>
         );
@@ -172,7 +179,7 @@ const News = () => {
       label: 'News Banner',
       width: 'lg',
       placeholder: 'Banner Link',
-      name: 'banner',
+      name: 'urlBanner',
       nameUpload: 'bannerNews',
       nameInputFile: 'newsFileToFirebase',
       readOnly: true,
@@ -232,7 +239,7 @@ const News = () => {
       label: 'Ảnh bìa',
       width: 'lg',
       placeholder: 'Banner Link',
-      name: 'banner',
+      name: 'urlBanner',
       nameUpload: 'bannerNews',
       nameInputFile: 'newsFileToFirebase',
       readOnly: true,
@@ -242,11 +249,11 @@ const News = () => {
     {
       fieldType: 'EditorMainContent',
       nameTextArea: 'contentNews',
-    },
-    {
-      fieldType: 'checkEdit',
-      name: 'edit',
-      value: 'edit',
+      // },
+      // {
+      //   fieldType: 'checkEdit',
+      //   name: 'edit',
+      //   value: 'edit',
     },
   ];
 
@@ -328,14 +335,15 @@ const News = () => {
       if (imgLink) {
         setImgLinkFirebase(imgLink);
         formNewsRef?.current?.setFieldsValue({
-          ['banner']: imgLink,
+          ['urlBanner']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
         message.success('Upload Image Success!');
       }
     } catch (error) {
-      setLoadingUploadingImgFirebase(false);
       onError(error);
+    } finally {
+      setLoadingUploadingImgFirebase(false);
     }
   };
 
@@ -369,25 +377,27 @@ const News = () => {
 
   //xuli submit form
   const handleSubmitFormNews = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.htmlContent);
-    if (values.edit) {
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      await updateNews(newsRecord.id, dataEdit);
-    } else {
-      await addNews(values);
-      handleResetForm();
-      setStateEditor(null);
-    }
+    console.log(values);
+    // setButtonLoading(true);
+    // setStateEditor(values.htmlContent);
+    // if (values.edit) {
+    //   const newValues = Object.assign({}, values);
+    //   const attr = 'edit';
+    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //     if (key !== attr) {
+    //       item[key] = newValues[key];
+    //     }
+    //     return item;
+    //   }, {});
+    await updateNews({ ...values, id: newsRecord.id });
+    setShowModal(false);
+    // } else {
+    //   await addNews(values);
+    //   handleResetForm();
+    //   setStateEditor(null);
+    // }
     tableNewsRef?.current?.reload();
-    setButtonLoading(false);
+    // setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
@@ -482,38 +492,38 @@ const News = () => {
             </Button>,
           ]}
           request={async (params, sort, filter) => {
-            const currentAttr = 'current';
-            const pageSizeAttr = 'pageSize';
-            console.log(params);
+            // const currentAttr = 'current';
+            // const pageSizeAttr = 'pageSize';
+            // console.log(params);
             const data = [];
-            if (params.title) {
-              const newParams = Object.keys(params).reduce((item, key) => {
-                if (key != currentAttr && key != pageSizeAttr) {
-                  if (key === 'title') {
-                    item.title = params[key];
-                  } else {
-                    item[key] = params[key];
-                  }
-                }
-                return item;
-              }, {});
+            // if (params.title) {
+            //   const newParams = Object.keys(params).reduce((item, key) => {
+            //     if (key != currentAttr && key != pageSizeAttr) {
+            //       if (key === 'title') {
+            //         item.title = params[key];
+            //       } else {
+            //         item[key] = params[key];
+            //       }
+            //     }
+            //     return item;
+            //   }, {});
 
-              await getNews(newParams).then((res) => {
-                res?.data?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
+            //   await getNews(newParams).then((res) => {
+            //     res?.data?.map((item, index) => {
+            //       item.number = index + 1;
+            //       data[index] = item;
+            //     });
+            //     setTotal(res?.total);
+            //   });
+            // } else {
+            await getNews(params).then((res) => {
+              res?.data?.map((item, index) => {
+                item.number = index + 1;
+                data[index] = item;
               });
-            } else {
-              await getNews(params).then((res) => {
-                res?.data?.map((item, index) => {
-                  item.number = index + 1;
-                  data[index] = item;
-                });
-                setTotal(res?.total);
-              });
-            }
+              setTotal(res?.total);
+            });
+            // }
 
             return {
               data: data,

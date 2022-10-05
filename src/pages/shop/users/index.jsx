@@ -40,7 +40,7 @@ const User = () => {
     },
     {
       title: 'Số điện thoại',
-      dataIndex: 'phone',
+      dataIndex: 'email',
       copyable: true,
       valueType: 'phoneNumber',
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
@@ -56,17 +56,15 @@ const User = () => {
       },
     },
     {
-      title: 'Trạng thái',
+      title: 'trạng thái',
       dataIndex: 'status',
-      valueType: 'status',
-      search: false,
-      sorter: (a, b) => a.status - b.status,
-      render: (_, record) => (
-        <Space>
-          {record.status == 'active' && <Tag color="green">Hoạt động</Tag>}
-          {record.status == 'inactive' && <Tag color="red">Ngừng hoạt động</Tag>}
-        </Space>
-      ),
+      valueType: 'select',
+      valueEnum: {
+        null: { text: 'Đang chờ', status: 'Default' },
+        active: { text: 'Hoạt động', status: 'Success' },
+        inactive: { text: 'Ngừng hoạt động', status: 'Error' },
+      },
+      width: '20%',
     },
     {
       title: 'Action',
@@ -141,7 +139,7 @@ const User = () => {
       nameUpload: 'avatarUser',
       nameInputFile: 'avatarFileToFirebase',
       readOnly: 'true',
-      requiredField: 'true',
+      // requiredField: 'true',
       ruleMessage: 'Upload image before submit',
     },
   ];
@@ -161,13 +159,15 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddPhoneNumberUser',
-      label: 'Số điện thoại',
+      label: 'Gmail',
       width: 'lg',
       placeholder: 'Enter phone number',
-      name: 'phone',
+      name: 'email',
+      readOnly: 'true',
+      disabled: 'true',
       value: '',
       requiredField: 'true',
-      ruleMessage: 'Input phone number before submit',
+      ruleMessage: 'Input gmail before submit',
     },
     {
       fieldType: 'formSelect',
@@ -202,11 +202,11 @@ const User = () => {
       requiredField: 'true',
       ruleMessage: 'Upload image before submit',
     },
-    {
-      fieldType: 'checkEdit',
-      name: 'edit',
-      value: 'edit',
-    },
+    // {
+    //   fieldType: 'checkEdit',
+    //   name: 'edit',
+    //   value: 'edit',
+    // },
   ];
 
   const actionRef = React.useRef();
@@ -301,14 +301,15 @@ const User = () => {
       if (imgLink) {
         setImgLinkFirebase(imgLink);
         formUserRef?.current?.setFieldsValue({
-          ['avatarLink']: imgLink,
+          ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
         message.success('Upload Image Success!');
       }
     } catch (error) {
-      setLoadingUploadingImgFirebase(false);
       onError(error);
+    } finally {
+      setLoadingUploadingImgFirebase(false);
     }
   };
 
@@ -352,6 +353,7 @@ const User = () => {
     //   }, {});
     //   dataEdit.id = userRecord.id;
     await editUser({ ...values, id: userRecord.id });
+    setShowModel(false);
     // } else {
     //   // sử lí add user bình thường
     //   await addUser(values);
@@ -365,7 +367,7 @@ const User = () => {
     const userId = record?.id;
     setButtonEditLoading(true);
     const user = await getAnUser(userId);
-    if (user?.id) {
+    if (user) {
       setUserRecord(user);
       setFlagEditForm('edit');
       setShowModel(!showModal);
@@ -422,7 +424,7 @@ const User = () => {
             //   });
             // } else {
             //   console.log('B');
-            await getUsers(params).then((res) => {
+            await getUsers(params.fullname ?? '').then((res) => {
               console.log('res at table query', res);
               res?.data?.map((item, index) => {
                 item.number = index + 1;

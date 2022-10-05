@@ -51,9 +51,9 @@ const AvatarDropdown = ({ menu }) => {
   const { currentUser } = initialState;
   console.log('currentUser InSite', currentUser);
 
-  if (!currentUser || !currentUser.userName) {
-    return loading;
-  }
+  // if (!currentUser || !currentUser.username) {
+  //   return loading;
+  // }
 
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -80,8 +80,15 @@ const AvatarDropdown = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatarLink} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.userName}</span>
+        <Avatar
+          size="small"
+          className={styles.avatar}
+          src={
+            'https://cdn1.vectorstock.com/i/1000x1000/11/10/admin-icon-male-person-profile-avatar-with-gear-vector-25811110.jpg'
+          }
+          alt="avatar"
+        />
+        {/* <span className={`${styles.name} anticon`}>{currentUser.userName}</span> */}
       </span>
     </HeaderDropdown>
   );
