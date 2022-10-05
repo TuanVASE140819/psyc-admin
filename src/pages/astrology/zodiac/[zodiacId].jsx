@@ -53,7 +53,7 @@ const DetailZodiac = (props) => {
       >
         <ShortZodiacDetail zodiac={zodiac} />
         <Tabs
-          defaultActiveKey="2"
+          defaultActiveKey="1"
           tabPosition="top"
           size="large"
           type="line"
@@ -61,12 +61,13 @@ const DetailZodiac = (props) => {
           onChange={handleChange}
           onTabClick={handleTabClick}
         >
-          <TabPane tab="CHI TIẾT CUNG HOÀNG ĐẠO" key="1">
+          <TabPane tab="Chi tiết cung hoàng đạo" key="1">
             <ZodiacDetail zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
-          <TabPane tab="CUNG HOÀNG ĐẠO & NHÀ" key="2">
+          <TabPane tab="Cung hoàng đạo & nhà" key="2">
             <ZodiacHouse zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
+          <TabPane tab="Lá phiếu tử vi" key="3"></TabPane>
           {/* <TabPane tab="Quote" key="3">
                 <Quote zodiac={zodiac} />
               </TabPane> */}

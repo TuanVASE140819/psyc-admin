@@ -2,7 +2,7 @@ import request from '@/utils/requestServer';
 
 export const getUsers = async (params) => {
   return await request
-    .get('/api/Users/Getalluser', {
+    .get('/api/Customers/Getallcustomer', {
       params: params,
     })
     .then((response) => {
@@ -19,13 +19,8 @@ export const addUser = (body) => {
   return request.post('/api/v1/users', { data: body });
 };
 
-export const editUser = (userId, body) => {
-  return request.put('/api/v1/users', {
-    params: {
-      id: userId,
-    },
-    data: body,
-  });
+export const editUser = (body) => {
+  return request.put('/api/Customers/update', { data: body });
 };
 export const login = async (body) => {
   return await request.post('/api/FirebaseServices/loginadmin', {
@@ -38,9 +33,9 @@ export const getCurrentUser = async () => {
 
 export const getAnUser = async (userId) => {
   return await request
-    .get(`/api/v1/users/${userId}`)
+    .get(`/api/Customers/getbyid?id=${userId}`)
     .then((res) => {
-      return res;
+      return res.data[0];
     })
     .catch((error) => {
       console.log('errorGetAnUser', error);

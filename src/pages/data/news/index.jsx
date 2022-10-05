@@ -17,7 +17,7 @@ const News = () => {
       width: '10%',
     },
     {
-      title: 'News Title',
+      title: 'Tiêu đề bài viết',
       dataIndex: 'title',
       copyable: true,
       sorter: (a, b) => a.title.localeCompare(b.title),
@@ -34,24 +34,24 @@ const News = () => {
       width: '30%',
     },
     {
-      title: 'Tag',
-      dataIndex: 'tag',
+      title: 'Ngày Tạo',
+      dataIndex: 'createDay',
       valueType: 'tag',
       search: false,
       sorter: (a, b) => a.tag.localeCompare(b.tag),
-      render: (_, record) => (
-        <Space>
-          {record?.tag?.split('-').map((item, index) => {
-            if (index % 2 === 0 && index <= 5) {
-              return <Tag color="blue">{item}</Tag>;
-            }
-            if (index % 2 !== 0 && index <= 5) {
-              return <Tag color="green">{item}</Tag>;
-            }
-            return <Tag color="pink">{item}</Tag>;
-          })}
-        </Space>
-      ),
+      // render: (_, record) => (
+      //   <Space>
+      //     {record?.tag?.split('-').map((item, index) => {
+      //       if (index % 2 === 0 && index <= 5) {
+      //         return <Tag color="blue">{item}</Tag>;
+      //       }
+      //       if (index % 2 !== 0 && index <= 5) {
+      //         return <Tag color="green">{item}</Tag>;
+      //       }
+      //       return <Tag color="pink">{item}</Tag>;
+      //     })}
+      //   </Space>
+      // ),
       width: '30%',
     },
     {
@@ -129,7 +129,7 @@ const News = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddTitle',
-      label: 'News Title',
+      label: 'Tiêu đề bài viết',
       width: 'lg',
       placeholder: 'Enter News Title',
       name: 'title',
@@ -149,23 +149,23 @@ const News = () => {
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
-      label: 'Description',
+      label: 'Mô tả bài viết',
       width: 'lg',
       placeholder: 'Enter News description',
       name: 'description',
       requiredField: 'true',
       ruleMessage: 'Input description before submit',
     },
-    {
-      fieldType: 'formTextArea',
-      key: 'fieldAddNewsContent',
-      label: 'Content',
-      width: 'lg',
-      placeholder: 'Enter News content',
-      name: 'content',
-      requiredField: 'true',
-      ruleMessage: 'Input content before submit',
-    },
+    // {
+    //   fieldType: 'formTextArea',
+    //   key: 'fieldAddNewsContent',
+    //   label: 'Content',
+    //   width: 'lg',
+    //   placeholder: 'Enter News content',
+    //   name: 'content',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Input content before submit',
+    // },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -181,7 +181,7 @@ const News = () => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'htmlContent',
+      nameTextArea: 'contentNews',
     },
   ];
 
@@ -189,47 +189,47 @@ const News = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddTitle',
-      label: 'News Title',
+      label: 'Tiêu đề bài viết',
       width: 'lg',
       placeholder: 'Enter News Title',
       name: 'title',
       requiredField: 'true',
       ruleMessage: 'Input News Title before submit',
     },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddNewsTag',
-      label: 'News Tag',
-      width: 'lg',
-      placeholder: 'Enter News Tag',
-      name: 'tag',
-      requiredField: 'true',
-      ruleMessage: 'Input News Tag before submit',
-    },
+    // {
+    //   fieldType: 'formText',
+    //   key: 'fieldAddNewsTag',
+    //   label: 'createDay',
+    //   width: 'lg',
+    //   placeholder: 'Enter News Tag',
+    //   name: 'tag',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Input News Tag before submit',
+    // },
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
-      label: 'Description',
+      label: 'Mô tả bài viết',
       width: 'lg',
       placeholder: 'Enter News description',
       name: 'description',
       requiredField: 'true',
       ruleMessage: 'Input description before submit',
     },
-    {
-      fieldType: 'formTextArea',
-      key: 'fieldAddNewsContent',
-      label: 'Content',
-      width: 'lg',
-      placeholder: 'Enter News content',
-      name: 'content',
-      requiredField: 'true',
-      ruleMessage: 'Input content before submit',
-    },
+    // {
+    //   fieldType: 'formTextArea',
+    //   key: 'fieldAddNewsContent',
+    //   label: 'Content',
+    //   width: 'lg',
+    //   placeholder: 'Enter News content',
+    //   name: 'content',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Input content before submit',
+    // },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'News Banner',
+      label: 'Ảnh bìa',
       width: 'lg',
       placeholder: 'Banner Link',
       name: 'banner',
@@ -241,7 +241,7 @@ const News = () => {
     },
     {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'htmlContent',
+      nameTextArea: 'contentNews',
     },
     {
       fieldType: 'checkEdit',
@@ -396,9 +396,9 @@ const News = () => {
     setButtonEditLoading(true);
     const news = await getAnNews(idNews);
     setButtonEditLoading(false);
-    if (news?.title) {
+    if (news) {
       setNewsRecord(news);
-      setStateEditor(news.htmlContent);
+      setStateEditor(news.contentNews);
       setFlagEditForm('edit');
       setShowModal(!showModal);
       formNewsRef?.current?.setFieldsValue(news);
@@ -417,7 +417,7 @@ const News = () => {
   const handleChangeStateEditor = (state) => {
     if (state) {
       formNewsRef?.current?.setFieldsValue({
-        ['htmlContent']: state,
+        ['contentNews']: state,
       });
     }
   };
@@ -499,7 +499,7 @@ const News = () => {
               }, {});
 
               await getNews(newParams).then((res) => {
-                res?.payload?.map((item, index) => {
+                res?.data?.map((item, index) => {
                   item.number = index + 1;
                   data[index] = item;
                 });
@@ -507,7 +507,7 @@ const News = () => {
               });
             } else {
               await getNews(params).then((res) => {
-                res?.payload?.map((item, index) => {
+                res?.data?.map((item, index) => {
                   item.number = index + 1;
                   data[index] = item;
                 });

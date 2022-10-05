@@ -16,16 +16,16 @@ const User = () => {
   //config column
   const column = [
     {
-      title: 'STT',
+      title: 'No.',
       dataIndex: 'number',
       sorter: (a, b) => a.number - b.number,
       search: false,
     },
     {
       title: 'Họ và tên',
-      dataIndex: 'username',
+      dataIndex: 'fullname',
       copyable: true,
-      valueType: 'userName',
+      valueType: 'fullname',
       sorter: (a, b) => a.userName.localeCompare(b.userName),
       filters: true,
       onFilter: true,
@@ -39,8 +39,8 @@ const User = () => {
       },
     },
     {
-      title: 'Gmail',
-      dataIndex: 'email',
+      title: 'Số điện thoại',
+      dataIndex: 'phone',
       copyable: true,
       valueType: 'phoneNumber',
       sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
@@ -63,7 +63,7 @@ const User = () => {
       sorter: (a, b) => a.status - b.status,
       render: (_, record) => (
         <Space>
-          {record.status == 'active' && <Tag color="green">hoạt động</Tag>}
+          {record.status == 'active' && <Tag color="green">Hoạt động</Tag>}
           {record.status == 'inactive' && <Tag color="red">Ngừng hoạt động</Tag>}
         </Space>
       ),
@@ -84,7 +84,7 @@ const User = () => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Sửa
+                Edit
               </Button>
             </div>
           </div>
@@ -114,10 +114,10 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddUsername',
-      label: 'Username',
+      label: 'Họ và tên',
       width: 'lg',
-      placeholder: 'Enter username ',
-      name: 'userName',
+      placeholder: 'Nhập tên người dùng',
+      name: 'username',
       requiredField: 'true',
       ruleMessage: 'Input username before submit',
     },
@@ -150,21 +150,21 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddUsername',
-      label: 'Username',
+      label: 'Họ và tên',
       width: 'lg',
       placeholder: 'Enter username ',
-      name: 'userName',
-      value: '',
+      name: 'fullname',
+      value: 'fullname',
       requiredField: 'true',
       ruleMessage: 'Input username before submit',
     },
     {
       fieldType: 'formText',
       key: 'fieldAddPhoneNumberUser',
-      label: 'Phone Number',
+      label: 'Số điện thoại',
       width: 'lg',
       placeholder: 'Enter phone number',
-      name: 'phoneNumber',
+      name: 'phone',
       value: '',
       requiredField: 'true',
       ruleMessage: 'Input phone number before submit',
@@ -173,16 +173,16 @@ const User = () => {
       fieldType: 'formSelect',
       key: 'selectStatusUser',
       name: 'status',
-      label: 'Status',
+      label: 'Trạng thái',
       defaultValue: 1,
       valueEnum: [
         {
-          valueName: 1,
-          valueDisplay: 'Active',
+          valueName: 'active',
+          valueDisplay: 'Hoạt động',
         },
         {
-          valueName: 0,
-          valueDisplay: 'Unactive',
+          valueName: 'inactive',
+          valueDisplay: 'Khóa',
         },
       ],
       placeholder: 'Please select status',
@@ -195,7 +195,7 @@ const User = () => {
       label: 'Avatar',
       width: 'lg',
       placeholder: 'Avatar Link',
-      name: 'avatarLink',
+      name: 'imageUrl',
       nameUpload: 'avatarUser',
       nameInputFile: 'avatarFileToFirebase',
       readOnly: 'true',
@@ -338,26 +338,27 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
-    setButtonLoading(true);
-    if (values.edit) {
-      // sử lí edit user
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      dataEdit.id = userRecord.id;
-      await editUser(userRecord.id, dataEdit);
-    } else {
-      // sử lí add user bình thường
-      await addUser(values);
-    }
+    console.log('values', values);
+    // setButtonLoading(true);
+    // if (values.edit) {
+    //   // sử lí edit user
+    //   const newValues = Object.assign({}, values);
+    //   const attr = 'edit';
+    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //     if (key !== attr) {
+    //       item[key] = newValues[key];
+    //     }
+    //     return item;
+    //   }, {});
+    //   dataEdit.id = userRecord.id;
+    await editUser({ ...values, id: userRecord.id });
+    // } else {
+    //   // sử lí add user bình thường
+    //   await addUser(values);
+    // }
 
     actionRef?.current?.reload();
-    setButtonLoading(false);
+    // setButtonLoading(false);
   };
 
   const handleEditUserForm = async (record) => {
@@ -449,27 +450,27 @@ const User = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Tìm kiếm',
+            searchText: 'Search',
             submittext: 'Submit',
             resetText: 'Reset',
           }}
           toolBarRender={(action) => [
-            // <Button
-            //   size="middle"
-            //   key="buttonAddUser"
-            //   type="primary"
-            //   icon={<PlusOutlined />}
-            //   onClick={() => handleModal()}
-            // >
-            //   Add
-            // </Button>,
+            <Button
+              size="middle"
+              key="buttonAddUser"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => handleModal()}
+            >
+              Add
+            </Button>,
           ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${userRecord.username}`}
+          titleModal={`Edit ${userRecord.fullname}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}

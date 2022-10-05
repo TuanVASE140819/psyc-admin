@@ -51,16 +51,16 @@ const ZodiacHouse = (props) => {
   ];
 
   const formFieldEdit = [
-    {
-      fieldType: 'formSelect',
-      key: 'selectHouseId',
-      name: 'houseId',
-      label: 'House',
-      placeholder: 'Select House',
-      requiredField: 'true',
-      ruleMessage: 'Please select House',
-      valueEnum: [],
-    },
+    // {
+    //   fieldType: 'formSelect',
+    //   key: 'selectHouseId',
+    //   name: 'houseId',
+    //   // label: 'House',
+    //   // placeholder: 'Select House',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Please select House',
+    //   valueEnum: [],
+    // },
     {
       fieldType: 'EditorMainContent',
       nameTextArea: 'description',
@@ -330,7 +330,7 @@ const ZodiacHouse = (props) => {
       </Content>
       <ModalForm
         showModal={showModal}
-        titleModal="Editing"
+        titleModal="Chỉnh sửa thông tin"
         widthModal="900"
         handleCancelModel={handleCancelModal}
         formRef={formZodiacHouseRef}

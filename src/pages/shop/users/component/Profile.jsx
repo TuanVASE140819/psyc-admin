@@ -334,8 +334,8 @@ const Profile = (props) => {
       };
       console.log('params', params);
       const data = await getProfiles(params);
-      if (data?.payload) {
-        data?.payload?.map((item, index) => {
+      if (data?.data?.data) {
+        data?.data.map((item, index) => {
           listProfile[index] = item;
         });
         setTotal(data?.total);
