@@ -231,13 +231,14 @@ const ModalForm = (props) => {
             {formField?.map((item) => (
               <>
                 {item?.fieldType === 'formText' && (
-                  <ProForm.Group>
+                  <ProForm.Group style={item.hidden && { display: 'none' }}>
                     <ProFormText
                       key={item?.key}
                       label={item?.label}
                       width={item?.width}
                       placeholder={item?.placeholder}
                       name={item?.name}
+                      readonly={item.readOnly}
                       rules={[
                         {
                           required: item?.requiredField,
@@ -323,6 +324,7 @@ const ModalForm = (props) => {
                           message: item?.ruleMessage,
                         },
                       ]}
+                      allowClear={item?.allowClear}
                     />
                   </ProForm.Group>
                 )}

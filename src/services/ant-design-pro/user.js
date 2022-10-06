@@ -8,7 +8,7 @@ export const getUsers = async (params) => {
     .then((response) => {
       console.log('response getUsers', response);
 
-      return response;
+      return response.data;
     })
     .catch((error) => {
       console.log('errorGetUsers', error);

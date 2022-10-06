@@ -11,6 +11,7 @@ import { editUser } from '@/services/ant-design-pro/user';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
+import dayjs from 'dayjs';
 
 const User = () => {
   //config column
@@ -168,6 +169,51 @@ const User = () => {
       value: '',
       requiredField: 'true',
       ruleMessage: 'Input gmail before submit',
+      hidden: true,
+    },
+    {
+      fieldType: 'formText',
+      key: 'fieldAddAddressUser',
+      label: 'Dia chỉ',
+      width: 'lg',
+      placeholder: 'Địa chỉ',
+      name: 'address',
+      value: '',
+    },
+    {
+      fieldType: 'formSelect',
+      key: 'selectGenderUser',
+      name: 'gender',
+      label: 'Giới tính',
+      defaultValue: 1,
+      valueEnum: [
+        {
+          valueName: 'Male',
+          valueDisplay: 'Nam',
+        },
+        {
+          valueName: 'Female',
+          valueDisplay: 'Nữ',
+        },
+        {
+          valueName: 'Other',
+          valueDisplay: 'Khác',
+        },
+      ],
+      placeholder: 'Chọn giới tính',
+      requiredField: 'true',
+      ruleMessage: 'Chọn giới tính',
+      allowClear: false,
+    },
+    {
+      fieldType: 'datePicker',
+      key: 'fieldEditBirthDate',
+      label: 'Ngày và giờ sinh',
+      width: 'lg',
+      placeholder: 'Chọn ngày và giờ sinh',
+      name: 'dob',
+      requiredField: 'true',
+      ruleMessage: 'Nhập ngày và giờ sinh',
     },
     {
       fieldType: 'formSelect',
@@ -188,6 +234,7 @@ const User = () => {
       placeholder: 'Please select status',
       requiredField: 'true',
       ruleMessage: 'Please select user status',
+      allowClear: false,
     },
     {
       fieldType: 'formInputFileImg',
@@ -352,7 +399,9 @@ const User = () => {
     //     return item;
     //   }, {});
     //   dataEdit.id = userRecord.id;
-    await editUser({ ...values, id: userRecord.id });
+    // TODO:
+    const tempDOB = dayjs(values.dob).format('YYYY-MM-DD');
+    await editUser({ ...values, id: userRecord.id, dob: tempDOB });
     setShowModel(false);
     // } else {
     //   // sử lí add user bình thường
@@ -371,6 +420,7 @@ const User = () => {
       setUserRecord(user);
       setFlagEditForm('edit');
       setShowModel(!showModal);
+      setImgLinkFirebase(user.imageUrl);
       formUserRef?.current?.setFieldsValue(user);
     }
     setButtonEditLoading(false);
@@ -424,18 +474,10 @@ const User = () => {
             //   });
             // } else {
             //   console.log('B');
-            await getUsers(params.fullname ?? '').then((res) => {
-              console.log('res at table query', res);
-              res?.data?.map((item, index) => {
-                item.number = index + 1;
-                data[index] = item;
-              });
-              setTotal(res?.total);
-            });
-            // }
-
+            const arr = await getUsers(params.fullname ?? '');
+            setTotal(arr.length);
             return {
-              data: data,
+              data: arr.map((item, index) => ({ ...item, number: index })),
               success: true,
             };
           }}
@@ -446,6 +488,7 @@ const User = () => {
             pageSize: pageSize,
             total: total,
             onchange: (page, pageSize) => {
+              console.log('on change', page, pageSize);
               setPage(page);
               setPageSize(pageSize);
             },
