@@ -84,10 +84,17 @@ export default defineConfig({
         },
         {
           path: '/users/users',
-          name: 'Khách Hàng',
-          // icon: 'user',
+          name: 'Người dùng',
+          icon: 'user-add',
           access: 'admin',
           component: './shop/users',
+        },
+        {
+          path: '/users/users-consutanlts',
+          name: 'Tư vấn viên',
+          // icon: 'smile',
+          access: 'admin',
+          component: './shop/users-consutanlts',
         },
         {
           path: '/users/productmaster',

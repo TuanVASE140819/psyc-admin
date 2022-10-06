@@ -20,7 +20,7 @@ export const addUser = (body) => {
 };
 
 export const editUser = (body) => {
-  return request.put('/api/Customers/update', { data: body });
+  return request.put('api/Customers/update', { data: body });
 };
 export const login = async (body) => {
   return await request.post('/api/FirebaseServices/loginadmin', {
