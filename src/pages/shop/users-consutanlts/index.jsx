@@ -5,10 +5,10 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-import { getAnUser, getUsers } from '@/services/ant-design-pro/user';
-import { addUser } from '@/services/ant-design-pro/user';
-import { editUser } from '@/services/ant-design-pro/user';
+import { getConsutanlts, getAConsutanlt } from '@/services/ant-design-pro/consutanlts';
+import { editConsutanlt } from '@/services/ant-design-pro/consutanlts';
 import { useModel } from 'umi';
+import { getAnUser, getUsers } from '@/services/ant-design-pro/user';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
 
@@ -23,7 +23,7 @@ const User = () => {
     },
     {
       title: 'Họ và tên',
-      dataIndex: 'fullname',
+      dataIndex: 'fullName',
       copyable: true,
       valueType: 'fullname',
       sorter: (a, b) => a.userName.localeCompare(b.userName),
@@ -75,7 +75,7 @@ const User = () => {
           <div>
             <div>
               <Button
-                key="editUser"
+                key="editConsutanlt"
                 type="primary"
                 size="middle"
                 icon={<EditOutlined />}
@@ -151,7 +151,7 @@ const User = () => {
       label: 'Họ và tên',
       width: 'lg',
       placeholder: 'Enter username ',
-      name: 'fullname',
+      name: 'fullName',
       value: 'fullname',
       requiredField: 'true',
       ruleMessage: 'Input username before submit',
@@ -352,7 +352,7 @@ const User = () => {
     //     return item;
     //   }, {});
     //   dataEdit.id = userRecord.id;
-    await editUser({ ...values, id: userRecord.id });
+    await editConsutanlt({ ...values, id: userRecord.id });
     setShowModel(false);
     // } else {
     //   // sử lí add user bình thường
@@ -366,7 +366,7 @@ const User = () => {
   const handleEditUserForm = async (record) => {
     const userId = record?.id;
     setButtonEditLoading(true);
-    const user = await getAnUser(userId);
+    const user = await getAConsutanlt(userId);
     if (user) {
       setUserRecord(user);
       setFlagEditForm('edit');
@@ -424,7 +424,7 @@ const User = () => {
             //   });
             // } else {
             //   console.log('B');
-            await getUsers(params.fullname ?? '').then((res) => {
+            await getConsutanlts(params.fullname ?? '').then((res) => {
               console.log('res at table query', res);
               res?.data?.map((item, index) => {
                 item.number = index + 1;

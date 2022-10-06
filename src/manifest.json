@@ -1,6 +1,6 @@
 {
-  "name": "AstroloZ Admin",
-  "short_name": "AstroloZ Admin",
+  "name": "Quản trị viên Psyc",
+  "short_name": "Quản trị viên Psyc",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
   "theme_color": "#002140",

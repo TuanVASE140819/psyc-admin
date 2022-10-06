@@ -70,9 +70,9 @@ const DetailPlanet = (props) => {
           <TabPane tab="Hành tinh & Nhà" key={3}>
             <PlanetHouse planet={planet} />
           </TabPane>
-          {/* <TabPane tab="Aspect" key={4}>
+          <TabPane tab="Aspect" key={4}>
             <Aspect planet={planet} />
-          </TabPane> */}
+          </TabPane>
         </Tabs>
       </Content>
     </>
