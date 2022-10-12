@@ -329,7 +329,7 @@ const ModalForm = (props) => {
                   </ProForm.Group>
                 )}
                 {item?.fieldType === 'formCalendar' && (
-                  <ProForm.Group>
+                  <ProForm.Group style={item.hidden && { display: 'none' }}>
                     <ProFormDigit
                       name={item?.nameTimeDay}
                       label={item?.labelTimeDay}

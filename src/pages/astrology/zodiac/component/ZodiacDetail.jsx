@@ -55,6 +55,7 @@ const ZodiacDetail = (props) => {
       maxTimeMonth: '12',
       placeholderTimeMonth: 'Zodiac Month Start',
       controlsTimeMonth: 'false',
+      hidden: true,
     },
     {
       fieldType: 'formCalendar',
@@ -72,6 +73,7 @@ const ZodiacDetail = (props) => {
       maxTimeMonth: '12',
       placeholderTimeMonth: 'Zodiac Month End',
       controlsTimeMonth: 'false',
+      hidden: true,
     },
     {
       fieldType: 'formInputFileImg',
@@ -234,6 +236,7 @@ const ZodiacDetail = (props) => {
       const newObjRecord = { ...zodiac };
       newObjRecord.zodiacDescription = newObjRecord.descriptionShort;
       delete newObjRecord.descreiption;
+      setImgLinkFirebase(newObjRecord.imageUrl);
       setStateEditor(newObjRecord.descriptionDetail);
       setStateShortDescriptionEditor(newObjRecord.descriptionShort);
       setShowModal(!showModal);

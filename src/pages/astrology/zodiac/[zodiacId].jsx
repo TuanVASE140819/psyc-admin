@@ -7,6 +7,7 @@ import ZodiacDetail from './component/ZodiacDetail';
 import ZodiacHouse from './component/ZodiacHouse';
 import ProSkeleton from '@ant-design/pro-skeleton';
 import Quote from './component/Quote';
+import DailyHoroscope from './component/DailyHoroscope';
 const { TabPane } = Tabs;
 const DetailZodiac = (props) => {
   const {
@@ -67,7 +68,9 @@ const DetailZodiac = (props) => {
           <TabPane tab="Cung hoàng đạo & nhà" key="2">
             <ZodiacHouse zodiac={zodiac} handleTriggerLoadZodiac={handleTriggerLoadZodiac} />
           </TabPane>
-          <TabPane tab="Lá phiếu tử vi" key="3"></TabPane>
+          <TabPane tab="Lá phiếu tử vi" key="3">
+            <DailyHoroscope />
+          </TabPane>
           {/* <TabPane tab="Quote" key="3">
                 <Quote zodiac={zodiac} />
               </TabPane> */}

@@ -116,7 +116,7 @@ const ZodiacHouse = (props) => {
         result?.data?.map((item) => {
           const house = {};
           house.id = item.id;
-          house.avatar = item.icon;
+          house.imageUrl = item.imageUrl;
           house.name = item.name;
           house.title = item.name;
           house.selected = false;

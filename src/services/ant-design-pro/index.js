@@ -6,8 +6,10 @@
 import * as api from './api';
 import * as login from './login';
 import * as user from './user';
+import * as dailyHoroscope from './dailyHoroscope';
 export default {
   api,
   login,
   user,
+  dailyHoroscope,
 };
