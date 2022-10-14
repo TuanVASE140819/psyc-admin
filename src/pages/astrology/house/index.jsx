@@ -379,7 +379,6 @@ const House = () => {
       tableHouseRef?.current?.reload();
     }
   };
-
   //xuli change text in editor
   const handleChangeStateEditor = (state) => {
     if (state) {

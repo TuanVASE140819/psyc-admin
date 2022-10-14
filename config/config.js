@@ -84,7 +84,7 @@ export default defineConfig({
         },
         {
           path: '/users/users',
-          name: 'Người dùng',
+          name: 'Khách hàng',
           icon: 'user-add',
           access: 'admin',
           component: './shop/users',
@@ -123,12 +123,12 @@ export default defineConfig({
           access: 'admin',
           component: './data/news',
         },
-        {
-          path: '/data/quote',
-          name: 'Quote',
-          access: 'admin',
-          component: './data/quote',
-        },
+        // {
+        //   path: '/data/quote',
+        //   name: 'Quote',
+        //   access: 'admin',
+        //   component: './data/quote',
+        // },
         // {
         //   path: '/data/horoscopeitem',
         //   name: 'HoroscopeItem',

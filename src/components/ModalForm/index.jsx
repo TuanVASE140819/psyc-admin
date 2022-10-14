@@ -16,7 +16,7 @@ import ProSkeleton from '@ant-design/pro-skeleton';
 import styles from './index.less';
 import { PlusOutlined } from '@ant-design/icons';
 import './index.less';
-
+import { EnvironmentOutlined } from '@ant-design/icons';
 import Radio from 'antd';
 
 const ModalForm = (props) => {
@@ -285,8 +285,13 @@ const ModalForm = (props) => {
                       width={item?.widthLongtitude}
                       name={item?.nameLongtitude}
                     />
-                    <Button type="primary" width="default" onClick={handleOpenModalPickerChild}>
-                      Pick Location
+                    <Button
+                      type="primary"
+                      width="default"
+                      onClick={handleOpenModalPickerChild}
+                      icon={<EnvironmentOutlined />}
+                    >
+                      Chọn vị trí
                     </Button>
                   </ProForm.Group>
                 )}
