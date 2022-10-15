@@ -140,9 +140,10 @@ export default function DailyHoroscope({ zodiac }) {
       <Divider />
       {/* upload exel file */}
       <ProFormUploadButton
+        title="Tải tệp excel lên"
         name="file"
-        label="Upload file excel"
-        // action="/api/upload"
+        label="Tải tệp excel lên"
+        nameUpload="fileExcel"
         api={uploadFileExcel}
         maxCount={1}
         fieldProps={{
@@ -164,9 +165,6 @@ export default function DailyHoroscope({ zodiac }) {
           }
         }}
       />
-      <Button type="primary" icon={<UploadOutlined />}>
-        Upload
-      </Button>
       {loading ? (
         <Skeleton />
       ) : (

@@ -3,12 +3,10 @@ import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
 import { getConsutanlts, getAConsutanlt } from '@/services/ant-design-pro/consutanlts';
 import { editConsutanlt } from '@/services/ant-design-pro/consutanlts';
 import { useModel } from 'umi';
-import { getAnUser, getUsers } from '@/services/ant-design-pro/user';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
 
@@ -26,7 +24,7 @@ const User = () => {
       dataIndex: 'fullName',
       copyable: true,
       valueType: 'fullname',
-      sorter: (a, b) => a.userName.localeCompare(b.userName),
+      sorter: (a, b) => a.fullName.length - b.fullName.length,
       filters: true,
       onFilter: true,
       formItemProps: {
@@ -39,11 +37,11 @@ const User = () => {
       },
     },
     {
-      title: 'Số điện thoại',
+      title: 'Email',
       dataIndex: 'email',
       copyable: true,
       valueType: 'phoneNumber',
-      sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
+      sorter: (a, b) => a.email.length - b.email.length,
       filters: true,
       onFilter: true,
       formItemProps: {
@@ -56,7 +54,7 @@ const User = () => {
       },
     },
     {
-      title: 'trạng thái',
+      title: 'Trạng thái',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: {
@@ -67,7 +65,7 @@ const User = () => {
       width: '20%',
     },
     {
-      title: 'Action',
+      title: 'Thao tác',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -82,7 +80,7 @@ const User = () => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Edit
+                Chi tiết
               </Button>
             </div>
           </div>
@@ -385,9 +383,9 @@ const User = () => {
         <ProTable
           columns={column}
           rowKey={(record) => record.id}
-          expandable={{
-            expandedRowRender,
-          }}
+          // expandable={{
+          //   expandedRowRender,
+          // }}
           request={async (params, sort, filter) => {
             // const currentAttr = 'current';
             // const pageSizeAttr = 'pageSize';
@@ -456,17 +454,6 @@ const User = () => {
             submittext: 'Submit',
             resetText: 'Reset',
           }}
-          toolBarRender={(action) => [
-            <Button
-              size="middle"
-              key="buttonAddUser"
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => handleModal()}
-            >
-              Add
-            </Button>,
-          ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (

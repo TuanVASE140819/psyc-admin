@@ -3,8 +3,10 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Col, Row, Skeleton } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import ProSkeleton from '@ant-design/pro-skeleton';
+import { DualAxes } from '@ant-design/plots';
 
 const Dashboard = () => {
+
   return (
     <PageContainer>
       <Content>

@@ -83,25 +83,25 @@ export default defineConfig({
           component: './shop/category',
         },
         {
-          path: '/users/users',
+          path: '/users/customers',
           name: 'Khách hàng',
           icon: 'user-add',
           access: 'admin',
           component: './shop/users',
         },
         {
-          path: '/users/users-consutanlts',
+          path: '/users/consutanlts',
           name: 'Tư vấn viên',
           // icon: 'smile',
           access: 'admin',
           component: './shop/users-consutanlts',
         },
-        {
-          path: '/users/productmaster',
-          name: 'Product',
-          access: 'admin',
-          component: './shop/productmaster',
-        },
+        // {
+        //   path: '/users/productmaster',
+        //   name: 'Product',
+        //   access: 'admin',
+        //   component: './shop/productmaster',
+        // },
         {
           component: './404',
         },
