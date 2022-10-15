@@ -14,21 +14,22 @@ const Footer = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
+          key: 'Facebook',
+          icon: <GithubOutlined />,
+          title: 'Facebook',
+          href: 'https://www.facebook.com/',
           blankTarget: true,
         },
         {
-          key: 'github',
-          title: <GithubOutlined />,
+          key: 'Twitter',
+          title: 'Twitter',
           href: 'https://github.com/ant-design/ant-design-pro',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'Instagram',
+          title: 'Instagram',
+          href: 'https:// ant.design',
           blankTarget: true,
         },
       ]}

@@ -72,7 +72,7 @@ const Login = () => {
       //   if (jwtToken) {
       //     const defaultLoginSuccessMessage = intl.formatMessage({
       //       id: 'pages.login.success',
-      //       defaultMessage: 'Login Success!',
+      //       defaultMessage: 'Đăng nhập thành công!uccess!',
       //     });
       //     setAppToken(jwtToken);
       //     message.success(defaultLoginSuccessMessage);
@@ -91,7 +91,7 @@ const Login = () => {
       if (res) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
-          defaultMessage: 'Login Success!',
+          defaultMessage: 'Đăng nhập thành công!uccess!',
         });
         setAppToken(res.jwttoken);
         message.success(defaultLoginSuccessMessage);

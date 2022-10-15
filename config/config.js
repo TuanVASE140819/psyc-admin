@@ -83,25 +83,25 @@ export default defineConfig({
           component: './shop/category',
         },
         {
-          path: '/users/users',
-          name: 'Người dùng',
+          path: '/users/customers',
+          name: 'Khách hàng',
           icon: 'user-add',
           access: 'admin',
           component: './shop/users',
         },
         {
-          path: '/users/users-consutanlts',
+          path: '/users/consutanlts',
           name: 'Tư vấn viên',
           // icon: 'smile',
           access: 'admin',
           component: './shop/users-consutanlts',
         },
-        {
-          path: '/users/productmaster',
-          name: 'Product',
-          access: 'admin',
-          component: './shop/productmaster',
-        },
+        // {
+        //   path: '/users/productmaster',
+        //   name: 'Product',
+        //   access: 'admin',
+        //   component: './shop/productmaster',
+        // },
         {
           component: './404',
         },
@@ -123,12 +123,12 @@ export default defineConfig({
           access: 'admin',
           component: './data/news',
         },
-        {
-          path: '/data/quote',
-          name: 'Quote',
-          access: 'admin',
-          component: './data/quote',
-        },
+        // {
+        //   path: '/data/quote',
+        //   name: 'Quote',
+        //   access: 'admin',
+        //   component: './data/quote',
+        // },
         // {
         //   path: '/data/horoscopeitem',
         //   name: 'HoroscopeItem',

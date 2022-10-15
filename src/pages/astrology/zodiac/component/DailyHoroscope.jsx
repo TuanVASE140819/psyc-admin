@@ -1,11 +1,16 @@
-import { getDailyHoroscope, getDailyHoroscopes } from '@/services/ant-design-pro/dailyHoroscope';
-import { Avatar, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
+import {
+  getDailyHoroscope,
+  getDailyHoroscopes,
+  uploadFileExcel,
+} from '@/services/ant-design-pro/dailyHoroscope';
+import { Avatar, Button, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker } from 'antd';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
-
+import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented } from '@ant-design/pro-form';
+import { UploadOutlined } from '@ant-design/icons';
 const formEditFields = [
   {
     fieldType: 'formText',
@@ -65,6 +70,7 @@ export default function DailyHoroscope({ zodiac }) {
         const res = await getDailyHoroscopes({
           id: zodiac.id,
           date: month.format('YYYY-MM'),
+          locale: 'vi',
         });
         setData(res);
       } catch (error) {
@@ -81,7 +87,7 @@ export default function DailyHoroscope({ zodiac }) {
 
   const onPressDate = async (item) => {
     try {
-      message.loading({ content: 'Loading...', key: 'loading' });
+      message.loading({ content: 'Đang tải ...', key: 'loading' });
       const res = await getDailyHoroscope(item.id);
       formEditRef?.current?.setFieldsValue({ ...res });
       setImage(res.imageUrl);
@@ -106,7 +112,7 @@ export default function DailyHoroscope({ zodiac }) {
       return isLt4M;
     }
     try {
-      message.loading({ content: 'Uploading...', key: 'loading' });
+      message.loading({ content: 'Đang tải lên ...', key: 'loading' });
       const imgLink = await uploadFile(file, 'house');
 
       if (imgLink) {
@@ -125,8 +131,40 @@ export default function DailyHoroscope({ zodiac }) {
 
   return (
     <>
-      <DatePicker value={month} onChange={setMonth} picker="month" />
+      <DatePicker
+        value={month}
+        onChange={setMonth}
+        picker="month"
+        // change laguage month from english to vietnamese
+      />
       <Divider />
+      {/* upload exel file */}
+      <ProFormUploadButton
+        title="Tải tệp excel lên"
+        name="file"
+        label="Tải tệp excel lên"
+        nameUpload="fileExcel"
+        api={uploadFileExcel}
+        maxCount={1}
+        fieldProps={{
+          accept: '.xlsx, .xls',
+        }}
+        onChange={async (info) => {
+          const { status } = info.file;
+          if (status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully.`);
+            const res = await uploadFileExcel(info.file.originFileObj);
+            if (res) {
+              message.success('Upload file excel success!');
+            }
+          } else if (status === 'error') {
+            mssage.error(`${info.file.name} file upload failed.`);
+          }
+        }}
+      />
       {loading ? (
         <Skeleton />
       ) : (
@@ -151,7 +189,7 @@ export default function DailyHoroscope({ zodiac }) {
       )}
       <ModalForm
         showModal={modal}
-        titleModal={`Chỉnh sửa ,,...`}
+        titleModal={`Chỉnh sửa ngày ${moment(selectedDate?.date).date()}`}
         widthModal="900"
         handleCancelModel={hideModal}
         formRef={formEditRef}

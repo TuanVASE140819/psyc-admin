@@ -20,7 +20,7 @@ export const getProfiles = async (customerId) => {
 };
 
 export const deleteProfile = (profileId) => {
-  return request.delete(`/api/v1/profiles/${profileId}`);
+  return request.delete(`/api/Profiles/${profileId}`);
 };
 
 export const getAnProfile = async (profileId) => {

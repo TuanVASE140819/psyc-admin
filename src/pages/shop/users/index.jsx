@@ -17,7 +17,7 @@ const User = () => {
   //config column
   const column = [
     {
-      title: 'No.',
+      title: 'STT',
       dataIndex: 'number',
       sorter: (a, b) => a.number - b.number,
       search: false,
@@ -27,7 +27,7 @@ const User = () => {
       dataIndex: 'fullname',
       copyable: true,
       valueType: 'fullname',
-      sorter: (a, b) => a.userName.localeCompare(b.userName),
+      sorter: (a, b) => a.fullname.length - b.fullname.length,
       filters: true,
       onFilter: true,
       formItemProps: {
@@ -40,11 +40,11 @@ const User = () => {
       },
     },
     {
-      title: 'Số điện thoại',
+      title: 'Email',
       dataIndex: 'email',
       copyable: true,
-      valueType: 'phoneNumber',
-      sorter: (a, b) => a.phoneNumber.localeCompare(b.phoneNumber),
+      valueType: 'email',
+      sorter: (a, b) => a.email.length - b.email.length,
       filters: true,
       onFilter: true,
       formItemProps: {
@@ -57,7 +57,7 @@ const User = () => {
       },
     },
     {
-      title: 'trạng thái',
+      title: 'Trạng thái',
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: {
@@ -68,7 +68,7 @@ const User = () => {
       width: '20%',
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -83,7 +83,7 @@ const User = () => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Edit
+                Chi tiết
               </Button>
             </div>
           </div>
@@ -97,14 +97,14 @@ const User = () => {
       key: 'clearFieldFormUser',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Làm mới',
       loading: false,
     },
     {
       key: 'submitAddUser',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Thay đổi',
       loading: false,
     },
   ];
@@ -291,7 +291,7 @@ const User = () => {
 
   React.useEffect(() => {
     if (buttonEditLoading) {
-      message.loading('Loading...', 9999);
+      message.loading('Đang tải...', 9999);
     } else {
       message.destroy();
     }
@@ -477,7 +477,7 @@ const User = () => {
             const arr = await getUsers(params.fullname ?? '');
             setTotal(arr.length);
             return {
-              data: arr.map((item, index) => ({ ...item, number: index })),
+              data: arr.map((item, index) => ({ ...item, number: index + 1 })),
               success: true,
             };
           }}
@@ -495,27 +495,27 @@ const User = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Search',
+            searchText: 'Tìm kiếm',
             submittext: 'Submit',
-            resetText: 'Reset',
+            resetText: 'Quay lại',
           }}
-          toolBarRender={(action) => [
-            <Button
-              size="middle"
-              key="buttonAddUser"
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => handleModal()}
-            >
-              Add
-            </Button>,
-          ]}
+          // toolBarRender={(action) => [
+          //   <Button
+          //     size="middle"
+          //     key="buttonAddUser"
+          //     type="primary"
+          //     icon={<PlusOutlined />}
+          //     onClick={() => handleModal()}
+          //   >
+          //     Add
+          //   </Button>,
+          // ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${userRecord.fullname}`}
+          titleModal={`Chỉnh sửa ${userRecord.fullname}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}

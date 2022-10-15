@@ -2,9 +2,7 @@ import request from '@/utils/requestServer';
 
 export const getUsers = async (params) => {
   return await request
-    .get('/api/Customers/Getallcustomer', {
-      params: params,
-    })
+  .get(`/api/Customers/Getallcustomer${params ? `?search=${params}` : ''}`)
     .then((response) => {
       console.log('response getUsers', response);
 

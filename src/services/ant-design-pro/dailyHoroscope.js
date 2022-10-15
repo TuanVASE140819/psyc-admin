@@ -26,3 +26,16 @@ export const getDailyHoroscope = async (id) => {
       return response.data[0];
     });
 };
+
+// api upload file excel
+export const uploadFileExcel = async (data) => {
+  return await request
+    .post('api/DailyHoroscopes/CreateExcel', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};

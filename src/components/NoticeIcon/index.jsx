@@ -6,6 +6,7 @@ import { useModel, useRequest } from 'umi';
 import { getNotices } from '@/services/ant-design-pro/api';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
+import 'moment/locale/vi';
 
 const getNoticeData = (notices) => {
   if (!notices || notices.length === 0 || !Array.isArray(notices)) {
@@ -16,7 +17,8 @@ const getNoticeData = (notices) => {
     const newNotice = { ...notice };
 
     if (newNotice.datetime) {
-      newNotice.datetime = moment(notice.datetime).fromNow();
+      // lang: 'vn-VN'
+      newNotice.datetime = moment(notice.datetime).locale('vi').fromNow();
     }
 
     if (newNotice.id) {
@@ -100,45 +102,48 @@ const NoticeIconView = () => {
         return notice;
       }),
     );
-    message.success(`${'清空了'} ${title}`);
+    message.success(`${title} cleared!`);
+    
   };
 
   return (
     <NoticeIcon
+        
       className={styles.action}
-      count={currentUser && currentUser.unreadCount}
+      count={unreadMsg&&Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
+      // var count = {unreadMsg.booked + unreadMsg.recharge + unreadMsg.withdrawal}
       onItemClick={(item) => {
         changeReadState(item.id);
       }}
       onClear={(title, key) => clearReadState(title, key)}
       loading={false}
-      clearText="清空"
-      viewMoreText="查看更多"
+      clearText="Clear"
+      viewMoreText="Xem thêm"
       onViewMore={() => message.info('Click on view more')}
       clearClose
     >
       <NoticeIcon.Tab
-        tabKey="notification"
-        count={unreadMsg.notification}
-        list={noticeData.notification}
-        title="通知"
-        emptyText="你已查看所有通知"
+        tabKey="booked"
+        count={unreadMsg.booked}
+        list={noticeData.booked}
+        title="Đặt Lịch"
+        emptyText={null}
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="message"
-        count={unreadMsg.message}
-        list={noticeData.message}
-        title="消息"
+        count={unreadMsg.recharge}
+        list={noticeData.recharge}
+        title="Nạp tiền"
         emptyText="您已读完所有消息"
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="event"
-        title="待办"
+        title="Rút tiền"
         emptyText="你已完成所有待办"
-        count={unreadMsg.event}
-        list={noticeData.event}
+        count={unreadMsg.withdraw}
+        list={noticeData.withdraw}
         showViewMore
       />
     </NoticeIcon>

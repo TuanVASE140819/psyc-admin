@@ -22,7 +22,7 @@ const Profile = (props) => {
 
   const column = [
     {
-      title: 'Name',
+      title: 'Họ và tên',
       dataIndex: 'name',
       copyable: true,
       sorter: (a, b) => a.name.localeCompare(b.name),
@@ -36,7 +36,7 @@ const Profile = (props) => {
       },
     },
     {
-      title: 'Photo',
+      title: 'Hình ảnh',
       dataIndex: 'profilePhoto',
       render: (_, record) => {
         return (
@@ -47,7 +47,7 @@ const Profile = (props) => {
       },
     },
     {
-      title: 'Birth Date',
+      title: 'Ngày sinh',
       dataIndex: 'birthDate',
       render: (_, record) => {
         const dob = dayjs(record.dob).format('DD/MM/YYYY HH:mm:ss');
@@ -59,7 +59,7 @@ const Profile = (props) => {
       },
     },
     {
-      title: 'Birth Place',
+      title: 'Nơi sinh',
       dataIndex: 'birthPlace',
       formItemProps: {
         rules: [
@@ -72,7 +72,7 @@ const Profile = (props) => {
     },
 
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -99,7 +99,7 @@ const Profile = (props) => {
                 icon={<EditOutlined />}
                 onClick={() => handleEditProfileForm(record)}
               >
-                Edit
+                Chi tiết
               </Button>
             </div>
             <div
@@ -113,9 +113,9 @@ const Profile = (props) => {
                 size="middle"
                 block="true"
                 icon={<DeleteOutlined />}
-                onClick={() => handleOkDeleteHouse(record)}
+                onClick={() => handleDeleteProfile(record)}
               >
-                Delete
+                Xóa
               </Button>
             </div>
           </div>
@@ -130,14 +130,14 @@ const Profile = (props) => {
       key: 'clearFormProfile',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Làm mới',
       loading: false,
     },
     {
       key: 'submitAddProfile',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Thêm/Chỉnh sửa',
       loading: false,
     },
   ];
@@ -146,7 +146,7 @@ const Profile = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldAddProfileName',
-      label: 'Tên profile',
+      label: 'Tên người dùng',
       width: 'lg',
       placeholder: 'Nhập tên profile',
       name: 'name',
@@ -210,7 +210,7 @@ const Profile = (props) => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Hình ảnh',
       width: 'lg',
       placeholder: 'Avatar',
       name: 'imageUrl',
@@ -226,7 +226,7 @@ const Profile = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldAddProfileName',
-      label: 'Tên profile',
+      label: 'Tên người dùng',
       width: 'lg',
       placeholder: 'Nhập tên profile',
       name: 'name',
@@ -280,10 +280,10 @@ const Profile = (props) => {
     },
     {
       fieldType: 'position',
-      labelLatitude: 'Latitude',
+      labelLatitude: 'Vĩ độ',
       widthLatitude: 'small',
       nameLatitude: 'latitude',
-      labelLongtitude: 'Longitude',
+      labelLongtitude: 'Kinh độ',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
     },
@@ -355,7 +355,7 @@ const Profile = (props) => {
   //xuli loading upload img firebase
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải...', 9999);
     } else {
       message.destroy();
     }
@@ -399,12 +399,12 @@ const Profile = (props) => {
     if (!isImage) {
       setLoadingUploadingImgFirebase(false);
       message.destroy();
-      message.error('You can only upload IMAGE file!');
+      message.error('Bạn chỉ có thể tải lên tệp IMAGE!');
       return isImage;
     }
     const isLt4M = file.size / 1024 / 1024 < 4;
     if (!isLt4M) {
-      message.error('Image must smaller than 4MB!');
+      message.error('Hình ảnh phải nhỏ hơn 4MB!');
       return isLt4M;
     }
     try {
@@ -417,7 +417,7 @@ const Profile = (props) => {
           ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
-        message.success('Upload Image Success!');
+        message.success(' Tải lên hình ảnh thành công!');
       }
     } catch (error) {
       setLoadingUploadingImgFirebase(false);
@@ -571,7 +571,7 @@ const Profile = (props) => {
                   icon={<PlusOutlined />}
                   onClick={() => handleModal()}
                 >
-                  Add
+                  Thêm hồ sơ
                 </Button>
               </div>,
             ]}
@@ -582,7 +582,7 @@ const Profile = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal={`Chỉnh sửa ${profileRecord?.name}`}
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}
@@ -597,7 +597,7 @@ const Profile = (props) => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Add"
+          titleModal="Thêm hồ sơ"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}
