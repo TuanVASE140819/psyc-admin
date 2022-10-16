@@ -1,7 +1,7 @@
 import request from '@/utils/requestServer';
 
 export const addNews = (body) => {
-  return request.post('/api/v1/news', { data: body });
+  return request.post('/api/Articles/create', { data: body });
 };
 
 export const getNews = async (params) => {

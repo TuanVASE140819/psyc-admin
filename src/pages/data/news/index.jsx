@@ -143,16 +143,16 @@ const News = () => {
       requiredField: 'true',
       ruleMessage: 'Input News Title before submit',
     },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddNewsTag',
-      label: 'News Tag',
-      width: 'lg',
-      placeholder: 'Enter News Tag',
-      name: 'tag',
-      requiredField: 'true',
-      ruleMessage: 'Input News Tag before submit',
-    },
+    // {
+    //   fieldType: 'formText',
+    //   key: 'fieldAddNewsTag',
+    //   label: 'News Tag',
+    //   width: 'lg',
+    //   placeholder: 'Enter News Tag',
+    //   name: 'tag',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Input News Tag before submit',
+    // },
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
@@ -380,7 +380,7 @@ const News = () => {
     console.log(values);
     // setButtonLoading(true);
     // setStateEditor(values.htmlContent);
-    // if (values.edit) {
+    if (values.edit) {
     //   const newValues = Object.assign({}, values);
     //   const attr = 'edit';
     //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
@@ -391,11 +391,11 @@ const News = () => {
     //   }, {});
     await updateNews({ ...values, id: newsRecord.id });
     setShowModal(false);
-    // } else {
-    //   await addNews(values);
-    //   handleResetForm();
-    //   setStateEditor(null);
-    // }
+    } else {
+      await addNews(values);
+      handleResetForm();
+      setShowModal(false);
+    }
     tableNewsRef?.current?.reload();
     // setButtonLoading(false);
   };
@@ -553,7 +553,7 @@ const News = () => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Add New News"
+          titleModal="Thêm tin tức"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formNewsRef}
