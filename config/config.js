@@ -186,6 +186,48 @@ export default defineConfig({
       ],
     },
     {
+      path: '/transaction',
+      name: 'Giao dịch',
+      icon: 'dollar',
+      access: 'admin',
+      routes: [
+        {
+          path: '/transaction',
+          redirect: '/transaction/withdraw',
+        },
+        {
+          path: '/transaction/withdraw',
+          name: 'Rút tiền',
+          access: 'admin',
+          component: './transaction/withdraw',
+        },
+        {
+          path: '/transaction/recharge',
+          name: 'Nạp tiền',
+          access: 'admin',
+          component: './transaction/recharge',
+        },
+      ],
+    },
+    {
+      path: '/excel',
+      name: 'Excel',
+      icon: 'file-excel',
+      access: 'admin',
+      routes: [
+        {
+          path: '/excel',
+          redirect: '/excel/dailyHoroscopes',
+        },
+        {
+          path: '/excel/dailyHoroscopes',
+          name: 'Tử vi hàng ngày',
+          access: 'admin',
+          component: './excel/dailyHoroscopes',
+        }
+        ]
+    },
+    {
       path: '/',
       redirect: '/dashboard',
     },

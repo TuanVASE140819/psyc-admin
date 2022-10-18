@@ -54,6 +54,18 @@ const User = () => {
       },
     },
     {
+      title:'Cấp độ',
+      dataIndex: 'level',
+      valueType: 'select',
+      valueEnum: {
+        1: { text: 'Cấp 1', status: 'Default' },
+        2: { text: 'Cấp 2', status: 'Processing' },
+        3: { text: 'Cấp 3', status: 'Success' },
+        4: { text: 'Cấp 4', status: 'Error' },
+        5: { text: 'Cấp 5', status: 'Warning' },
+      },
+    },
+    {
       title: 'Trạng thái',
       dataIndex: 'status',
       valueType: 'select',
@@ -284,12 +296,12 @@ const User = () => {
     if (!isImage) {
       setLoadingUploadingImgFirebase(false);
       message.destroy();
-      message.error('You can only upload IMAGE file!');
+      message.error('Bạn chỉ có thể tải lên tệp IMAGE!');
       return isImage;
     }
     const isLt4M = file.size / 1024 / 1024 < 4;
     if (!isLt4M) {
-      message.error('Image must smaller than 4MB!');
+      message.error('Hình ảnh phải nhỏ hơn 4MB!');
       return isLt4M;
     }
     try {
@@ -302,7 +314,7 @@ const User = () => {
           ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
-        message.success('Upload Image Success!');
+        message.success('Tải lên hình ảnh thành công!');
       }
     } catch (error) {
       onError(error);
@@ -396,7 +408,7 @@ const User = () => {
             //   const newParams = Object.keys(params).reduce((item, key) => {
             //     if (key != currentAttr && key != pageSizeAttr) {
             //       if (key === 'userName') {
-            //         item.name = params[key];
+            //         item.name = params[key];data
             //       } else if (key === 'phoneNumber') {
             //         item.phone = params[key];
             //       } else if (key === 'status') {

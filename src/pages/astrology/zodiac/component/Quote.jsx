@@ -1,138 +1,116 @@
-import { addQuote, getQuotes } from '@/services/quote';
-import ProForm, { ProFormTextArea } from '@ant-design/pro-form';
-import { Button, Col, List, message, Row, Space, Tag } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
-import React, { useEffect, useRef, useState } from 'react';
-
-const Quote = (props) => {
-  const { zodiac } = props;
-  const formQuoteRef = useRef();
-  const [loadingButtonSubmit, setLoadingButtonSubmit] = useState(false);
-  const [triggerRenderListQuote, setTriggerRenderListQuote] = useState(false);
-  const [listQuote, setListQuote] = useState([]);
-  const [loadingListQuote, setLoadingListQuote] = useState(false);
-  //paging
-  const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(4);
-  const [total, setTotal] = React.useState(20);
-
-  useEffect(() => {
-    (async () => {
-      const params = {
-        zodiacId: zodiac?.id,
-        page: page,
-        pageSize: pageSize,
-      };
-      setLoadingListQuote(false);
-      const data = await getQuotes(params);
-      if (data?.payload) {
-        setListQuote(data?.payload);
-        setTotal(data?.total);
-      }
-      setLoadingListQuote(false);
-    })();
-  }, [triggerRenderListQuote]);
-
-  const handleButtonReset = () => {
-    formQuoteRef?.current?.resetFields();
-  };
-
-  const handleButtonSubmit = (value) => {
-    if (value) {
-      value.form?.submit();
-    }
-  };
-
-  const handleSubmitForm = async (values) => {
-    values.zodiacId = zodiac?.id;
-    setLoadingButtonSubmit(true);
-    const result = await addQuote(values);
-    if (result?.id) {
-      setTriggerRenderListQuote(!triggerRenderListQuote);
-      formQuoteRef?.current?.resetFields();
-    }
-    setLoadingButtonSubmit(false);
-  };
-
-  const onChangePaging = (page, pageSize) => {
-    setPage(page);
-    setPageSize(pageSize);
-    setTriggerRenderListQuote(!triggerRenderListQuote);
-  };
-
-  return (
-    <Content
-      style={{
-        background: '#fff',
-        padding: 16,
-      }}
-    >
-      <Row gutter={[16, 16]}>
-        <Col span={12}>
-          <ProForm
-            onReset={true}
-            formRef={formQuoteRef}
-            submitter={{
-              render: (props, doms) => {
-                return [
-                  <div>
-                    <Button
-                      key="buttonResetQuote"
-                      type="default"
-                      onClick={() => handleButtonReset(props)}
-                    >
-                      Reset
-                    </Button>
-                    <Button
-                      key="buttonSubmitQuote"
-                      type="primary"
-                      onClick={() => handleButtonSubmit(props)}
-                      loading={loadingButtonSubmit}
-                    >
-                      Submit
-                    </Button>
-                  </div>,
-                ];
-              },
-            }}
-            onFinish={async (values) => await handleSubmitForm(values)}
-          >
-            <ProForm.Group>
-              <ProFormTextArea
-                key="addnewquote"
-                label="Quote"
-                width="lg"
-                placeholder="Enter quote"
-                name="content"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Enter Quote before submit!',
-                  },
-                ]}
-              />
-            </ProForm.Group>
-          </ProForm>
-        </Col>
-        <Col span={12}>
-          <List
-            dataSource={listQuote}
-            pagination={{
-              current: page,
-              pageSize: pageSize,
-              total: total,
-              onChange: (page, pageSize) => onChangePaging(page, pageSize),
-            }}
-            renderItem={(item) => (
-              <List.Item key={item?.id}>
-                <List.Item.Meta title={item?.content} />
-              </List.Item>
-            )}
-          ></List>
-        </Col>
-      </Row>
-    </Content>
-  );
+import { EditableProTable, ProCard, ProFormField } from '@ant-design/pro-components';
+import { Button } from 'antd';
+import {
+  getDailyHoroscope,
+  getDailyHoroscopes,
+  uploadFileExcel,
+} from '@/services/ant-design-pro/dailyHoroscope';
+import React, { useState } from 'react';
+const defaultData = new Array(20).fill(1).map((_, index) => {
+    return {
+        id: (Date.now() + index).toString(),
+        title: `活动名称${index}`,
+        decs: '这个活动真好玩',
+        state: 'open',
+        created_at: '1590486176000',
+    };
+});
+export function DailyHoroscope({ zodiac }){
+    const [editableKeys, setEditableRowKeys] = useState(() => defaultData.map((item) => item.id));
+    const [dataSource, setDataSource] = useState(() => defaultData);
+    const columns = [
+        {
+            title: '活动名称',
+            dataIndex: 'title',
+            width: '30%',
+            formItemProps: {
+                rules: [
+                    {
+                        required: true,
+                        whitespace: true,
+                        message: '此项是必填项',
+                    },
+                    {
+                        message: '必须包含数字',
+                        pattern: /[0-9]/,
+                    },
+                    {
+                        max: 16,
+                        whitespace: true,
+                        message: '最长为 16 位',
+                    },
+                    {
+                        min: 6,
+                        whitespace: true,
+                        message: '最小为 6 位',
+                    },
+                ],
+            },
+        },
+        {
+            title: '状态',
+            key: 'state',
+            dataIndex: 'state',
+            valueType: 'select',
+            valueEnum: {
+                all: { text: '全部', status: 'Default' },
+                open: {
+                    text: '未解决',
+                    status: 'Error',
+                },
+                closed: {
+                    text: '已解决',
+                    status: 'Success',
+                },
+            },
+        },
+        {
+            title: '描述',
+            dataIndex: 'decs',
+        },
+        {
+            title: '操作',
+            valueType: 'option',
+            width: 250,
+            render: () => {
+                return null;
+            },
+        },
+    ];
+    return (<>
+      <EditableProTable headerTitle="可编辑表格" columns={columns} rowKey="id" scroll={{
+            x: 960,
+        }} value={dataSource} onChange={setDataSource} recordCreatorProps={{
+            newRecordType: 'dataSource',
+            record: () => ({
+                id: Date.now(),
+            }),
+        }} toolBarRender={() => {
+            return [
+                <Button type="primary" key="save" onClick={() => {
+                        // dataSource 就是当前数据，可以调用 api 将其保存
+                        console.log(dataSource);
+                    }}>
+              保存数据
+            </Button>,
+            ];
+        }} editable={{
+            type: 'multiple',
+            editableKeys,
+            actionRender: (row, config, defaultDoms) => {
+                return [defaultDoms.delete];
+            },
+            onValuesChange: (record, recordList) => {
+                setDataSource(recordList);
+            },
+            onChange: setEditableRowKeys,
+        }}/>
+      <ProCard title="表格数据" headerBordered collapsible defaultCollapsed>
+        <ProFormField ignoreFormItem fieldProps={{
+            style: {
+                width: '100%',
+            },
+        }} mode="read" valueType="jsonCode" text={JSON.stringify(dataSource)}/>
+      </ProCard>
+    </>);
 };
-
-export default Quote;

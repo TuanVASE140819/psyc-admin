@@ -8,6 +8,14 @@ import ZodiacHouse from './component/ZodiacHouse';
 import ProSkeleton from '@ant-design/pro-skeleton';
 import Quote from './component/Quote';
 import DailyHoroscope from './component/DailyHoroscope';
+
+
+import {
+  getDailyHoroscope,
+  getDailyHoroscopes,
+  uploadFileExcel,
+} from '@/services/ant-design-pro/dailyHoroscope';
+
 const { TabPane } = Tabs;
 const DetailZodiac = (props) => {
   const {
@@ -71,7 +79,7 @@ const DetailZodiac = (props) => {
           <TabPane tab="Lá phiếu tử vi" key="3">
             <DailyHoroscope zodiac={zodiac} />
           </TabPane>
-          {/* <TabPane tab="Quote" key="3">
+          {/* <TabPane tab="Lá phiếu tử vi - excel" key="4">
                 <Quote zodiac={zodiac} />
               </TabPane> */}
         </Tabs>

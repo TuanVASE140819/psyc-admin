@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "Admin-Psyc",
   "version": "5.2.1",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
@@ -68,6 +68,7 @@
     "firebase": "^8.2.3",
     "git-cz": "^4.8.0",
     "immutable": "^4.0.0",
+    "lay-excel": "^1.7.6",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",
     "omit.js": "^2.0.2",
