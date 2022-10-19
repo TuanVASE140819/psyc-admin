@@ -117,7 +117,7 @@ const NoticeIconView = () => {
       <NoticeIcon 
       className={styles.action}
       // set timeout 1000 s for variable coun
-      var count = {unreadMsg.booked + unreadMsg.recharge + unreadMsg.withdrawal}
+      count={unreadMsg&&Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
       onItemClick={(item) => {
         changeReadState(item.id);
       }}

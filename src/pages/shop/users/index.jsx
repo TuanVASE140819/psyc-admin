@@ -90,6 +90,7 @@ const User = () => {
         );
       },
     },
+    
   ];
 
   const buttonSubmitter = [
@@ -400,7 +401,8 @@ const User = () => {
     //   }, {});
     //   dataEdit.id = userRecord.id;
     // TODO:
-    const tempDOB = dayjs(values.dob).format('YYYY-MM-DD');
+    const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
+    //
     await editUser({ ...values, id: userRecord.id, dob: tempDOB });
     setShowModel(false);
     // } else {

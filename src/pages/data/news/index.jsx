@@ -1,5 +1,6 @@
 import { uploadFile } from '@/utils/uploadFile';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined, CheckOutlined,CloseOutlined} from '@ant-design/icons';
+import { Switch } from 'antd';
 import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
 import { addNews, getNews, deleteNews, updateNews, getAnNews } from '@/services/news';
@@ -31,32 +32,36 @@ const News = () => {
           },
         ],
       },
-      width: '30%',
+      width: '50%',
     },
     {
       title: 'Ngày Tạo',
-      dataIndex: 'createDay', 
+      dataIndex: 'createDay', // ở đây là tên trường trong database
       valueType: 'dateTime',
       sorter: (a, b) => a.createdAt - b.createdAt,
       search: false,
-      width: '20%',
-      format: 'MM/YYYY',
-      // ),
-      width: '30%',
-    },
-    {
-      title: 'trạng thái',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: {
-        null: { text: 'Đang chờ', status: 'Default' },
-        active: { text: 'Đã duyệt', status: 'Success' },
-        inactive: { text: 'Đã từ chối', status: 'Error' },
+      width: '10%',
+      format: 'DD/MM/YYYY', // định dạng ngày tháng
+      // cắt chuỗi 00:00:00
+      render: (_, record) => {
+        return record.createDay.slice(0, 10);
       },
-      width: '20%',
+      // ),
+      width: '10%',
     },
+    // {
+    //   title: 'trạng thái',
+    //   dataIndex: 'status',
+    //   valueType: 'select',
+    //   valueEnum: {
+    //     null: { text: 'Đang chờ', status: 'Default' },
+    //     active: { text: 'Đã duyệt', status: 'Success' },
+    //     inactive: { text: 'Đã từ chối', status: 'Error' },
+    //   },
+    //   width: '20%',
+    // },
     {
-      title: 'Action',
+      title: 'Hành động', 
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -84,19 +89,37 @@ const News = () => {
                 onClick={() => handleEditNewsForm(record)}
               ></Button>
             </div>
+          </div>
+        );
+      },
+      width: '30%',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'action',
+      search: false,
+      render: (_, record) => {
+        return (
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <div
               style={{
                 width: '50%',
               }}
             >
-              <Button
-                key="deleteNews"
-                type="danger"
-                size="middle"
-                block="true"
-                icon={<DeleteOutlined />}
-                onClick={() => handleOkDeleteNews(record)}
-              ></Button>
+              <Switch
+                checkedChildren={<CheckOutlined />}
+                unCheckedChildren={<CloseOutlined />}
+                defaultChecked
+                onChange={() => handleOkDeleteNews(record)}
+              />
+             
             </div>
           </div>
         );

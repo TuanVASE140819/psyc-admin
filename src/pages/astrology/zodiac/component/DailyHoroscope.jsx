@@ -9,7 +9,8 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
-import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented } from '@ant-design/pro-form';
+import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented, ProFormDigitRange
+} from '@ant-design/pro-form';
 import { UploadOutlined } from '@ant-design/icons';
 import 'moment/locale/vi'; 
 import vi from "date-fns/locale/vi";
@@ -43,6 +44,62 @@ const formEditFields = [
     requiredField: 'true',
   },
   {
+    fieldType: 'formText',
+    key: 'goodTime',
+    label: 'Thời gian tốt',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'goodTime',
+  },
+  {
+    fieldType: 'formText',
+    key: 'luckyNumber',
+    label: 'Số may mắn',
+    min: 0,
+    max: 99,
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'luckyNumber',
+    requiredField: 'true',
+  },
+
+  {
+    fieldType: 'formText',
+    key: 'shouldNotThing',
+    label: 'Không nên làm',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'shouldNotThing',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formText',
+    key: 'shouldThing',
+    label: 'Nên làm',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'shouldThing',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formText',
+    key: 'job',
+    label: 'Công việc',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'job',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formDatePicker',
+    key: 'date',
+    label: 'Ngày',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'date',
+    requiredField: 'true'
+  },
+  {
     fieldType: 'formInputFileImg',
     key: 'imageUrl',
     label: 'Hình ảnh',
@@ -56,7 +113,22 @@ const formEditFields = [
     ruleMessage: 'Upload image before submit',
   },
 ];
-
+const buttonSubmitter = [
+  {
+    key: 'clearFieldFormDailyHoroscope',
+    type: 'default',
+    click: 'reset',
+    name: 'Reset',
+    loading: false,
+  },
+  {
+    key: 'submitFormDailyHoroscope',
+    type: 'primary',
+    click: 'submit',
+    name: 'Submit',
+    loading: false,
+  },
+];
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState(moment().locale('vi'));
@@ -65,6 +137,8 @@ export default function DailyHoroscope({ zodiac }) {
   const [selectedDate, setSelectedDate] = useState();
   const formEditRef = useRef();
   const [image, setImage] = useState();
+
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -146,7 +220,7 @@ export default function DailyHoroscope({ zodiac }) {
       <Divider />
       {/* upload exel file */}
       {/* /api/DailyHoroscopes/CreateExcel */}
-      <ProFormUploadButton
+      {/* <ProFormUploadButton
         label="Tải lên file excel"
         title="Tải lên file excel"
         name="file"
@@ -173,7 +247,7 @@ export default function DailyHoroscope({ zodiac }) {
           }
           console.log(res);
         }}
-      />
+      /> */}
       {loading ? (
         <Skeleton />
       ) : (
@@ -199,7 +273,7 @@ export default function DailyHoroscope({ zodiac }) {
       <ModalForm
         showModal={modal}
         titleModal={`Chỉnh sửa ngày ${moment(selectedDate?.date).date()}`}
-        widthModal="900"
+        widthModal="800px"
         handleCancelModel={hideModal}
         formRef={formEditRef}
         // buttonSubmitter={buttonSubmitterHouse}

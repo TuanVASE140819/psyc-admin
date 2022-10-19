@@ -456,7 +456,7 @@ const Profile = (props) => {
   const handleSubmitFormProfile = async (values) => {
     setButtonLoading(true);
     // TODO:
-    const tempDOB = dayjs(values.dob).format('YYYY-MM-DD');
+    const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
     const latitude = `${values.latitude}`;
     const longitude = `${values.longitude}`;
     const data = { ...values, dob: tempDOB, latitude, longitude };
