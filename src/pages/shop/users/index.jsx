@@ -90,6 +90,7 @@ const User = () => {
         );
       },
     },
+    
   ];
 
   const buttonSubmitter = [
@@ -333,12 +334,12 @@ const User = () => {
     if (!isImage) {
       setLoadingUploadingImgFirebase(false);
       message.destroy();
-      message.error('You can only upload IMAGE file!');
+      message.error('Bạn chỉ có thể tải lên tệp IMAGE!');
       return isImage;
     }
     const isLt4M = file.size / 1024 / 1024 < 4;
     if (!isLt4M) {
-      message.error('Image must smaller than 4MB!');
+      message.error('Hình ảnh phải nhỏ hơn 4MB!');
       return isLt4M;
     }
     try {
@@ -351,7 +352,7 @@ const User = () => {
           ['imageUrl']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
-        message.success('Upload Image Success!');
+        message.success('Tải lên hình ảnh thành công!');
       }
     } catch (error) {
       onError(error);
@@ -400,7 +401,8 @@ const User = () => {
     //   }, {});
     //   dataEdit.id = userRecord.id;
     // TODO:
-    const tempDOB = dayjs(values.dob).format('YYYY-MM-DD');
+    const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
+    //
     await editUser({ ...values, id: userRecord.id, dob: tempDOB });
     setShowModel(false);
     // } else {

@@ -22,7 +22,7 @@ export default defineConfig({
   locale: {
     // default zh-CN
 
-    default: 'en-US',
+    default: 'vi-VN',
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
@@ -184,6 +184,48 @@ export default defineConfig({
           component: './404',
         },
       ],
+    },
+    {
+      path: '/transaction',
+      name: 'Giao dịch',
+      icon: 'dollar',
+      access: 'admin',
+      routes: [
+        {
+          path: '/transaction',
+          redirect: '/transaction/withdraw',
+        },
+        {
+          path: '/transaction/withdraw',
+          name: 'Rút tiền',
+          access: 'admin',
+          component: './transaction/withdraw',
+        },
+        {
+          path: '/transaction/recharge',
+          name: 'Nạp tiền',
+          access: 'admin',
+          component: './transaction/recharge',
+        },
+      ],
+    },
+    {
+      path: '/excel',
+      name: 'Excel',
+      icon: 'file-excel',
+      access: 'admin',
+      routes: [
+        {
+          path: '/excel',
+          redirect: '/excel/dailyHoroscopes',
+        },
+        {
+          path: '/excel/dailyHoroscopes',
+          name: 'Tử vi hàng ngày',
+          access: 'admin',
+          component: './excel/dailyHoroscopes',
+        }
+        ]
     },
     {
       path: '/',

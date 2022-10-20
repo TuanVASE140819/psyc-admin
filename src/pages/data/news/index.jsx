@@ -1,5 +1,6 @@
 import { uploadFile } from '@/utils/uploadFile';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined, CheckOutlined,CloseOutlined} from '@ant-design/icons';
+import { Switch } from 'antd';
 import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
 import { addNews, getNews, deleteNews, updateNews, getAnNews } from '@/services/news';
@@ -31,42 +32,36 @@ const News = () => {
           },
         ],
       },
-      width: '30%',
+      width: '50%',
     },
     {
       title: 'Ngày Tạo',
-      dataIndex: 'createDay',
-      valueType: 'tag',
+      dataIndex: 'createDay', // ở đây là tên trường trong database
+      valueType: 'dateTime',
+      sorter: (a, b) => a.createdAt - b.createdAt,
       search: false,
-      sorter: (a, b) => a.tag.localeCompare(b.tag),
-      // render: (_, record) => (
-      //   <Space>
-      //     {record?.tag?.split('-').map((item, index) => {
-      //       if (index % 2 === 0 && index <= 5) {
-      //         return <Tag color="blue">{item}</Tag>;
-      //       }
-      //       if (index % 2 !== 0 && index <= 5) {
-      //         return <Tag color="green">{item}</Tag>;
-      //       }
-      //       return <Tag color="pink">{item}</Tag>;
-      //     })}
-      //   </Space>
-      // ),
-      width: '30%',
-    },
-    {
-      title: 'trạng thái',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: {
-        null: { text: 'Đang chờ', status: 'Default' },
-        active: { text: 'Đã duyệt', status: 'Success' },
-        inactive: { text: 'Đã từ chối', status: 'Error' },
+      width: '10%',
+      format: 'DD/MM/YYYY', // định dạng ngày tháng
+      // cắt chuỗi 00:00:00
+      render: (_, record) => {
+        return record.createDay.slice(0, 10);
       },
-      width: '20%',
+      // ),
+      width: '10%',
     },
+    // {
+    //   title: 'trạng thái',
+    //   dataIndex: 'status',
+    //   valueType: 'select',
+    //   valueEnum: {
+    //     null: { text: 'Đang chờ', status: 'Default' },
+    //     active: { text: 'Đã duyệt', status: 'Success' },
+    //     inactive: { text: 'Đã từ chối', status: 'Error' },
+    //   },
+    //   width: '20%',
+    // },
     {
-      title: 'Action',
+      title: 'Hành động', 
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -94,19 +89,37 @@ const News = () => {
                 onClick={() => handleEditNewsForm(record)}
               ></Button>
             </div>
+          </div>
+        );
+      },
+      width: '30%',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'action',
+      search: false,
+      render: (_, record) => {
+        return (
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <div
               style={{
                 width: '50%',
               }}
             >
-              <Button
-                key="deleteNews"
-                type="danger"
-                size="middle"
-                block="true"
-                icon={<DeleteOutlined />}
-                onClick={() => handleOkDeleteNews(record)}
-              ></Button>
+              <Switch
+                checkedChildren={<CheckOutlined />}
+                unCheckedChildren={<CloseOutlined />}
+                defaultChecked
+                onChange={() => handleOkDeleteNews(record)}
+              />
+             
             </div>
           </div>
         );
@@ -143,16 +156,16 @@ const News = () => {
       requiredField: 'true',
       ruleMessage: 'Input News Title before submit',
     },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddNewsTag',
-      label: 'News Tag',
-      width: 'lg',
-      placeholder: 'Enter News Tag',
-      name: 'tag',
-      requiredField: 'true',
-      ruleMessage: 'Input News Tag before submit',
-    },
+    // {
+    //   fieldType: 'formText',
+    //   key: 'fieldAddNewsTag',
+    //   label: 'News Tag',
+    //   width: 'lg',
+    //   placeholder: 'Enter News Tag',
+    //   name: 'tag',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Input News Tag before submit',
+    // },
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
@@ -320,12 +333,12 @@ const News = () => {
     if (!isImage) {
       setLoadingUploadingImgFirebase(false);
       message.destroy();
-      message.error('You can only upload IMAGE file!');
+      message.error('Bạn chỉ có thể tải lên tệp IMAGE!');
       return isImage;
     }
     const isLt4M = file.size / 1024 / 1024 < 4;
     if (!isLt4M) {
-      message.error('Image must smaller than 4MB!');
+      message.error('Hình ảnh phải nhỏ hơn 4MB!');
       return isLt4M;
     }
     try {
@@ -338,7 +351,7 @@ const News = () => {
           ['urlBanner']: imgLink,
         });
         setLoadingUploadingImgFirebase(false);
-        message.success('Upload Image Success!');
+        message.success('Tải lên hình ảnh thành công!');
       }
     } catch (error) {
       onError(error);
@@ -380,7 +393,7 @@ const News = () => {
     console.log(values);
     // setButtonLoading(true);
     // setStateEditor(values.htmlContent);
-    // if (values.edit) {
+    if (values.edit) {
     //   const newValues = Object.assign({}, values);
     //   const attr = 'edit';
     //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
@@ -391,11 +404,11 @@ const News = () => {
     //   }, {});
     await updateNews({ ...values, id: newsRecord.id });
     setShowModal(false);
-    // } else {
-    //   await addNews(values);
-    //   handleResetForm();
-    //   setStateEditor(null);
-    // }
+    } else {
+      await addNews(values);
+      handleResetForm();
+      setShowModal(false);
+    }
     tableNewsRef?.current?.reload();
     // setButtonLoading(false);
   };
@@ -553,7 +566,7 @@ const News = () => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Add New News"
+          titleModal="Thêm tin tức"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formNewsRef}

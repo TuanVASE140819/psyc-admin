@@ -9,6 +9,8 @@ export const getProfiles = async (customerId) => {
     .get('/api/Profiles/getbyidcustomer', {
       params: {
         id: customerId,
+        page:5,
+        pageSize:10
       },
     })
     .then((response) => {

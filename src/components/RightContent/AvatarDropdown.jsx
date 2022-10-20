@@ -73,7 +73,7 @@ const AvatarDropdown = ({ menu }) => {
 
       <Menu.Item key="logout">
         <LogoutOutlined />
-        Logout
+        Đăng xuất
       </Menu.Item>
     </Menu>
   );

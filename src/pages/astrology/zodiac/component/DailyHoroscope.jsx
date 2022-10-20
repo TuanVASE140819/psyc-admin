@@ -9,8 +9,12 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
-import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented } from '@ant-design/pro-form';
+import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented, ProFormDigitRange
+} from '@ant-design/pro-form';
 import { UploadOutlined } from '@ant-design/icons';
+import 'moment/locale/vi'; 
+import vi from "date-fns/locale/vi";
+
 const formEditFields = [
   {
     fieldType: 'formText',
@@ -40,6 +44,62 @@ const formEditFields = [
     requiredField: 'true',
   },
   {
+    fieldType: 'formText',
+    key: 'goodTime',
+    label: 'Thời gian tốt',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'goodTime',
+  },
+  {
+    fieldType: 'formText',
+    key: 'luckyNumber',
+    label: 'Số may mắn',
+    min: 0,
+    max: 99,
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'luckyNumber',
+    requiredField: 'true',
+  },
+
+  {
+    fieldType: 'formText',
+    key: 'shouldNotThing',
+    label: 'Không nên làm',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'shouldNotThing',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formText',
+    key: 'shouldThing',
+    label: 'Nên làm',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'shouldThing',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formText',
+    key: 'job',
+    label: 'Công việc',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'job',
+    requiredField: 'true'
+  },
+  {
+    fieldType: 'formDatePicker',
+    key: 'date',
+    label: 'Ngày',
+    width: 'lg',
+    placeholder: 'Vui lòng nhập trường này',
+    name: 'date',
+    requiredField: 'true'
+  },
+  {
     fieldType: 'formInputFileImg',
     key: 'imageUrl',
     label: 'Hình ảnh',
@@ -53,15 +113,32 @@ const formEditFields = [
     ruleMessage: 'Upload image before submit',
   },
 ];
-
+const buttonSubmitter = [
+  {
+    key: 'clearFieldFormDailyHoroscope',
+    type: 'default',
+    click: 'reset',
+    name: 'Reset',
+    loading: false,
+  },
+  {
+    key: 'submitFormDailyHoroscope',
+    type: 'primary',
+    click: 'submit',
+    name: 'Submit',
+    loading: false,
+  },
+];
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
-  const [month, setMonth] = useState(moment());
+  const [month, setMonth] = useState(moment().locale('vi'));
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
   const formEditRef = useRef();
   const [image, setImage] = useState();
+
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -103,12 +180,12 @@ export default function DailyHoroscope({ zodiac }) {
     const isImage = file.type.indexOf('image/') === 0;
     if (!isImage) {
       message.destroy();
-      message.error('You can only upload IMAGE file!');
+      message.error('Bạn chỉ có thể tải lên tệp IMAGE!');
       return isImage;
     }
     const isLt4M = file.size / 1024 / 1024 < 4;
     if (!isLt4M) {
-      message.error('Image must smaller than 4MB!');
+      message.error('Hình ảnh phải nhỏ hơn 4MB!');
       return isLt4M;
     }
     try {
@@ -120,7 +197,7 @@ export default function DailyHoroscope({ zodiac }) {
         formEditRef?.current?.setFieldsValue({
           imageUrl: imgLink,
         });
-        message.success('Upload Image Success!');
+        message.success('Tải lên hình ảnh thành công!');
       }
     } catch (error) {
       onError(error);
@@ -132,39 +209,45 @@ export default function DailyHoroscope({ zodiac }) {
   return (
     <>
       <DatePicker
-        value={month}
-        onChange={setMonth}
-        picker="month"
         // change laguage month from english to vietnamese
+        locale={vi} 
+        
+        picker="month"
+        value={month}
+        onChange={(date) => setMonth(date)} // change month
+
       />
       <Divider />
       {/* upload exel file */}
-      <ProFormUploadButton
-        title="Tải tệp excel lên"
+      {/* /api/DailyHoroscopes/CreateExcel */}
+      {/* <ProFormUploadButton
+        label="Tải lên file excel"
+        title="Tải lên file excel"
         name="file"
-        label="Tải tệp excel lên"
-        nameUpload="fileExcel"
-        api={uploadFileExcel}
+        action="https://psycteam.azurewebsites.net/api/DailyHoroscopes/CreateExcel"
         maxCount={1}
         fieldProps={{
           accept: '.xlsx, .xls',
         }}
-        onChange={async (info) => {
-          const { status } = info.file;
-          if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
+        beforeUpload={async (file) => {
+          const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          if (!isExcel) {
+            message.error('Bạn chỉ có thể tải lên tệp EXCEL!');
           }
-          if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-            const res = await uploadFileExcel(info.file.originFileObj);
-            if (res) {
-              message.success('Upload file excel success!');
-            }
-          } else if (status === 'error') {
-            mssage.error(`${info.file.name} file upload failed.`);
+          const isLt4M = file.size / 1024 / 1024 < 4;
+          if (!isLt4M) {
+            message.error('File phải nhỏ hơn 4MB!');
           }
+          message.loading({ content: 'Đang tải lên ...', key: 'loading' });
+          return isExcel && isLt4M;
         }}
-      />
+        onSuccess={(res) => {
+          if (res) {
+            message.success('Tải lên file excel thành công!');
+          }
+          console.log(res);
+        }}
+      /> */}
       {loading ? (
         <Skeleton />
       ) : (
@@ -190,7 +273,7 @@ export default function DailyHoroscope({ zodiac }) {
       <ModalForm
         showModal={modal}
         titleModal={`Chỉnh sửa ngày ${moment(selectedDate?.date).date()}`}
-        widthModal="900"
+        widthModal="800px"
         handleCancelModel={hideModal}
         formRef={formEditRef}
         // buttonSubmitter={buttonSubmitterHouse}

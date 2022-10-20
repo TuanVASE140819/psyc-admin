@@ -51,16 +51,6 @@ const ZodiacHouse = (props) => {
   ];
 
   const formFieldEdit = [
-    // {
-    //   fieldType: 'formSelect',
-    //   key: 'selectHouseId',
-    //   name: 'houseId',
-    //   // label: 'House',
-    //   // placeholder: 'Select House',
-    //   requiredField: 'true',
-    //   ruleMessage: 'Please select House',
-    //   valueEnum: [],
-    // },
     {
       fieldType: 'EditorMainContent',
       nameTextArea: 'description',
@@ -198,12 +188,12 @@ const ZodiacHouse = (props) => {
       formZodiacHouseRef?.current?.resetFields();
     }
   };
-
   const handleResetForm = () => {
     formZodiacHouseRef?.current?.resetFields();
     setStateEditor(null);
     editorRef?.current?.getEditor().setContents([{ insert: '\n' }]);
   };
+
   //xuli mo form edit zodiac House
   const handleEditZodiacHouseForm = async (record) => {
     if (modalViewDetail) {
@@ -230,19 +220,6 @@ const ZodiacHouse = (props) => {
 
   //handle submit form
   const handleSubmitFormZodiacHouse = async (values) => {
-    // setStateEditor(values.content);
-    // values.zodiacId = zodiac?.id;
-    // values.id = zodiacHouseRecord?.id;
-    // if (values.edit) {
-    //   const idZodiacHouse = zodiacHouseRecord.id;
-    //   const newValues = Object.assign({}, values);
-    //   const attr = 'edit';
-    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-    //     if (key !== attr) {
-    //       item[key] = newValues[key];
-    //     }
-    //     return item;
-    //   }, {});
     try {
       console.log(zodiacHouseRecord);
       setButtonLoading(true);
@@ -259,11 +236,6 @@ const ZodiacHouse = (props) => {
     } finally {
       setButtonLoading(false);
     }
-    // } else {
-    //   await addZodiacHouse(zodiac?.name, zodiac?.id, values);
-    //   handleResetForm();
-    //   setStateEditor(null);
-    // }
   };
 
   const handleChangeStateEditor = (content) => {

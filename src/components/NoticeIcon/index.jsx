@@ -9,6 +9,8 @@ import styles from './index.less';
 import 'moment/locale/vi';
 
 const getNoticeData = (notices) => {
+  
+
   if (!notices || notices.length === 0 || !Array.isArray(notices)) {
     return {};
   }
@@ -64,8 +66,12 @@ const getUnreadData = (noticeData) => {
   });
   return unreadMsg;
 };
+//loop set timeout for notification
+
+
 
 const NoticeIconView = () => {
+  const timer = ms => new Promise(res => setTimeout(res, ms));
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   const [notices, setNotices] = useState([]);
@@ -107,11 +113,11 @@ const NoticeIconView = () => {
   };
 
   return (
-    <NoticeIcon
-        
+    <>
+      <NoticeIcon 
       className={styles.action}
+      // set timeout 1000 s for variable coun
       count={unreadMsg&&Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
-      // var count = {unreadMsg.booked + unreadMsg.recharge + unreadMsg.withdrawal}
       onItemClick={(item) => {
         changeReadState(item.id);
       }}
@@ -146,7 +152,10 @@ const NoticeIconView = () => {
         list={noticeData.withdraw}
         showViewMore
       />
+   
     </NoticeIcon>
+    </>
+  
   );
 };
 

@@ -89,7 +89,32 @@ const getNotices = (req, res) => {
         extra: "Thành công",
         status: "doing",
         type: "withdraw"
-      }
+      },
+      {
+        id: "000000011",
+        title: "CG:Tasbisan Rút 200.000 về tài khoản",
+        description: "2022-01-12 20:00",
+        extra: "Thành công",
+        status: "doing",
+        type: "withdraw"
+      },
+      {
+        id: "000000011",
+        title: "CG:Tasbisan Rút 200.000 về tài khoản",
+        description: "2022-01-12 20:00",
+        extra: "Thành công",
+        status: "doing",
+        type: "withdraw"
+      },
+      {
+        id: "000000011",
+        title: "CG:Tasbisan Rút 200.000 về tài khoản",
+        description: "2022-01-12 20:00",
+        extra: "Thành công",
+        status: "doing",
+        type: "withdraw"
+      },
+      
     ],
   });
 };

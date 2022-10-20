@@ -65,14 +65,14 @@ const DetailPlanet = (props) => {
             <PlanetDetail planet={planet} handleTriggerLoadPlanet={handleTriggerLoadPlanet} />
           </TabPane>
           <TabPane tab="Hành tinh & Cung" key="2">
-            <PlanetZodiac planet={planet} />
+            <PlanetZodiac planet={planet} handleTriggerLoadPlanet={handleTriggerLoadPlanet} />
           </TabPane>
           <TabPane tab="Hành tinh & Nhà" key={3}>
             <PlanetHouse planet={planet} />
           </TabPane>
-          <TabPane tab="Aspect" key={4}>
+          {/* <TabPane tab="Aspect" key={4}>
             <Aspect planet={planet} />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </Content>
     </>
