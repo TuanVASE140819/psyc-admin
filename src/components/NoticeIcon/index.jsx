@@ -10,7 +10,6 @@ import 'moment/locale/vi';
 
 const getNoticeData = (notices) => {
   // list notification with status "seen"
-  console.log('LIST API', notices);
   if (!notices || notices.length === 0 || !Array.isArray(notices)) {
     return {};
   }
