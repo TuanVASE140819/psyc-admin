@@ -84,7 +84,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "tar-pack": "^3.4.1",
-    "umi": "^3.5.0",
+    "umi": "^3.5.35",
     "umi-request": "^1.0.8"
   },
   "devDependencies": {
