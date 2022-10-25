@@ -26,9 +26,6 @@ const getNoticeData = (notices) => {
     if (newNotice.id) {
       newNotice.key = newNotice.id;
     }
-
-    console.log('NEW NOTICE', newNotice.status);
-
     return newNotice;
   });
   return groupBy(newNotices, 'type');
@@ -97,6 +94,14 @@ const NoticeIconView = () => {
         count={unreadMsg && Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
         onItemClick={(item) => {
           changeReadState(item.id);
+          // nếu tyle là deposit thì chuyển hướng đến trang nạp tiền
+          if (item.type === 'deposit') {
+            window.location.href = '/transaction/deposits';
+          }
+          // nếu tyle là withdraw thì chuyển hướng đến trang rút tiền
+          if (item.type === 'withdraw') {
+            window.location.href = '/transaction/withdraw';
+          }
         }}
         onClear={(title, key) => clearReadState(title, key)}
         loading={false}
