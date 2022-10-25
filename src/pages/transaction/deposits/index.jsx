@@ -1,139 +1,173 @@
 import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Menu, Space, Tag } from 'antd';
+import { Button, Dropdown, Menu, message, Space, Tag } from 'antd';
 import { useRef } from 'react';
 import request from 'umi-request';
+
 const columns = [
   {
-    dataIndex: 'index',
-    valueType: 'indexBorder',
+    title: 'STT',
+    dataIndex: 'id',
+    valueType: 'index',
     width: 48,
   },
   {
-    title: '标题',
-    dataIndex: 'title',
+    title: 'Mã giao dịch',
+    dataIndex: 'code',
+    valueType: 'text',
+    sorter: (a, b) => a.code - b.code,
     copyable: true,
     ellipsis: true,
-    tip: '标题过长会自动收缩',
+    tip: 'Mã giao dịch là ID duy nhất của giao dịch',
     formItemProps: {
       rules: [
         {
           required: true,
-          message: '此项为必填项',
+          message: 'Mã giao dịch là bắt buộc',
+        },
+      ],
+    },
+  },
+
+  {
+    title: 'Tên khách hàng',
+    dataIndex: 'customerName',
+    valueType: 'text',
+    search: false,
+    sorter: (a, b) => a.customerName - b.customerName,
+    tip: 'Tên khách hàng',
+    formItemProps: {
+      rules: [
+        {
+          required: false,
+          message: 'Tên khách hàng là bắt buộc',
         },
       ],
     },
   },
   {
-    disable: true,
-    title: '状态',
-    dataIndex: 'state',
-    filters: true,
-    onFilter: true,
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '超长'.repeat(50) },
-      open: {
-        text: '未解决',
-        status: 'Error',
-      },
-      closed: {
-        text: '已解决',
-        status: 'Success',
-        disabled: true,
-      },
-      processing: {
-        text: '解决中',
-        status: 'Processing',
-      },
-    },
-  },
-  {
-    disable: true,
-    title: '标签',
-    dataIndex: 'labels',
+    title: 'Số tiền (VNĐ)',
+    dataIndex: 'amount',
     search: false,
-    renderFormItem: (_, { defaultRender }) => {
-      return defaultRender(_);
+    valueType: 'text',
+    sorter: (a, b) => a.amount - b.amount,
+
+    render: (dom, entity) => {
+      return (
+        <Tag color="green">
+          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+          {entity.amount < 999 && entity.amount < 0
+            ? entity.amount
+            : entity.amount < 0
+            ? entity.amount
+            : entity.amount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+        </Tag>
+      );
     },
-    render: (_, record) => (
-      <Space>
-        {record.labels.map(({ name, color }) => (
-          <Tag color={color} key={name}>
-            {name}
-          </Tag>
-        ))}
-      </Space>
-    ),
+  },
+  // render: (dom, entity) => {
+  {
+    title: 'Trạng thái',
+    dataIndex: 'status',
+    search: false,
+    valueType: 'text',
+    render: (dom, entity) => {
+      if (entity.status === 'waiting') {
+        return <Tag color="warning">Đang chờ</Tag>;
+      }
+
+      if (entity.status === 'success') {
+        return <Tag color="success">Chấp nhận</Tag>;
+      }
+
+      if (entity.status === 'fail') {
+        return <Tag color="error">Từ chối</Tag>;
+      }
+    },
   },
   {
-    title: '创建时间',
-    key: 'showTime',
-    dataIndex: 'created_at',
-    valueType: 'date',
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'created_at',
-    valueType: 'dateRange',
-    hideInTable: true,
-    search: {
-      transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
+    title: 'Thời gian',
+    dataIndex: 'dateCreate',
+    valueType: 'text',
+    search: true,
+    sorter: (a, b) => a.dateCreate - b.dateCreate,
+    // format 2022-10-23 (12:12:12)
+    render: (dom, entity) => {
+      if (entity.dateCreate) {
+        return (
+          entity.dateCreate.split('T')[0] +
+          ' (' +
+          entity.dateCreate.split('T')[1].split('.')[0] +
+          ')'
+        );
+      }
     },
   },
   {
     title: 'Hành động',
     valueType: 'option',
-    key: 'option',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Chi tiết</a>
-        <a>Chỉnh sửa</a>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="1">1st menu item</Menu.Item>
-              <Menu.Item key="2">2nd menu item</Menu.Item>
-              <Menu.Item key="3">3rd item</Menu.Item>
-            </Menu>
-          }
-        >
-          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-            Thêm hành động <EllipsisOutlined />
-          </a>
-        </Dropdown>
-      </Space>
-    ),
+    render: (dom, entity) => {
+      return (
+        // Nếu trạng thái là đang chờ thì hiện thị 2 nút chấp nhận và từ chối giao dịch nếu không thì không hiện thị
+        entity.status === 'waiting' && (
+          <Space>
+            <Button
+              // màu xanh lá cây
+              type="primary"
+              onClick={() => {
+                acceptDeposit(entity.id);
+                // sau 4 s thì reload lại trang
+                setTimeout(() => {
+                  window.location.reload();
+                  message.success('Chấp nhận giao dịch thành công');
+                }, 4000);
+              }}
+            >
+              Chấp nhận
+            </Button>
+            <Button
+              onClick={() => {
+                rejectDeposit(entity.id);
+                setTimeout(() => {
+                  window.location.reload();
+                  message.success('Chấp nhận giao dịch thành công');
+                }, 4000);
+              }}
+            >
+              Từ chối
+            </Button>
+          </Space>
+        )
+      );
+    },
   },
 ];
-const menu = (
-  <Menu
-    items={[
-      {
-        label: '1st item',
-        key: '1',
-      },
-      {
-        label: '2nd item',
-        key: '1',
-      },
-      {
-        label: '3rd item',
-        key: '1',
-      },
-    ]}
-  />
-);
+
+// https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=1
+const acceptDeposit = async (id) => {
+  const res = await request(
+    `https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=${id}`,
+    {
+      method: 'PUT',
+    },
+  );
+  return res;
+};
+
+//https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=1
+const rejectDeposit = async (id) => {
+  const res = await request(
+    `https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=${id}`,
+    {
+      method: 'PUT',
+    },
+  );
+  return res;
+};
+
 export default () => {
   const actionRef = useRef();
+
   return (
     <ProTable
       columns={columns}
@@ -141,8 +175,13 @@ export default () => {
       cardBordered
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter);
-        return request('https://proapi.azurewebsites.net/github/issues', {
-          params,
+        //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
+        https: return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
+          params: {
+            ...params,
+            pageSize: params.pageSize,
+            pageNumber: params.current,
+          },
         });
       }}
       editable={{
@@ -176,11 +215,16 @@ export default () => {
         },
       }}
       pagination={{
-        pageSize: 10,
-        onChange: (page) => console.log(page),
+        //phân trang theo api trả về
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '20', '30', '40', '50'],
+        defaultPageSize: 10,
+        defaultCurrent: 1,
+        total: 100,
+        showTotal: (total, range) => `Hiển thị ${range[0]}-${range[1]} của ${total} kết quả`,
       }}
       dateFormatter="string"
-      headerTitle="高级表格"
+      headerTitle="Danh sách giao dịch nạp tiền"
       toolBarRender={() => []}
     />
   );

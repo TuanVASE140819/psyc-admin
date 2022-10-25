@@ -24,6 +24,7 @@ const House = () => {
       sorter: (a, b) => a.name.localeCompare(b.name),
       filters: true,
       onFilter: true,
+      search: false,
       formItemProps: {
         rules: [
           {
