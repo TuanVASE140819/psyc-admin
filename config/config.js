@@ -193,19 +193,19 @@ export default defineConfig({
       routes: [
         {
           path: '/transaction',
-          redirect: '/transaction/withdraw',
+          redirect: '/transaction/deposits',
         },
+        // {
+        //   path: '/transaction/withdraw',
+        //   name: 'Rút tiền',
+        //   access: 'admin',
+        //   component: './transaction/withdraw',
+        // },
         {
-          path: '/transaction/withdraw',
-          name: 'Rút tiền',
-          access: 'admin',
-          component: './transaction/withdraw',
-        },
-        {
-          path: '/transaction/recharge',
+          path: '/transaction/deposits',
           name: 'Nạp tiền',
           access: 'admin',
-          component: './transaction/recharge',
+          component: './transaction/deposits',
         },
       ],
     },
@@ -224,8 +224,8 @@ export default defineConfig({
           name: 'Tử vi hàng ngày',
           access: 'admin',
           component: './excel/dailyHoroscopes',
-        }
-        ]
+        },
+      ],
     },
     {
       path: '/',

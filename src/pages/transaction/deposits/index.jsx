@@ -10,31 +10,48 @@ const columns = [
     width: 48,
   },
   {
-    title: 'Mã giao dịch',
+    title: '标题',
     dataIndex: 'title',
     copyable: true,
     ellipsis: true,
-    tip: 'Mã giao dịch là ID duy nhất của giao dịch',
+    tip: '标题过长会自动收缩',
     formItemProps: {
       rules: [
         {
           required: true,
-          message: 'Mã giao dịch là bắt buộc',
+          message: '此项为必填项',
         },
       ],
     },
   },
   {
     disable: true,
-    title: 'Số tiền',
+    title: '状态',
     dataIndex: 'state',
     filters: true,
     onFilter: true,
+    ellipsis: true,
     valueType: 'select',
+    valueEnum: {
+      all: { text: '超长'.repeat(50) },
+      open: {
+        text: '未解决',
+        status: 'Error',
+      },
+      closed: {
+        text: '已解决',
+        status: 'Success',
+        disabled: true,
+      },
+      processing: {
+        text: '解决中',
+        status: 'Processing',
+      },
+    },
   },
   {
     disable: true,
-    title: 'Quy đổi (VNĐ)- Đá (Gen)',
+    title: '标签',
     dataIndex: 'labels',
     search: false,
     renderFormItem: (_, { defaultRender }) => {
@@ -51,7 +68,7 @@ const columns = [
     ),
   },
   {
-    title: 'Thời gian giao dịch',
+    title: '创建时间',
     key: 'showTime',
     dataIndex: 'created_at',
     valueType: 'date',
@@ -59,7 +76,7 @@ const columns = [
     hideInSearch: true,
   },
   {
-    title: 'Khoảng thời gian',
+    title: '创建时间',
     dataIndex: 'created_at',
     valueType: 'dateRange',
     hideInTable: true,
@@ -73,25 +90,48 @@ const columns = [
     },
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    hideInSearch: true,
-    valueEnum: {
-      0: {
-        text: 'Thành công',
-        status: 'Success',
-      },
-      1: {
-        text: 'Thất bại',
-        status: 'Error',
-      },
-      2: {
-        text: 'Đang xử lý',
-        status: 'Processing',
-      },
-    },
+    title: 'Hành động',
+    valueType: 'option',
+    key: 'option',
+    render: (_, record) => (
+      <Space size="middle">
+        <a>Chi tiết</a>
+        <a>Chỉnh sửa</a>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="1">1st menu item</Menu.Item>
+              <Menu.Item key="2">2nd menu item</Menu.Item>
+              <Menu.Item key="3">3rd item</Menu.Item>
+            </Menu>
+          }
+        >
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            Thêm hành động <EllipsisOutlined />
+          </a>
+        </Dropdown>
+      </Space>
+    ),
   },
 ];
+const menu = (
+  <Menu
+    items={[
+      {
+        label: '1st item',
+        key: '1',
+      },
+      {
+        label: '2nd item',
+        key: '1',
+      },
+      {
+        label: '3rd item',
+        key: '1',
+      },
+    ]}
+  />
+);
 export default () => {
   const actionRef = useRef();
   return (
@@ -140,7 +180,7 @@ export default () => {
         onChange: (page) => console.log(page),
       }}
       dateFormatter="string"
-      headerTitle="Danh sách giao dịch nạp tiền"
+      headerTitle="高级表格"
       toolBarRender={() => []}
     />
   );

@@ -47,8 +47,16 @@ export async function login(body, options) {
 /** 此处后端没有提供注释 GET /api/notices */
 
 export async function getNotices(options) {
-  return request('/api/notices', {
+  return request('https://psycteam.azurewebsites.net/api/Notifications/getnotificationbyadmin', {
     method: 'GET',
+    ...(options || {}),
+  });
+}
+
+// /api/Notifications/seennoti?id=1
+export async function seenNoti(id, options) {
+  return request(`https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
+    method: 'PUT',
     ...(options || {}),
   });
 }

@@ -9,11 +9,15 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
-import { ProFormUploadButton, ProFormUploadDragger, ProFormSegmented, ProFormDigitRange
+import {
+  ProFormUploadButton,
+  ProFormUploadDragger,
+  ProFormSegmented,
+  ProFormDigitRange,
 } from '@ant-design/pro-form';
 import { UploadOutlined } from '@ant-design/icons';
-import 'moment/locale/vi'; 
-import vi from "date-fns/locale/vi";
+import 'moment/locale/vi';
+import vi from 'date-fns/locale/vi';
 
 const formEditFields = [
   {
@@ -70,7 +74,7 @@ const formEditFields = [
     width: 'lg',
     placeholder: 'Vui lòng nhập trường này',
     name: 'shouldNotThing',
-    requiredField: 'true'
+    requiredField: 'true',
   },
   {
     fieldType: 'formText',
@@ -79,7 +83,7 @@ const formEditFields = [
     width: 'lg',
     placeholder: 'Vui lòng nhập trường này',
     name: 'shouldThing',
-    requiredField: 'true'
+    requiredField: 'true',
   },
   {
     fieldType: 'formText',
@@ -88,7 +92,7 @@ const formEditFields = [
     width: 'lg',
     placeholder: 'Vui lòng nhập trường này',
     name: 'job',
-    requiredField: 'true'
+    requiredField: 'true',
   },
   {
     fieldType: 'formDatePicker',
@@ -97,7 +101,7 @@ const formEditFields = [
     width: 'lg',
     placeholder: 'Vui lòng nhập trường này',
     name: 'date',
-    requiredField: 'true'
+    requiredField: 'true',
   },
   {
     fieldType: 'formInputFileImg',
@@ -137,8 +141,6 @@ export default function DailyHoroscope({ zodiac }) {
   const [selectedDate, setSelectedDate] = useState();
   const formEditRef = useRef();
   const [image, setImage] = useState();
-
-  
 
   useEffect(() => {
     const getData = async () => {
@@ -210,15 +212,13 @@ export default function DailyHoroscope({ zodiac }) {
     <>
       <DatePicker
         // change laguage month from english to vietnamese
-        locale={vi} 
-        
+        locale={vi}
         picker="month"
         value={month}
         onChange={(date) => setMonth(date)} // change month
-
       />
       <Divider />
-      {/* upload exel file */}
+      upload exel file
       {/* /api/DailyHoroscopes/CreateExcel */}
       {/* <ProFormUploadButton
         label="Tải lên file excel"
@@ -230,7 +230,8 @@ export default function DailyHoroscope({ zodiac }) {
           accept: '.xlsx, .xls',
         }}
         beforeUpload={async (file) => {
-          const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          const isExcel =
+            file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
           if (!isExcel) {
             message.error('Bạn chỉ có thể tải lên tệp EXCEL!');
           }

@@ -1,5 +1,11 @@
 import { uploadFile } from '@/utils/uploadFile';
-import { DeleteOutlined, EditOutlined, PlusOutlined, CheckOutlined,CloseOutlined} from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
 import { Switch } from 'antd';
 import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
@@ -61,7 +67,7 @@ const News = () => {
     //   width: '20%',
     // },
     {
-      title: 'Hành động', 
+      title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -119,7 +125,6 @@ const News = () => {
                 defaultChecked
                 onChange={() => handleOkDeleteNews(record)}
               />
-             
             </div>
           </div>
         );
@@ -394,16 +399,16 @@ const News = () => {
     // setButtonLoading(true);
     // setStateEditor(values.htmlContent);
     if (values.edit) {
-    //   const newValues = Object.assign({}, values);
-    //   const attr = 'edit';
-    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-    //     if (key !== attr) {
-    //       item[key] = newValues[key];
-    //     }
-    //     return item;
-    //   }, {});
-    await updateNews({ ...values, id: newsRecord.id });
-    setShowModal(false);
+      //   const newValues = Object.assign({}, values);
+      //   const attr = 'edit';
+      //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+      //     if (key !== attr) {
+      //       item[key] = newValues[key];
+      //     }
+      //     return item;
+      //   }, {});
+      await updateNews({ ...values, id: newsRecord.id });
+      setShowModal(false);
     } else {
       await addNews(values);
       handleResetForm();

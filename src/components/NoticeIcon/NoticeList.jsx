@@ -2,6 +2,7 @@ import { Avatar, List } from 'antd';
 import React from 'react';
 import classNames from 'classnames';
 import styles from './NoticeList.less';
+import { seenNoti } from '@/services/ant-design-pro/api';
 
 const NoticeList = ({
   list = [],
@@ -50,6 +51,7 @@ const NoticeList = ({
               key={item.key || i}
               onClick={() => {
                 onClick?.(item);
+                seenNoti(item.id);
               }}
             >
               <List.Item.Meta
@@ -64,7 +66,10 @@ const NoticeList = ({
                 description={
                   <div>
                     <div className={styles.description}>{item.description}</div>
-                    <div className={styles.datetime}>{item.datetime}</div>
+                    <div className={styles.datetime}>{item.dateCreate}</div>
+                    <div className={styles.datetime}>
+                      {item.status === 'notseen' ? 'Chưa xem' : 'Đã xem'}
+                    </div>
                   </div>
                 }
               />
