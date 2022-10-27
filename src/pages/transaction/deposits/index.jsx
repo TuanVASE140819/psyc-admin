@@ -1,6 +1,6 @@
 import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Menu, message, Space, Tag } from 'antd';
+import { Button, Dropdown, Menu, message, Space, Tag, Modal } from 'antd';
 import { useRef } from 'react';
 import request from 'umi-request';
 
@@ -65,6 +65,28 @@ const columns = [
       );
     },
   },
+  {
+    title: 'Tài khoản nhận',
+    dataIndex: 'receiveAccountid',
+    valueType: 'text',
+    search: false,
+    sorter: (a, b) => a.accountNumber - b.accountNumber,
+    tip: 'Tài khoản nhận',
+    // nếu receiveAccountid = 1 thì hiện thị tài khoản 1
+    render: (dom, entity) => {
+      return <Tag color="green">{entity.receiveAccountid === 1 ? 'Tài khoản 1' : ''}</Tag>;
+    },
+
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: 'Tài khoản nhận là bắt buộc',
+        },
+      ],
+    },
+  },
+
   // render: (dom, entity) => {
   {
     title: 'Trạng thái',
@@ -88,7 +110,7 @@ const columns = [
   {
     title: 'Thời gian',
     dataIndex: 'dateCreate',
-    valueType: 'text',
+    valueType: 'date',
     search: true,
     sorter: (a, b) => a.dateCreate - b.dateCreate,
     // format 2022-10-23 (12:12:12)
@@ -110,28 +132,50 @@ const columns = [
       return (
         // Nếu trạng thái là đang chờ thì hiện thị 2 nút chấp nhận và từ chối giao dịch nếu không thì không hiện thị
         entity.status === 'waiting' && (
+          // neu status la waiting thi hien thi 2 nut chấp nhận và từ chối giao dịch
           <Space>
             <Button
               // màu xanh lá cây
               type="primary"
               onClick={() => {
-                acceptDeposit(entity.id);
-                // sau 4 s thì reload lại trang
-                setTimeout(() => {
-                  window.location.reload();
-                  message.success('Chấp nhận giao dịch thành công');
-                }, 4000);
+                // hiện thị modal xác nhận chấp nhận giao dịch
+                Modal.confirm({
+                  title: 'Xác nhận chấp nhận giao dịch',
+                  content: 'Bạn có chắc chắn chấp nhận giao dịch này không?',
+                  okText: 'Chấp nhận',
+                  cancelText: 'Hủy',
+                  onOk: () => {
+                    // nếu chấp nhận thì gọi hàm acceptDeposit
+                    acceptDeposit(entity.id);
+                    setTimeout(() => {
+                      window.location.reload();
+                      message.success('Chấp nhận giao dịch thành công');
+                    }, 4000);
+                  },
+                });
               }}
             >
               Chấp nhận
             </Button>
             <Button
+              // màu đỏ
+              type="danger"
               onClick={() => {
-                rejectDeposit(entity.id);
-                setTimeout(() => {
-                  window.location.reload();
-                  message.success('Chấp nhận giao dịch thành công');
-                }, 4000);
+                // hiện thị modal xác nhận từ chối giao dịch
+                Modal.confirm({
+                  title: 'Xác nhận từ chối giao dịch',
+                  content: 'Bạn có chắc chắn từ chối giao dịch này không?',
+                  okText: 'Từ chối',
+                  cancelText: 'Hủy',
+                  onOk: () => {
+                    // nếu từ chối thì gọi hàm rejectDeposit
+                    rejectDeposit(entity.id);
+                    setTimeout(() => {
+                      window.location.reload();
+                      message.success('Từ chối giao dịch thành công');
+                    }, 4000);
+                  },
+                });
               }}
             >
               Từ chối
@@ -178,7 +222,9 @@ export default () => {
         //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
         https: return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
           params: {
-            ...params,
+            code: params.code,
+            dateCreate: params.dateCreate,
+            walletid: params.walletid,
             pageSize: params.pageSize,
             pageNumber: params.current,
           },
@@ -196,6 +242,7 @@ export default () => {
       }}
       rowKey="id"
       search={{
+        // search code
         labelWidth: 'auto',
       }}
       options={{

@@ -52,6 +52,7 @@ const NoticeList = ({
               onClick={() => {
                 onClick?.(item);
                 seenNoti(item.id);
+                //sau khi  gọi hàm seenNoti thì mới chuyển trang
               }}
             >
               <List.Item.Meta

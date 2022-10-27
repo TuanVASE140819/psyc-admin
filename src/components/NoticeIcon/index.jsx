@@ -3,7 +3,7 @@ import { Tag, message } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel, useRequest } from 'umi';
-import { getNotices } from '@/services/ant-design-pro/api';
+import { getNotices, seenNoti } from '@/services/ant-design-pro/api';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import 'moment/locale/vi';
@@ -93,14 +93,6 @@ const NoticeIconView = () => {
         count={unreadMsg && Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
         onItemClick={(item) => {
           changeReadState(item.id);
-          // nếu tyle là deposit thì chuyển hướng đến trang nạp tiền
-          if (item.type === 'deposit') {
-            window.location.href = '/transaction/deposits';
-          }
-          // nếu tyle là withdraw thì chuyển hướng đến trang rút tiền
-          if (item.type === 'withdraw') {
-            window.location.href = '/transaction/withdraw';
-          }
         }}
         onClear={(title, key) => clearReadState(title, key)}
         loading={false}
