@@ -11,6 +11,7 @@ import ProForm, {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
+  ProFormTimePicker,
 } from '@ant-design/pro-form';
 import ProSkeleton from '@ant-design/pro-skeleton';
 import styles from './index.less';
@@ -251,6 +252,23 @@ const ModalForm = (props) => {
                 {item?.fieldType === 'datePicker' && (
                   <ProForm.Group>
                     <ProFormDateTimePicker
+                      key={item?.key}
+                      label={item?.label}
+                      width={item?.width}
+                      placeholder={item?.placeholder}
+                      name={item?.name}
+                      rules={[
+                        {
+                          required: item?.requiredField,
+                          message: item?.ruleMessage,
+                        },
+                      ]}
+                    />
+                  </ProForm.Group>
+                )}
+                {item?.fieldType === 'timePicker' && (
+                  <ProForm.Group>
+                    <ProFormTimePicker
                       key={item?.key}
                       label={item?.label}
                       width={item?.width}
