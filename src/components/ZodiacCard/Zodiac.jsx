@@ -22,7 +22,7 @@ const Zodiac = (props) => {
     <>
       {style ? (
         <Card
-          onClick={() => handleClickCardChild(zodiac)}
+          onClick={handleClickCardChild}
           bordered={true}
           style={{
             border: '1px solid #1890FF',
@@ -40,20 +40,6 @@ const Zodiac = (props) => {
                   }}
                   avatar={<Avatar src={zodiac.imageUrl} />}
                   title={zodiac.name}
-                />
-              </Col>
-              <Col
-                span={8}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  // type='primary'
-                  shape="circle"
-                  icon={<FileTextOutlined />}
-                  onClick={() => handleButtonViewChild(zodiac)}
                 />
               </Col>
             </Row>
@@ -80,20 +66,6 @@ const Zodiac = (props) => {
                   }}
                   avatar={<Avatar src={zodiac.imageUrl} />}
                   title={zodiac.name}
-                />
-              </Col>
-              <Col
-                span={8}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  // type='primary'
-                  shape="circle"
-                  icon={<FileTextOutlined />}
-                  onClick={() => handleButtonViewChild(zodiac)}
                 />
               </Col>
             </Row>

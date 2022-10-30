@@ -21,20 +21,30 @@ export const addPlanetZodiac = (planetName, planetId, body) => {
   });
 };
 
-export const updatePlanetZodiac = async (planetName, planetId, planetZodiacId, body) => {
-  return await request.put(`/api/v1/planets/${planetName}-${planetId}/zodiacs`, {
-    params: {
-      id: planetZodiacId,
-    },
-    data: body,
+export const updatePlanetZodiac = async (data) => {
+  return await request.put(`/api/ZodiacPlanets/update`, {
+    data,
   });
 };
 
-export const getAnPlanetZodiac = async (planetName, planetId, planetZodiacId) => {
+/**
+ *
+ * @param {{
+ *    zodiacid: number;
+ *    planetid: number;
+ * }} data
+ * @returns
+ */
+export const getAnPlanetZodiac = async (data) => {
   return await request
-    .get(`/api/v1/planets/${planetName}-${planetId}/zodiacs/${planetZodiacId}`)
+    .get('/api/ZodiacPlanets/getbyidzopla', {
+      params: data,
+    })
     .then((res) => {
-      return res;
+      if (res?.data?.length) {
+        return res.data[0];
+      }
+      return null;
     })
     .catch((error) => {
       console.log('errorGetAnPlanetZodiac', error);

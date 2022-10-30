@@ -56,18 +56,8 @@ const PlanetZodiac = (props) => {
 
   const formFieldEdit = [
     {
-      fieldType: 'formSelect',
-      key: 'selectZodiacId',
-      name: 'zodiacId',
-      label: 'Zodiac',
-      placeholder: 'Select Zodiac',
-      requiredField: 'true',
-      ruleMessage: 'Please select Zodiac',
-      valueEnum: [],
-    },
-    {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'content',
+      nameTextArea: 'description',
     },
     {
       fieldType: 'checkEdit',
@@ -220,33 +210,21 @@ const PlanetZodiac = (props) => {
 
   //handle submit form
   const handleSubmitFormPlanetZodiac = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.content);
-    values.planetId = planet.id;
-    if (values.edit) {
-      const idPlanetZodiac = planetZodiacRecord.id;
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      console.log('dataEdit', dataEdit);
-      await updatePlanetZodiac(planet.name, planet.id, idPlanetZodiac, dataEdit);
-    } else {
-      await addPlanetZodiac(planet.name, planet.id, values);
-      handleResetForm();
-      setStateEditor(null);
+    if (planetZodiacRecord) {
+      try {
+        message.loading('Đang tải...', 9999);
+        await updatePlanetZodiac({ ...values, id: planetZodiacRecord.id });
+        setShowModal(false);
+      } catch (error) {
+      } finally {
+        message.destroy();
+      }
     }
-    setTriggerDataTable(!triggerDataTable);
-    setButtonLoading(false);
   };
 
   const handleChangeStateEditor = (content) => {
     formPlanetZodiacRef?.current?.setFieldsValue({
-      ['content']: content,
+      ['description']: content,
     });
   };
 
@@ -271,7 +249,23 @@ const PlanetZodiac = (props) => {
       }
     };
   };
-  const handleClickCard = (item) => {};
+
+  const handleClickCard = async (item) => {
+    try {
+      message.loading('Đang tải...', 9999);
+      const res = await getAnPlanetZodiac({ planetid: planet.id, zodiacid: item.id });
+      if (res) {
+        setFlagEditForm('edit');
+        setStateEditor(res.description);
+        setShowModal(true);
+        setPlanetZodiacRecord(res);
+      }
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      message.destroy();
+    }
+  };
 
   const handleButtonView = async (item) => {
     const params = {};
