@@ -56,7 +56,12 @@ request.interceptors.response.use((response, option) => {
   const { method } = option;
   switch (status) {
     case 200:
-      if (method !== 'GET' && url !== 'https://stg-api.tranastro.com/api/v1/login/firebase')
+      if (
+        method !== 'GET' &&
+        !['loginadmin', 'https://stg-api.tranastro.com/api/v1/login/firebase'].some((item) =>
+          url.includes(item),
+        )
+      )
         message.success(codeMessage[200]);
       break;
     case 201:

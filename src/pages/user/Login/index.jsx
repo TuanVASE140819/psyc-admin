@@ -89,18 +89,26 @@ const Login = () => {
         passWord: values.password,
       });
       if (res) {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: 'Đăng nhập thành công!uccess!',
-        });
-        setAppToken(res.jwttoken);
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query;
-        history.push(redirect || '/');
-        return;
+        if (res?.jwttoken) {
+          const defaultLoginSuccessMessage = intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: 'Đăng nhập thành công!uccess!',
+          });
+          setAppToken(res.jwttoken);
+          message.success(defaultLoginSuccessMessage);
+          await fetchUserInfo();
+          if (!history) return;
+          const { query } = history.location;
+          const { redirect } = query;
+          history.push(redirect || '/');
+          return;
+        } else {
+          const defaultLoginFailureMessage = intl.formatMessage({
+            id: 'pages.login.failure',
+            defaultMessage: 'Tài khoản hoặc mật khẩu không chính xác!',
+          });
+          message.error(defaultLoginFailureMessage);
+        }
       }
     } catch (error) {
       if (error.code === 'auth/wrong-password') {

@@ -3,7 +3,7 @@ export default {
     'Ant Design is the most influential web design specification in Xihu district',
   'pages.login.accountLogin.tab': 'Đăng nhập tài khoản',
   'pages.login.accountLogin.errorMessage': 'Tên người dùng / mật khẩu không chính xác!',
-  'pages.login.failure': 'Đăng nhập thất bại. Xin hãy thử lại!',
+  'pages.login.failure': 'Tài khoản hoặc mật khẩu không chính xác!',
   'pages.login.success': 'Đăng nhập thành công!',
   'pages.login.username.placeholder': 'Tên tài khoản: admin or user',
   'pages.login.username.required': 'Vui lòng nhập tên người dùng của bạn!',
