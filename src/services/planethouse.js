@@ -19,20 +19,30 @@ export const addPlanetHouse = (planetName, planetId, body) => {
   });
 };
 
-export const updatePlanetHouse = async (planetName, planetId, planetHouseId, body) => {
-  return await request.put(`/api/v1/planets/${planetName}-${planetId}/houses`, {
-    params: {
-      id: planetHouseId,
-    },
-    data: body,
+export const updatePlanetHouse = async (data) => {
+  return await request.put(`/api/PlanetHouses/update`, {
+    data,
   });
 };
 
-export const getAnPlanetHouse = async (planetName, planetId, planetHouseId) => {
+/**
+ *
+ * @param {{
+ *    houseid: number;
+ *    planetid: number
+ * }} params
+ * @returns
+ */
+export const getAnPlanetHouse = async (params) => {
   return await request
-    .get(`/api/v1/planets/${planetName}-${planetId}/houses/${planetHouseId}`)
+    .get(`/api/PlanetHouses/getbyidplahou`, {
+      params,
+    })
     .then((res) => {
-      return res;
+      if (res?.data?.length) {
+        return res.data[0];
+      }
+      return null;
     })
     .catch((error) => {
       console.log('errorGetAnPlanetHouse', error);

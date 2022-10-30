@@ -55,18 +55,8 @@ const PlanetHouse = (props) => {
 
   const formFieldEdit = [
     {
-      fieldType: 'formSelect',
-      key: 'selectHouseId',
-      name: 'houseId',
-      label: 'House',
-      placeholder: 'Select House',
-      requiredField: 'true',
-      ruleMessage: 'Please select House',
-      valueEnum: [],
-    },
-    {
       fieldType: 'EditorMainContent',
-      nameTextArea: 'content',
+      nameTextArea: 'description',
     },
     {
       fieldType: 'checkEdit',
@@ -114,18 +104,18 @@ const PlanetHouse = (props) => {
       setLoadingListHouse(true);
       const result = await getHouses();
 
-      if (result?.payload?.length > 0) {
-        const listDataSrc = [];
-        result?.payload?.map((item) => {
-          const house = {};
-          house.id = item.id;
-          house.avatar = item.icon;
-          house.name = item.name;
-          house.title = item.name;
-          house.selected = false;
-          listDataSrc.push(house);
-        });
-        setDataList(listDataSrc);
+      if (result?.data?.length > 0) {
+        // const listDataSrc = [];
+        // result?.payload?.map((item) => {
+        //   const house = {};
+        //   house.id = item.id;
+        //   house.avatar = item.icon;
+        //   house.name = item.name;
+        //   house.title = item.name;
+        //   house.selected = false;
+        //   listDataSrc.push(house);
+        // });
+        setDataList(result.data);
         //set field
         const valueEnum = [];
         result?.payload?.map((item) => {
@@ -183,20 +173,20 @@ const PlanetHouse = (props) => {
   }, [buttonLoading]);
 
   useEffect(() => {
-    (async () => {
-      const listPlanetHouse = [];
-      const planetName = planet.name;
-      const planetId = planet.id;
-      const data = await getPlanetHouses(planetName, planetId);
-      if (data?.payload) {
-        data?.payload?.map((item, index) => {
-          item.number = index + 1;
-          listPlanetHouse[index] = item;
-        });
-        setTotal(data?.total);
-        setDataTable(listPlanetHouse);
-      }
-    })();
+    // (async () => {
+    //   const listPlanetHouse = [];
+    //   const planetName = planet.name;
+    //   const planetId = planet.id;
+    //   const data = await getPlanetHouses(planetName, planetId);
+    //   if (data?.payload) {
+    //     data?.payload?.map((item, index) => {
+    //       item.number = index + 1;
+    //       listPlanetHouse[index] = item;
+    //     });
+    //     setTotal(data?.total);
+    //     setDataTable(listPlanetHouse);
+    //   }
+    // })();
   }, [triggerDataTable]);
 
   //xu li dong mo modal
@@ -244,40 +234,22 @@ const PlanetHouse = (props) => {
 
   //handle submit form
   const handleSubmitFormPlanetHouse = async (values) => {
-    console.log('A');
-    setButtonLoading(true);
-    setStateEditor(values.content);
-    values.planetId = planet.id;
-    console.log('B');
-    if (values.edit) {
-      values.id = planetHouseRecord.id;
-      const idPlanetHouse = planetHouseRecord.id;
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      console.log('dataEdit', dataEdit);
-      await updatePlanetHouse(planet.name, planet.id, idPlanetHouse, dataEdit);
-    } else {
-      console.log('C');
-      console.log('values add', values);
-      console.log('planet name', planet.name);
-      console.log('planet id', planet.id);
-      await addPlanetHouse(planet.name, planet.id, values);
-      handleResetForm();
-      setStateEditor(null);
+    console.log('values', values);
+    if (planetHouseRecord) {
+      try {
+        message.loading('Đang tải...', 9999);
+        await updatePlanetHouse({ ...values, id: planetHouseRecord.id });
+        setShowModal(false);
+      } catch (error) {
+      } finally {
+        message.destroy();
+      }
     }
-    setTriggerDataTable(!triggerDataTable);
-    setButtonLoading(false);
   };
 
   const handleChangeStateEditor = (content) => {
     formPlanetHouseRef?.current?.setFieldsValue({
-      ['content']: content,
+      ['description']: content,
     });
   };
 
@@ -303,7 +275,22 @@ const PlanetHouse = (props) => {
     };
   };
 
-  const handleClickCard = (item) => {};
+  const handleClickCard = async (item) => {
+    try {
+      message.loading('Đang tải...', 9999);
+      const res = await getAnPlanetHouse({ planetid: planet.id, houseid: item.id });
+      if (res) {
+        setFlagEditForm('edit');
+        setStateEditor(res.description);
+        setShowModal(true);
+        setPlanetHouseRecord(res);
+      }
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      message.destroy();
+    }
+  };
 
   const handleButtonView = async (item) => {
     const params = {};

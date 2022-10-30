@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function HouseCard({ house, handleClickCard }) {
   return (
-    <Card hoverable style={{ width: 210 }} onClick={() => handleClickCard(house)}>
+    <Card hoverable onClick={() => handleClickCard(house)}>
       <Card.Meta avatar={<Avatar src={house.imageUrl} />} title={house.name} />
     </Card>
   );
