@@ -1,6 +1,7 @@
 import {
   getDailyHoroscope,
   getDailyHoroscopes,
+  updateDailyHoroscope,
   uploadFileExcel,
 } from '@/services/ant-design-pro/dailyHoroscope';
 import { Avatar, Button, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
@@ -48,7 +49,7 @@ const formEditFields = [
     requiredField: 'true',
   },
   {
-    fieldType: 'formText',
+    fieldType: 'timePicker',
     key: 'goodTime',
     label: 'Thời gian tốt',
     width: 'lg',
@@ -117,22 +118,24 @@ const formEditFields = [
     ruleMessage: 'Upload image before submit',
   },
 ];
-const buttonSubmitter = [
+
+const buttonSubmitterData = [
   {
-    key: 'clearFieldFormDailyHoroscope',
+    key: 'clearFieldFormHouse',
     type: 'default',
     click: 'reset',
     name: 'Reset',
     loading: false,
   },
   {
-    key: 'submitFormDailyHoroscope',
+    key: 'submitAddHouse',
     type: 'primary',
     click: 'submit',
     name: 'Submit',
     loading: false,
   },
 ];
+
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState(moment().locale('vi'));
@@ -141,6 +144,8 @@ export default function DailyHoroscope({ zodiac }) {
   const [selectedDate, setSelectedDate] = useState();
   const formEditRef = useRef();
   const [image, setImage] = useState();
+  const [buttonSubmitter, setButtonSubmitter] = useState(buttonSubmitterData);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -161,6 +166,18 @@ export default function DailyHoroscope({ zodiac }) {
     getData();
   }, [month, zodiac]);
 
+  useEffect(() => {
+    setButtonSubmitter((b) =>
+      b.map((item) => ({ ...item, loading: item.name === 'Submit' ? submitting : item.loading })),
+    );
+  }, [submitting]);
+
+  useEffect(() => {
+    if (selectedDate && modal) {
+      formEditRef.current?.setFieldsValue(selectedDate);
+    }
+  }, [selectedDate, modal]);
+
   const showModal = () => setModal(true);
   const hideModal = () => setModal(false);
 
@@ -168,7 +185,6 @@ export default function DailyHoroscope({ zodiac }) {
     try {
       message.loading({ content: 'Đang tải ...', key: 'loading' });
       const res = await getDailyHoroscope(item.id);
-      formEditRef?.current?.setFieldsValue({ ...res });
       setImage(res.imageUrl);
       setSelectedDate(res);
       showModal();
@@ -205,6 +221,22 @@ export default function DailyHoroscope({ zodiac }) {
       onError(error);
     } finally {
       message.destroy('loading');
+    }
+  };
+
+  const handleSubmitForm = async (values) => {
+    try {
+      setSubmitting(true);
+      const goodTime = values.goodTime.split(':').slice(0, 2).join(':');
+      await updateDailyHoroscope({
+        ...values,
+        id: selectedDate.id,
+        goodTime,
+      });
+      setModal(false);
+    } catch (error) {
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -277,8 +309,8 @@ export default function DailyHoroscope({ zodiac }) {
         widthModal="800px"
         handleCancelModel={hideModal}
         formRef={formEditRef}
-        // buttonSubmitter={buttonSubmitterHouse}
-        // handleSubmitForm={handleSubmitFormHouse}
+        buttonSubmitter={buttonSubmitter}
+        handleSubmitForm={handleSubmitForm}
         formField={formEditFields}
         customUpload={customUpload}
         imgLinkFirebase={image}

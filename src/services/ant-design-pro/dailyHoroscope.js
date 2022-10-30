@@ -27,7 +27,7 @@ export const getDailyHoroscope = async (id) => {
     });
 };
 
-export const  updateDailyHoroscope  = async (data) => {
+export const updateDailyHoroscope = async (data) => {
   return await request
     .put('/api/DailyHoroscopes/update', {
       data,
@@ -36,7 +36,6 @@ export const  updateDailyHoroscope  = async (data) => {
       return response.data;
     });
 };
-
 
 // api upload file excel
 export const uploadFileExcel = async (data) => {
