@@ -228,6 +228,13 @@ export default defineConfig({
       ],
     },
     {
+      path: '/system-handler',
+      name: 'system-handler',
+      icon: 'setting',
+      access: 'admin',
+      component: './system-handler',
+    },
+    {
       path: '/',
       redirect: '/dashboard',
     },
