@@ -10,69 +10,15 @@ import {
 } from '@ant-design/pro-components';
 import {
   getDailyHoroscope,
-  getDailyHoroscopes,
+  getDailyHoroscopes as getDailyHoroscopesApi,
   updateDailyHoroscope,
   uploadFileExcel,
 } from '@/services/ant-design-pro/dailyHoroscope';
-import React, { useRef, useState } from 'react';
-const defaultData = [
-  {
-    id: 3,
+import React, { useEffect, useRef, useState } from 'react';
+import { getZodiacs } from '@/services/ant-design-pro/zodiac';
+import { Button, DatePicker, message, Select } from 'antd';
+import moment from 'moment';
 
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/psychologicalcounseling-28efa.appspot.com/o/zodiac%2Ftaurus.png?alt=media&token=1b0b0b9b-1b8f-4b0f-8b1f-1f1f1f1f1f1f',
-    date: '2022-01-01T00:00:00',
-    context:
-      'Ma Kết là một chòm sao tương đối âm thầm, hai ngôi sao sáng nhất trong chòm Ma Kết cũng chỉ rộng 3m. \nTừ phía chòm sao Ngưu Lang và Chức Nữ kéo dài hơn một bộ về phía Nam, \nsẽ có thể thấy được Sao β sáng nhất trong chòm sao Ma Kết',
-    job: 'Bạn luôn cảm thấy bất an do mọi chuyện tưởng chừng như đơn giản nhưng thực tế lại vô cùng rắc rối, không thể tháo gỡ, nó xảy ra bất cứ lúc nào. Thậm chí là trong khoảng thời gian mà bạn không hề lường trước được. Bạn hãy suy nghĩ cận thân trước khi đưa ra quyết định',
-    affection:
-      'Chuyên tình cảm của bạn không có nhiều biến động trong hôm nay.\nNgười đã có dôi vẫn ngọt ngào bên nữa kua, người cô đơn vẫn rất hài lòng với cuộc sống độc thân của mình',
-    luckyNumber: 1,
-    goodTime: '15:00',
-    color: 'Đỏ, Vàng',
-    shouldThing: 'Xem phim, Ăn uống',
-    shouldNotThing: 'Ngồi một mình, Đi trễ',
-    zodiacId: 1,
-  },
-
-  {
-    id: 1,
-
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/psychologicalcounseling-28efa.appspot.com/o/zodiac%2Ftaurus.png?alt=media&token=1b0b0b9b-1b8f-4b0f-8b1f-1f1f1f1f1f1f',
-    date: '2022-01-01T00:00:00',
-    context:
-      'Ma Kết là một chòm sao tương đối âm thầm, hai ngôi sao sáng nhất trong chòm Ma Kết cũng chỉ rộng 3m. \nTừ phía chòm sao Ngưu Lang và Chức Nữ kéo dài hơn một bộ về phía Nam, \nsẽ có thể thấy được Sao β sáng nhất trong chòm sao Ma Kết',
-    job: 'Bạn luôn cảm thấy bất an do mọi chuyện tưởng chừng như đơn giản nhưng thực tế lại vô cùng rắc rối, không thể tháo gỡ, nó xảy ra bất cứ lúc nào. Thậm chí là trong khoảng thời gian mà bạn không hề lường trước được. Bạn hãy suy nghĩ cận thân trước khi đưa ra quyết định',
-    affection:
-      'Chuyên tình cảm của bạn không có nhiều biến động trong hôm nay.\nNgười đã có dôi vẫn ngọt ngào bên nữa kua, người cô đơn vẫn rất hài lòng với cuộc sống độc thân của mình',
-    luckyNumber: 1,
-    goodTime: '15:00',
-    color: 'Đỏ, Vàng',
-    shouldThing: 'Xem phim, Ăn uống',
-    shouldNotThing: 'Ngồi một mình, Đi trễ',
-    zodiacId: 1,
-  },
-
-  {
-    id: 2,
-
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/psychologicalcounseling-28efa.appspot.com/o/zodiac%2Ftaurus.png?alt=media&token=1b0b0b9b-1b8f-4b0f-8b1f-1f1f1f1f1f1f',
-    date: '2022-01-01T00:00:00',
-    context:
-      'Ma Kết là một chòm sao tương đối âm thầm, hai ngôi sao sáng nhất trong chòm Ma Kết cũng chỉ rộng 3m. \nTừ phía chòm sao Ngưu Lang và Chức Nữ kéo dài hơn một bộ về phía Nam, \nsẽ có thể thấy được Sao β sáng nhất trong chòm sao Ma Kết',
-    job: 'Bạn luôn cảm thấy bất an do mọi chuyện tưởng chừng như đơn giản nhưng thực tế lại vô cùng rắc rối, không thể tháo gỡ, nó xảy ra bất cứ lúc nào. Thậm chí là trong khoảng thời gian mà bạn không hề lường trước được. Bạn hãy suy nghĩ cận thân trước khi đưa ra quyết định',
-    affection:
-      'Chuyên tình cảm của bạn không có nhiều biến động trong hôm nay.\nNgười đã có dôi vẫn ngọt ngào bên nữa kua, người cô đơn vẫn rất hài lòng với cuộc sống độc thân của mình',
-    luckyNumber: 1,
-    goodTime: '15:00',
-    color: 'Đỏ, Vàng',
-    shouldThing: 'Xem phim, Ăn uống',
-    shouldNotThing: 'Ngồi một mình, Đi trễ',
-    zodiacId: 1,
-  },
-];
 export default () => {
   const [editableKeys, setEditableRowKeys] = useState(() => []);
   const formRef = useRef();
@@ -88,7 +34,6 @@ export default () => {
     },
     {
       title: 'Ngày',
-      key: 'type',
       dataIndex: 'date',
       valueType: 'date',
       width: 100,
@@ -155,6 +100,54 @@ export default () => {
       ],
     },
   ];
+
+  const [zodiacs, setZodiacs] = useState([]);
+  const [selectedZodiacId, setSelectedZodiacId] = useState(null);
+  const [dailyHoroscopes, setDailyHoroscopes] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(moment());
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await Promise.all([getZodiacs()]);
+        setZodiacs(res[0].data);
+        setSelectedZodiacId(res[0].data[0].id);
+      } catch (error) {}
+    };
+
+    getData();
+  }, []);
+
+  useEffect(() => {
+    const getDailyHoroscopes = async () => {
+      if (selectedZodiacId !== null) {
+        try {
+          message.loading('Đang tải ...', 9999);
+          const res = await getDailyHoroscopesApi({
+            id: selectedZodiacId,
+            date: selectedMonth.format('YYYY-MM'),
+          });
+          formRef.current.setFieldsValue({
+            table: res.map((item) => {
+              const [hour, minute] = item.goodTime.split(':');
+              return {
+                ...item,
+                goodTime: new Date(0, 0, 0, hour, minute),
+                date: new Date(item.date),
+              };
+            }),
+          });
+          setDailyHoroscopes(res);
+        } catch (error) {
+        } finally {
+          message.destroy();
+        }
+      }
+    };
+
+    getDailyHoroscopes();
+  }, [selectedZodiacId, selectedMonth]);
+
   return (
     <ProCard>
       <div
@@ -166,34 +159,34 @@ export default () => {
         <ProForm
           formRef={formRef}
           initialValues={{
-            table: defaultData,
+            table: [],
           }}
         >
           <ProFormDependency name={['table']}>
             {({ table }) => {
-              const info = table.reduce(
-                (pre, item) => {
-                  return {
-                    totalScore:
-                      pre.totalScore +
-                      parseInt(
-                        (
-                          (item === null || item === void 0 ? void 0 : item.fraction) || 0
-                        ).toString(),
-                        10,
-                      ),
-                    questions:
-                      pre.questions +
-                      parseInt(
-                        (
-                          (item === null || item === void 0 ? void 0 : item.questionsNum) || 0
-                        ).toString(),
-                        10,
-                      ),
-                  };
-                },
-                { totalScore: 0, questions: 0 },
-              );
+              // const info = table.reduce(
+              //   (pre, item) => {
+              //     return {
+              //       totalScore:
+              //         pre.totalScore +
+              //         parseInt(
+              //           (
+              //             (item === null || item === void 0 ? void 0 : item.fraction) || 0
+              //           ).toString(),
+              //           10,
+              //         ),
+              //       questions:
+              //         pre.questions +
+              //         parseInt(
+              //           (
+              //             (item === null || item === void 0 ? void 0 : item.questionsNum) || 0
+              //           ).toString(),
+              //           10,
+              //         ),
+              //     };
+              //   },
+              //   { totalScore: 0, questions: 0 },
+              // );
               return (
                 <div
                   style={{
@@ -203,38 +196,29 @@ export default () => {
                     paddingBlockEnd: 16,
                   }}
                 >
-                  <div style={{ flex: 1 }}>Tổng lá phiếu：{info.totalScore}</div>
+                  <div style={{ flex: 1 }}>Tổng lá phiếu: {dailyHoroscopes.length}</div>
                   {/* <div style={{ flex: 1 }}>题数：{info.questions}</div> */}
                   <div style={{ flex: 2 }}>
-                    <ProFormDateTimePicker
-                      name="time"
-                      label="Tìm kiếm theo thời gian"
-                      dataIndex="date"
-                      fieldProps={{
-                        showTime: true,
-                      }}
-                      // format="YYYY-MM-DD"
+                    <DatePicker
+                      // change laguage month from english to vietnamese
+                      picker="month"
+                      value={selectedMonth}
+                      onChange={setSelectedMonth} // change month
                     />
                   </div>
                   <div style={{ flex: 2 }}>
-                    <ProFormSelect
+                    <Select
                       name="type"
                       label="Tìm kiếm theo loại"
-                      options={[
-                        {
-                          label: 'Tất cả',
-                          value: 'all',
-                        },
-                        {
-                          label: 'Bạch Dương',
-                          value: 'job',
-                        },
-                        {
-                          label: 'Kim Ngưu',
-                          value: 'affection',
-                        },
-                      ]}
-                    />
+                      value={selectedZodiacId}
+                      onChange={setSelectedZodiacId}
+                    >
+                      {zodiacs.map((item) => (
+                        <Select.Option key={item.id} value={item.id}>
+                          {item.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
                   </div>
                 </div>
               );
@@ -271,11 +255,15 @@ export default () => {
                 return { id: index + 1 };
               },
             }}
+            value={dailyHoroscopes}
             editable={{
               type: 'multiple',
               editableKeys,
               onChange: setEditableRowKeys,
               title: 'Sửa',
+              onSave: async (rowKey, data, row) => {
+                console.log('data', data);
+              },
             }}
           />
           <ProFormUploadButton
