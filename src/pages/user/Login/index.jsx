@@ -64,26 +64,6 @@ const Login = () => {
   const handleSubmit = async (values) => {
     setButtonLoading(true);
     try {
-      // const result = await logInWithEmailAndPassword(values.username, values.password);
-      // if (result) {
-      //   const token = {};
-      //   token.token = result;
-      //   const jwtToken = await login(token);
-      //   if (jwtToken) {
-      //     const defaultLoginSuccessMessage = intl.formatMessage({
-      //       id: 'pages.login.success',
-      //       defaultMessage: 'Đăng nhập thành công!uccess!',
-      //     });
-      //     setAppToken(jwtToken);
-      //     message.success(defaultLoginSuccessMessage);
-      //     await fetchUserInfo();
-      //     if (!history) return;
-      //     const { query } = history.location;
-      //     const { redirect } = query;
-      //     history.push(redirect || '/');
-      //     return;
-      //   }
-      // }
       const res = await login({
         userName: values.username,
         passWord: values.password,
@@ -146,9 +126,6 @@ const Login = () => {
           style={{
             width: '100%',
           }}
-          // initialValues={{
-          //   autoLogin: true,
-          // }}
           submitter={{
             render: (props, doms) => {
               return [
@@ -212,22 +189,6 @@ const Login = () => {
               ]}
             />
           </>
-          {/* <div
-            style={{
-              marginBottom: 24,
-            }}
-          >
-            <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage id="pages.login.rememberMe" />
-            </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              <FormattedMessage id="pages.login.forgotPassword" />
-            </a>
-          </div> */}
         </LoginForm>
       </div>
       <Footer />

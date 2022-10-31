@@ -88,7 +88,7 @@ const columns = [
   {
     title: 'Thời gian',
     dataIndex: 'dateCreate',
-    valueType: 'text',
+    valueType: 'date',
     search: true,
     sorter: (a, b) => a.dateCreate - b.dateCreate,
     // format 2022-10-23 (12:12:12)
@@ -179,6 +179,7 @@ export default () => {
         https: return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
           params: {
             ...params,
+            date: params.dateCreate,
             pageSize: params.pageSize,
             pageNumber: params.current,
           },
