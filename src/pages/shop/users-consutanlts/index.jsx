@@ -60,13 +60,13 @@ const User = () => {
       search: false,
       dataIndex: 'level',
       valueType: 'select',
-      valueEnum: {
-        1: { text: 'Cấp 1', status: 'Default' },
-        2: { text: 'Cấp 2', status: 'Processing' },
-        3: { text: 'Cấp 3', status: 'Success' },
-        4: { text: 'Cấp 4', status: 'Error' },
-        5: { text: 'Cấp 5', status: 'Warning' },
-      },
+      // valueEnum: {
+      //   1: { text: 'Cấp 1', status: 'Default' },
+      //   2: { text: 'Cấp 2', status: 'Processing' },
+      //   3: { text: 'Cấp 3', status: 'Success' },
+      //   4: { text: 'Cấp 4', status: 'Error' },
+      //   5: { text: 'Cấp 5', status: 'Warning' },
+      // },
     },
     {
       title: 'Trạng thái',
