@@ -250,37 +250,6 @@ export default function DailyHoroscope({ zodiac }) {
         onChange={(date) => setMonth(date)} // change month
       />
       <Divider />
-      upload exel file
-      {/* /api/DailyHoroscopes/CreateExcel */}
-      {/* <ProFormUploadButton
-        label="Tải lên file excel"
-        title="Tải lên file excel"
-        name="file"
-        action="https://psycteam.azurewebsites.net/api/DailyHoroscopes/CreateExcel"
-        maxCount={1}
-        fieldProps={{
-          accept: '.xlsx, .xls',
-        }}
-        beforeUpload={async (file) => {
-          const isExcel =
-            file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-          if (!isExcel) {
-            message.error('Bạn chỉ có thể tải lên tệp EXCEL!');
-          }
-          const isLt4M = file.size / 1024 / 1024 < 4;
-          if (!isLt4M) {
-            message.error('File phải nhỏ hơn 4MB!');
-          }
-          message.loading({ content: 'Đang tải lên ...', key: 'loading' });
-          return isExcel && isLt4M;
-        }}
-        onSuccess={(res) => {
-          if (res) {
-            message.success('Tải lên file excel thành công!');
-          }
-          console.log(res);
-        }}
-      /> */}
       {loading ? (
         <Skeleton />
       ) : (

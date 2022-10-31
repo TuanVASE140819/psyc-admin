@@ -42,6 +42,7 @@ const User = () => {
     {
       title: 'Email',
       dataIndex: 'email',
+      search: false,
       copyable: true,
       valueType: 'email',
       sorter: (a, b) => a.email.length - b.email.length,
@@ -58,6 +59,7 @@ const User = () => {
     },
     {
       title: 'Trạng thái',
+      search: false,
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: {
@@ -90,7 +92,6 @@ const User = () => {
         );
       },
     },
-    
   ];
 
   const buttonSubmitter = [

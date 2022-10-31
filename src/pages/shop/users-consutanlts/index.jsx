@@ -16,6 +16,7 @@ const User = () => {
     {
       title: 'No.',
       dataIndex: 'number',
+
       sorter: (a, b) => a.number - b.number,
       search: false,
     },
@@ -39,6 +40,7 @@ const User = () => {
     {
       title: 'Email',
       dataIndex: 'email',
+      search: false,
       copyable: true,
       valueType: 'phoneNumber',
       sorter: (a, b) => a.email.length - b.email.length,
@@ -54,19 +56,21 @@ const User = () => {
       },
     },
     {
-      title:'Cấp độ',
+      title: 'Cấp độ',
+      search: false,
       dataIndex: 'level',
       valueType: 'select',
-      valueEnum: {
-        1: { text: 'Cấp 1', status: 'Default' },
-        2: { text: 'Cấp 2', status: 'Processing' },
-        3: { text: 'Cấp 3', status: 'Success' },
-        4: { text: 'Cấp 4', status: 'Error' },
-        5: { text: 'Cấp 5', status: 'Warning' },
-      },
+      // valueEnum: {
+      //   1: { text: 'Cấp 1', status: 'Default' },
+      //   2: { text: 'Cấp 2', status: 'Processing' },
+      //   3: { text: 'Cấp 3', status: 'Success' },
+      //   4: { text: 'Cấp 4', status: 'Error' },
+      //   5: { text: 'Cấp 5', status: 'Warning' },
+      // },
     },
     {
       title: 'Trạng thái',
+      search: false,
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: {
@@ -127,7 +131,6 @@ const User = () => {
       placeholder: 'Nhập tên người dùng',
       name: 'username',
       requiredField: 'true',
-      ruleMessage: 'Input username before submit',
     },
     {
       fieldType: 'formText',
@@ -137,7 +140,6 @@ const User = () => {
       placeholder: 'Enter phone number',
       name: 'phoneNumber',
       requiredField: 'true',
-      ruleMessage: 'Input phone number before submit',
     },
     {
       fieldType: 'formInputFileImg',
