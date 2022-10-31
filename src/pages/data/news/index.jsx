@@ -396,17 +396,7 @@ const News = () => {
   //xuli submit form
   const handleSubmitFormNews = async (values) => {
     console.log(values);
-    // setButtonLoading(true);
-    // setStateEditor(values.htmlContent);
     if (values.edit) {
-      //   const newValues = Object.assign({}, values);
-      //   const attr = 'edit';
-      //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-      //     if (key !== attr) {
-      //       item[key] = newValues[key];
-      //     }
-      //     return item;
-      //   }, {});
       await updateNews({ ...values, id: newsRecord.id });
       setShowModal(false);
     } else {

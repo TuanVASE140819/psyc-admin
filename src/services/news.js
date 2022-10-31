@@ -33,7 +33,7 @@ export const getAnNews = async (newsId) => {
 };
 
 export const updateNews = (body) => {
-  return request.put('/api/Articles/update', {
+  return request.put('api/Articles/update', {
     data: body,
   });
 };
