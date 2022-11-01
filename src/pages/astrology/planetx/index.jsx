@@ -2,7 +2,13 @@ import { uploadFile } from '@/utils/uploadFile';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Image, message, Space } from 'antd';
 import React from 'react';
-import { addPlanet, getPlanets, deletePlanet, updatePlanet, getAnPlanet } from '@/services/planet';
+import {
+  addPlanet,
+  getPlanets,
+  deletePlanet,
+  updatePlanet,
+  getAnPlanet,
+} from '@/services/AtrologyService/PlantService/planet';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';

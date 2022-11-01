@@ -1,11 +1,11 @@
-import { getHouses } from '@/services/house';
-import { getPlanets } from '@/services/planet';
+import { getHouses } from '@/services/AtrologyService/HouseService/house';
+import { getPlanets } from '@/services/AtrologyService/PlantService/planet';
 import {
   addPlanetHouse,
   getAnPlanetHouse,
   getPlanetHouses,
   updatePlanetHouse,
-} from '@/services/planethouse';
+} from '@/services/AtrologyService/PlantService/planethouse';
 import { uploadFile } from '@/utils/uploadFile';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';

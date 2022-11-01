@@ -1,12 +1,12 @@
 import { message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { getHouses } from '@/services/house';
+import { getHouses } from '@/services/AtrologyService/HouseService/house';
 import {
   getZodiacHouses,
   getAnZodiacHouse,
   updateZodiacHouse,
   addZodiacHouse,
-} from '@/services/zodiachouse';
+} from '@/services/AtrologyService/ZodiacService/zodiachouse';
 import { uploadFile } from '@/utils/uploadFile';
 import ModalForm from '@/components/ModalForm';
 import { Content } from 'antd/lib/layout/layout';

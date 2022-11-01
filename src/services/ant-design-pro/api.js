@@ -1,50 +1,5 @@
-// @ts-ignore
-
-/* eslint-disable */
 import { request } from 'umi';
 import token from '@/utils/token';
-/** 获取当前的用户 GET /api/currentUser */
-
-export async function currentUser(options) {
-  return request('/api/currentUser', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-
-export async function getCategories(options) {
-  return request('/api/categories', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-  });
-}
-/** 退出登录接口 POST /api/login/outLogin */
-
-export async function outLogin(options) {
-  return request('/api/login/outLogin', {
-    method: 'POST',
-    ...(options || {}),
-  });
-}
-/** 登录接口 POST /api/login/account */
-
-export async function login(body, options) {
-  return request('/api/login/account', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-    ...(options || {}),
-  });
-}
-
-/** 此处后端没有提供注释 GET /api/notices */
 
 export async function getNotices(options) {
   return request('https://psycteam.azurewebsites.net/api/Notifications/getnotificationbyadmin', {
@@ -53,14 +8,12 @@ export async function getNotices(options) {
   });
 }
 
-// /api/Notifications/seennoti?id=1
 export async function seenNoti(id, options) {
   return request(`https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
     method: 'PUT',
     ...(options || {}),
   });
 }
-/** 获取规则列表 GET /api/rule */
 
 export async function rule(params, options) {
   return request('/api/rule', {
@@ -69,7 +22,6 @@ export async function rule(params, options) {
     ...(options || {}),
   });
 }
-/** 新建规则 PUT /api/rule */
 
 export async function updateRule(options) {
   return request('/api/rule', {
@@ -77,7 +29,6 @@ export async function updateRule(options) {
     ...(options || {}),
   });
 }
-/** 新建规则 POST /api/rule */
 
 export async function addRule(options) {
   return request('/api/rule', {
@@ -85,7 +36,6 @@ export async function addRule(options) {
     ...(options || {}),
   });
 }
-/** 删除规则 DELETE /api/rule */
 
 export async function removeRule(options) {
   return request('/api/rule', {

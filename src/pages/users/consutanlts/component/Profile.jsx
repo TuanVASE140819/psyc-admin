@@ -7,7 +7,7 @@ import {
   getAnProfile,
   updateProfile,
   addProfile,
-} from '@/services/profile';
+} from '@/services/UserService/profile';
 import ModalForm from '@/components/ModalForm';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';

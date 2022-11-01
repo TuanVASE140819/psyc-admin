@@ -23,9 +23,9 @@ import { ConfigProvider } from '@ant-design/pro-provider';
 import styles from './index.less';
 import token from '@/utils/token';
 import { logInWithEmailAndPassword } from '@/utils/authFirebase';
-import { login } from '@/services/ant-design-pro/user';
+import { login } from '@/services/UserService/customers';
 import { setAppToken } from '@/utils/utils';
-import { getCurrentUser } from '@/services/ant-design-pro/user';
+import { getCurrentUser } from '@/services/UserService/customers';
 
 const LoginMessage = ({ content }) => (
   <Alert

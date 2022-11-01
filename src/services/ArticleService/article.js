@@ -1,10 +1,10 @@
 import request from '@/utils/requestServer';
 
-export const addNews = (body) => {
+export const addArticle = (body) => {
   return request.post('/api/Articles/create', { data: body });
 };
 
-export const getNews = async (params) => {
+export const getArticleList = async (params) => {
   return await request
     .get('/api/Articles/GetallArticles', {
       params: params,
@@ -17,11 +17,11 @@ export const getNews = async (params) => {
     });
 };
 
-export const deleteNews = (newsId) => {
+export const deleteArticle = (newsId) => {
   return request.delete(`/api/Articles/${newsId}`);
 };
 
-export const getAnNews = async (newsId) => {
+export const getAnArticle = async (newsId) => {
   return await request
     .get(`/api/Articles/getbyid?id=${newsId}`)
     .then((res) => {
@@ -32,13 +32,12 @@ export const getAnNews = async (newsId) => {
     });
 };
 
-export const updateNews = (body) => {
+export const updateArticle = (body) => {
   return request.put('api/Articles/update', {
     data: body,
   });
 };
 
-// https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2022&walletid=1&pagesize=5&pagenumber=1
 export const getDeposits = async (params) => {
   return await request
     .get('/api/Deposits/Getalldeposit', {

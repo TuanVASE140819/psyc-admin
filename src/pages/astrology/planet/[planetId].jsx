@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getAnPlanet } from '@/services/planet';
+import { getAnPlanet } from '@/services/AtrologyService/PlantService/planet';
 import { Tabs } from 'antd';
 import PlanetDetail from './component/PlanetDetail';
 import PlanetZodiac from './component/PlanetZodiac';
 import PlanetHouse from './component/PlanetHouse';
-import Aspect from './component/Aspect';
 import { Content } from 'antd/lib/layout/layout';
 import ShortPlanetDetail from './component/ShortPlanetDetail';
 const { TabPane } = Tabs;

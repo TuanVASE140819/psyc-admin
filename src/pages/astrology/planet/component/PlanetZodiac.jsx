@@ -7,7 +7,7 @@ import {
   getAnPlanetZodiac,
   updatePlanetZodiac,
   addPlanetZodiac,
-} from '@/services/planetzodiac';
+} from '@/services/AtrologyService/PlantService/planetzodiac';
 import { uploadFile } from '@/utils/uploadFile';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';

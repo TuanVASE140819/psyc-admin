@@ -2,7 +2,13 @@ import { uploadFile } from '@/utils/uploadFile';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
-import { addNews, getNews, deleteNews, updateNews, getAnNews } from '@/services/news';
+import {
+  addNews,
+  getNews,
+  deleteNews,
+  updateNews,
+  getAnNews,
+} from '@/services/ArticleService/article';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';

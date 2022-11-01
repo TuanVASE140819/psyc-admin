@@ -1,13 +1,13 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { getHouses } from '@/services/house';
+import { getHouses } from '@/services/AtrologyService/HouseService/house';
 import {
   getPlanetHouses,
   getAnPlanetHouse,
   updatePlanetHouse,
   addPlanetHouse,
-} from '@/services/planethouse';
+} from '@/services/AtrologyService/PlantService/planethouse';
 import { uploadFile } from '@/utils/uploadFile';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';

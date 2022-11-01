@@ -5,9 +5,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-import { getAnUser, getUsers } from '@/services/ant-design-pro/user';
-import { addUser } from '@/services/ant-design-pro/user';
-import { editUser } from '@/services/ant-design-pro/user';
+import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -312,24 +310,6 @@ const User = () => {
     setButtonSubmitterUser(newButtonSubmitUser);
   }, [buttonLoading]);
 
-  // React.useEffect(() => {
-  //   if (userRecord) {
-  //     const newFormFieldEditUser = formFieldEditUser.map((item, index) => {
-  //       if (item.name === 'userName') {
-  //         item.value = userRecord.userName;
-  //       } else if (item?.name === 'phoneNumber') {
-  //         item.value = userRecord.phoneNumber;
-  //       }
-  //       return item;
-  //     });
-  //     setFormFieldEditUser(newFormFieldEditUser);
-  //     //Vì modal form khi hủy modal giá trị initial value vẫn ko đổi nên ta
-  //     //phải dùng setFieldvalue để set value cho các field
-  //     formUserRef?.current?.setFieldsValue(userRecord);
-  //   }
-  // }, [userRecord]);
-
-  //customupload img
   const customUpload = async ({ onError, onSuccess, file }) => {
     const isImage = file.type.indexOf('image/') === 0;
     if (!isImage) {
@@ -389,36 +369,18 @@ const User = () => {
 
   const handleSubmitFormUser = async (values) => {
     console.log('values', values);
-    // setButtonLoading(true);
-    // if (values.edit) {
-    //   // sử lí edit user
-    //   const newValues = Object.assign({}, values);
-    //   const attr = 'edit';
-    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-    //     if (key !== attr) {
-    //       item[key] = newValues[key];
-    //     }
-    //     return item;
-    //   }, {});
-    //   dataEdit.id = userRecord.id;
-    // TODO:
     const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
     //
-    await editUser({ ...values, id: userRecord.id, dob: tempDOB });
+    await editCustomer({ ...values, id: userRecord.id, dob: tempDOB });
     setShowModel(false);
-    // } else {
-    //   // sử lí add user bình thường
-    //   await addUser(values);
-    // }
 
     actionRef?.current?.reload();
-    // setButtonLoading(false);
   };
 
   const handleEditUserForm = async (record) => {
     const userId = record?.id;
     setButtonEditLoading(true);
-    const user = await getAnUser(userId);
+    const user = await getAnCustomer(userId);
     if (user) {
       setUserRecord(user);
       setFlagEditForm('edit');
@@ -442,42 +404,8 @@ const User = () => {
             expandedRowRender,
           }}
           request={async (params, sort, filter) => {
-            // const currentAttr = 'current';
-            // const pageSizeAttr = 'pageSize';
             const data = [];
-            // console.log(params);
-            // if (params.userName || params.phoneNumber || params.status) {
-            //   console.log('A');
-            //   const newParams = Object.keys(params).reduce((item, key) => {
-            //     if (key != currentAttr && key != pageSizeAttr) {
-            //       if (key === 'userName') {
-            //         item.name = params[key];
-            //       } else if (key === 'phoneNumber') {
-            //         item.phone = params[key];
-            //       } else if (key === 'status') {
-            //         if (params[key].toString().toLowerCase() === 'active') {
-            //           item.status = 1;
-            //         } else if (params[key].toString().toLowerCase() === 'unactive') {
-            //           item.status = 0;
-            //         }
-            //       } else {
-            //         item[key] = params[key];
-            //       }
-            //     }
-            //     return item;
-            //   }, {});
-            //   console.log('params', newParams);
-            //   await getUsers(newParams).then((res) => {
-            //     console.log('res at table query', res);
-            //     res?.payload?.map((item, index) => {
-            //       item.number = index + 1;
-            //       data[index] = item;
-            //     });
-            //     setTotal(res?.total);
-            //   });
-            // } else {
-            //   console.log('B');
-            const arr = await getUsers(params.fullname ?? '');
+            const arr = await getCustomers(params.fullname ?? '');
             setTotal(arr.length);
             return {
               data: arr.map((item, index) => ({ ...item, number: index + 1 })),
@@ -502,17 +430,6 @@ const User = () => {
             submittext: 'Submit',
             resetText: 'Quay lại',
           }}
-          // toolBarRender={(action) => [
-          //   <Button
-          //     size="middle"
-          //     key="buttonAddUser"
-          //     type="primary"
-          //     icon={<PlusOutlined />}
-          //     onClick={() => handleModal()}
-          //   >
-          //     Add
-          //   </Button>,
-          // ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (

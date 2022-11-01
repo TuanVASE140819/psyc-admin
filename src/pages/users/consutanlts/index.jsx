@@ -4,8 +4,7 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
-import { getConsutanlts, getAConsutanlt } from '@/services/ant-design-pro/consutanlts';
-import { editConsutanlt } from '@/services/ant-design-pro/consutanlts';
+import { getConsutanlts, getAConsutanlt, editConsutanlt } from '@/services/UserService/consutanlts';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -352,24 +351,9 @@ const User = () => {
 
   const handleSubmitFormUser = async (values) => {
     console.log('values', values);
-    // setButtonLoading(true);
-    // if (values.edit) {
-    //   // sử lí edit user
-    //   const newValues = Object.assign({}, values);
-    //   const attr = 'edit';
-    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-    //     if (key !== attr) {
-    //       item[key] = newValues[key];
-    //     }
-    //     return item;
-    //   }, {});
-    //   dataEdit.id = userRecord.id;
+
     await editConsutanlt({ ...values, id: userRecord.id });
     setShowModel(false);
-    // } else {
-    //   // sử lí add user bình thường
-    //   await addUser(values);
-    // }
 
     actionRef?.current?.reload();
     // setButtonLoading(false);

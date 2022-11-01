@@ -8,7 +8,7 @@ import style from './planetdetail.less';
 import { Content } from 'antd/lib/layout/layout';
 import { EditOutlined } from '@ant-design/icons';
 import { uploadFile } from '@/utils/uploadFile';
-import { updatePlanet } from '@/services/planet';
+import { updatePlanet } from '@/services/AtrologyService/PlantService/planet';
 import ModalForm from '@/components/ModalForm';
 
 const PlanetDetail = (props) => {
