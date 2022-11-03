@@ -381,45 +381,8 @@ const User = () => {
         <ProTable
           columns={column}
           rowKey={(record) => record.id}
-          // expandable={{
-          //   expandedRowRender,
-          // }}
           request={async (params, sort, filter) => {
-            // const currentAttr = 'current';
-            // const pageSizeAttr = 'pageSize';
             const data = [];
-            // console.log(params);
-            // if (params.userName || params.phoneNumber || params.status) {
-            //   console.log('A');
-            //   const newParams = Object.keys(params).reduce((item, key) => {
-            //     if (key != currentAttr && key != pageSizeAttr) {
-            //       if (key === 'userName') {
-            //         item.name = params[key];data
-            //       } else if (key === 'phoneNumber') {
-            //         item.phone = params[key];
-            //       } else if (key === 'status') {
-            //         if (params[key].toString().toLowerCase() === 'active') {
-            //           item.status = 1;
-            //         } else if (params[key].toString().toLowerCase() === 'unactive') {
-            //           item.status = 0;
-            //         }
-            //       } else {
-            //         item[key] = params[key];
-            //       }
-            //     }
-            //     return item;
-            //   }, {});
-            //   console.log('params', newParams);
-            //   await getUsers(newParams).then((res) => {
-            //     console.log('res at table query', res);
-            //     res?.payload?.map((item, index) => {
-            //       item.number = index + 1;
-            //       data[index] = item;
-            //     });
-            //     setTotal(res?.total);
-            //   });
-            // } else {
-            //   console.log('B');
             await getConsutanlts(params.fullname ?? '').then((res) => {
               console.log('res at table query', res);
               res?.data?.map((item, index) => {
