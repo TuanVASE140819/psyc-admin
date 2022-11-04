@@ -122,8 +122,8 @@ const NoticeIconView = () => {
           tabKey="event"
           title="Rút tiền"
           emptyText="你已完成所有待办"
-          count={unreadMsg.null}
-          list={noticeData.null}
+          count={unreadMsg.withdraw}
+          list={noticeData.withdraw}
           showViewMore
         />
       </NoticeIcon>

@@ -27,7 +27,7 @@ const SurveyList = (props) => {
         onChange={handleChange}
         onTabClick={handleTabClick}
       >
-        <TabPane tab="DISC_Common" key="1">
+        <TabPane>
           <ZodiacDetail zodiac={dataList} />
         </TabPane>
       </Tabs>

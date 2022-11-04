@@ -68,7 +68,7 @@ export default defineConfig({
     },
     {
       path: '/survey',
-      name: 'Khảo Sát',
+      name: 'Loại khảo sát',
       icon: 'form',
       access: 'admin',
       routes: [
@@ -81,7 +81,7 @@ export default defineConfig({
         },
         {
           path: '/survey/:zodiacId',
-          name: 'Detail Zodiac',
+          name: 'Khảo sát',
           hideInMenu: true,
           access: 'admin',
           component: './survey/[zodiacId]',

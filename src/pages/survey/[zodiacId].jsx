@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Content } from 'antd/lib/layout/layout';
 import { getASurveyType } from '@/services/SurveyService/survey';
 import { getSurveyBySurveyTypeId } from '@/services/SurveyService/survey';
-import ShortZodiacDetail from './component/ShortZodiacDetail';
-import ZodiacDetail from './component/ZodiacDetail';
-import ZodiacHouse from './component/ZodiacHouse';
-import DailyHoroscope from './component/DailyHoroscope';
-
+import ShortZodiacDetail from './component/SurveyType';
 import SurveyList from './component/SurveyList';
 
 const DetailZodiac = (props) => {
