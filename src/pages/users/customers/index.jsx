@@ -1,6 +1,6 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Button, message, Space, Tag } from 'antd';
-import React from 'react';
+import { Button, message, Modal, Space, Tag } from 'antd';
+import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
 import dayjs from 'dayjs';
+import MapPicker from 'react-google-map-picker';
 
 const User = () => {
   //config column
@@ -54,6 +55,24 @@ const User = () => {
           },
         ],
       },
+    },
+    {
+      title: 'Kinh độ',
+      dataIndex: 'longtitude',
+      search: false,
+      copyable: true,
+      valueType: 'text',
+      filters: true,
+      onFilter: true,
+    },
+    {
+      title: 'Vĩ độ độ',
+      dataIndex: 'latitude',
+      search: false,
+      copyable: true,
+      valueType: 'text',
+      filters: true,
+      onFilter: true,
     },
     {
       title: 'Trạng thái',
@@ -181,6 +200,15 @@ const User = () => {
       value: '',
     },
     {
+      fieldType: 'position',
+      labelLatitude: 'Latitude',
+      widthLatitude: 'small',
+      nameLatitude: 'latitude',
+      labelLongtitude: 'Longitude',
+      widthLongtitude: 'small',
+      nameLongtitude: 'longitude',
+    },
+    {
       fieldType: 'formSelect',
       key: 'selectGenderUser',
       name: 'gender',
@@ -255,6 +283,8 @@ const User = () => {
     //   value: 'edit',
     // },
   ];
+  const DefaultLocation = { lat: 10.8, lng: 106.8 };
+  const DefaultZoom = 10;
 
   const actionRef = React.useRef();
   const formUserRef = React.useRef();
@@ -277,6 +307,10 @@ const User = () => {
   const [total, setTotal] = React.useState(10);
   //button edit loading
   const [buttonEditLoading, setButtonEditLoading] = React.useState(false);
+  const [modalPicker, setModalPicker] = useState(false);
+  const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
+  const [location, setLocation] = useState(defaultLocation);
+  const [zoom, setZoom] = useState(DefaultZoom);
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
@@ -309,6 +343,30 @@ const User = () => {
     });
     setButtonSubmitterUser(newButtonSubmitUser);
   }, [buttonLoading]);
+
+  React.useEffect(() => {
+    formUserRef?.current?.setFieldsValue({
+      ['latitude']: location.lat,
+      ['longitude']: location.lng,
+    });
+  }, [location]);
+
+  const handleOpenModalPicker = () => {
+    setModalPicker(true);
+  };
+
+  const handleCancelModalPicker = () => {
+    setModalPicker(false);
+  };
+
+  function handleChangeLocation(lat, lng) {
+    setLocation({ lat: lat, lng: lng });
+    message.success('Get Location Success!');
+  }
+
+  function handleChangeZoom(newZoom) {
+    setZoom(newZoom);
+  }
 
   const customUpload = async ({ onError, onSuccess, file }) => {
     const isImage = file.type.indexOf('image/') === 0;
@@ -368,10 +426,14 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
-    console.log('values', values);
     const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
-    //
-    await editCustomer({ ...values, id: userRecord.id, dob: tempDOB });
+    await editCustomer({
+      ...values,
+      id: userRecord.id,
+      dob: tempDOB,
+      latitude: values.latitude.toString(),
+      longitude: values.longitude.toString(),
+    });
     setShowModel(false);
 
     actionRef?.current?.reload();
@@ -444,6 +506,7 @@ const User = () => {
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
           handleResetForm={handleResetForm}
+          handleOpenModalPicker={handleOpenModalPicker}
         />
       ) : (
         <ModalForm
@@ -457,8 +520,32 @@ const User = () => {
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
           handleResetForm={handleResetForm}
+          handleOpenModalPicker={handleOpenModalPicker}
         />
       )}
+
+      <Modal
+        visible={modalPicker}
+        onCancel={() => handleCancelModalPicker()}
+        closable={false}
+        title={false}
+        width="1300px"
+        footer={[
+          <Button key="cancelModelView" type="default" onClick={() => handleCancelModalPicker()}>
+            Close
+          </Button>,
+        ]}
+      >
+        <MapPicker
+          defaultLocation={defaultLocation}
+          zoom={zoom}
+          mapTypeId="roadmap"
+          style={{ height: '700px' }}
+          onChangeLocation={handleChangeLocation}
+          onChangeZoom={handleChangeZoom}
+          apiKey="AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8"
+        />
+      </Modal>
     </>
   );
 };
