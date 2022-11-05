@@ -12,77 +12,43 @@ const columns = [
     width: 48,
   },
   {
-    title: 'Mã giao dịch',
-    dataIndex: 'code',
+    title: 'Tên tư vấn viên',
+    dataIndex: 'consultantName',
     valueType: 'text',
-    sorter: (a, b) => a.code - b.code,
+    sorter: (a, b) => a.consultantName - b.consultantName,
     copyable: true,
     ellipsis: true,
-    tip: 'Mã giao dịch là ID duy nhất của giao dịch',
+  },
+  {
+    title: 'Tên tài khoản',
+    dataIndex: 'accountName',
+    valueType: 'text',
+    sorter: (a, b) => a.accountName - b.accountName,
+    copyable: true,
+    ellipsis: true,
+    tip: 'Tên tài khoản',
     formItemProps: {
       rules: [
         {
           required: true,
-          message: 'Mã giao dịch là bắt buộc',
-        },
-      ],
-    },
-  },
-
-  {
-    title: 'Tên khách hàng',
-    dataIndex: 'customerName',
-    valueType: 'text',
-    search: false,
-    sorter: (a, b) => a.customerName - b.customerName,
-    tip: 'Tên khách hàng',
-    formItemProps: {
-      rules: [
-        {
-          required: false,
-          message: 'Tên khách hàng là bắt buộc',
+          message: 'Tên tài khoản là bắt buộc',
         },
       ],
     },
   },
   {
-    title: 'Số tiền (VNĐ)',
-    dataIndex: 'amount',
+    title: 'Tên ngân hàng',
+    dataIndex: 'bankName',
     valueType: 'text',
-    sorter: (a, b) => a.amount - b.amount,
-
-    render: (dom, entity) => {
-      return (
-        <Tag color="green">
-          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
-          {entity.amount < 999 && entity.amount < 0
-            ? entity.amount
-            : entity.amount < 0
-            ? entity.amount
-            : entity.amount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
-        </Tag>
-      );
-    },
+    sorter: (a, b) => a.bankName - b.bankName,
   },
-  // render: (dom, entity) => {
   {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    search: false,
+    title: 'Số tài khoản',
+    dataIndex: 'bankNumber',
     valueType: 'text',
-    render: (dom, entity) => {
-      if (entity.status === 'waiting') {
-        return <Tag color="warning">Đang chờ</Tag>;
-      }
-
-      if (entity.status === 'success') {
-        return <Tag color="success">Chấp nhận</Tag>;
-      }
-
-      if (entity.status === 'fail') {
-        return <Tag color="error">Từ chối</Tag>;
-      }
-    },
+    sorter: (a, b) => a.bankNumber - b.bankNumber,
+    copyable: true,
+    ellipsis: true,
   },
   {
     title: 'Ngày tạo',
@@ -103,7 +69,96 @@ const columns = [
     },
   },
   {
-    title: 'Hành động',
+    title: 'Số tiền yêu cầu',
+    width: 150,
+    dataIndex: 'requestAmount',
+    valueType: 'text',
+    sorter: (a, b) => a.requestAmount - b.requestAmount,
+    render: (dom, entity) => {
+      return (
+        <Tag color="green">
+          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+          {entity.requestAmount < 999 && entity.requestAmount < 0
+            ? entity.requestAmount
+            : entity.requestAmount < 0
+            ? entity.requestAmount
+            : entity.requestAmount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+        </Tag>
+      );
+    },
+  },
+  {
+    title: 'Số tiền thực tế',
+    dataIndex: 'actualWithdrawal',
+    valueType: 'text',
+    sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
+    render: (dom, entity) => {
+      return (
+        <Tag color="green">
+          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+          {entity.actualWithdrawal < 999 && entity.actualWithdrawal < 0
+            ? entity.actualWithdrawal
+            : entity.actualWithdrawal < 0
+            ? entity.actualWithdrawal
+            : entity.actualWithdrawal.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+        </Tag>
+      );
+    },
+  },
+  {
+    title: 'Trạng thái',
+    width: 120,
+    dataIndex: 'status',
+    search: false,
+    valueType: 'text',
+    render: (dom, entity) => {
+      if (entity.status === 'waiting') {
+        return <Tag color="warning">Đang chờ</Tag>;
+      }
+
+      if (entity.status === 'success') {
+        return <Tag color="success">Chấp nhận</Tag>;
+      }
+
+      if (entity.status === 'fail') {
+        return <Tag color="error">Từ chối</Tag>;
+      }
+    },
+  },
+  {
+    title: 'Ví',
+    width: 100,
+    dataIndex: 'walletId',
+    valueType: 'text',
+    sorter: (a, b) => a.walletId - b.walletId,
+    ellipsis: true,
+    tip: 'Ví',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: 'Ví là bắt buộc',
+        },
+      ],
+    },
+  },
+  {
+    title: 'Ghi chú',
+    dataIndex: 'description',
+    valueType: 'text',
+    sorter: (a, b) => a.description - b.description,
+    ellipsis: true,
+    tip: 'Mô tả',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: 'Mô tả là bắt buộc',
+        },
+      ],
+    },
+  },
+  {
     valueType: 'option',
     render: (dom, entity) => {
       return (
@@ -129,7 +184,7 @@ const columns = [
                 rejectDeposit(entity.id);
                 setTimeout(() => {
                   window.location.reload();
-                  message.success('Chấp nhận giao dịch thành công');
+                  message.success('Từ chối giao dịch thành công');
                 }, 4000);
               }}
             >
@@ -145,7 +200,7 @@ const columns = [
 // https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=1
 const acceptDeposit = async (id) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=${id}`,
+    `https://psycteam.azurewebsites.net/api/Withdrawals/acceptwithdraw?id=${id}`,
     {
       method: 'PUT',
     },
@@ -153,10 +208,10 @@ const acceptDeposit = async (id) => {
   return res;
 };
 
-//https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=1
-const rejectDeposit = async (id) => {
+//https://psycteam.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=1&description=nono
+const rejectDeposit = async (id, description) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=${id}`,
+    `https://psycteam.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=${id}&description=${description}`,
     {
       method: 'PUT',
     },
@@ -175,7 +230,7 @@ export default () => {
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter);
         //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
-        https: return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
+        https: return request('https://psycteam.azurewebsites.net/api/Withdrawals/Getallwithdraw', {
           params: {
             ...params,
             date: params.dateCreate,
@@ -224,7 +279,7 @@ export default () => {
         showTotal: (total, range) => `Hiển thị ${range[0]}-${range[1]} của ${total} kết quả`,
       }}
       dateFormatter="string"
-      headerTitle="Danh sách giao dịch nạp tiền"
+      headerTitle="Danh sách giao dịch rút tiền"
       toolBarRender={() => []}
     />
   );

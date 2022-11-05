@@ -14,6 +14,12 @@ export async function seenNoti(id, options) {
     ...(options || {}),
   });
 }
+export async function seenAllNoti(options) {
+  return request('https://psycteam.azurewebsites.net/api/Notifications/seenallnotibyadmin', {
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
 
 export async function rule(params, options) {
   return request('/api/rule', {

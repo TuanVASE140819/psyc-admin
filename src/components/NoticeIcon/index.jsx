@@ -3,7 +3,7 @@ import { Tag, message } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel, useRequest } from 'umi';
-import { getNotices } from '@/services/ant-design-pro/api';
+import { getNotices, seenAllNoti } from '@/services/ant-design-pro/api';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import 'moment/locale/vi';
@@ -71,18 +71,12 @@ const NoticeIconView = () => {
   };
 
   const clearReadState = (title, key) => {
-    setNotices(
-      notices.map((item) => {
-        const notice = { ...item };
-
-        if (notice.type === key) {
-          notice.read = true;
-        }
-
-        return notice;
-      }),
-    );
-    message.success(`${title} cleared!`);
+    //  seen all notification
+    seenAllNoti(currentUser.id).then((res) => {
+      if (res.status === 200) {
+        message.success('Đã đánh dấu tất cả là đã đọc');
+      }
+    });
   };
 
   return (

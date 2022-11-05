@@ -199,6 +199,12 @@ export default defineConfig({
           access: 'admin',
           component: './transaction/deposits',
         },
+        {
+          path: '/transaction/withdraws',
+          name: 'Rút tiền',
+          access: 'admin',
+          component: './transaction/withdraws',
+        },
       ],
     },
     {
