@@ -374,7 +374,7 @@ const News = () => {
   //xu li dong mo modal
   const handleModal = () => {
     setShowModal(!showModal);
-    setFlagEditForm('');
+    setFlagEditForm('add');
     setNewsRecord(null);
     setImgLinkFirebase(null);
   };
@@ -401,9 +401,9 @@ const News = () => {
 
   //xuli submit form
   const handleSubmitFormNews = async (values) => {
-    console.log(values);
-    if (values.edit) {
+    if (flagEditForm === 'edit') {
       await updateArticle({ ...values, id: newsRecord.id });
+      handleResetForm();
       setShowModal(false);
     } else {
       await addArticle(values);
@@ -425,6 +425,7 @@ const News = () => {
       setStateEditor(news.contentNews);
       setFlagEditForm('edit');
       setShowModal(!showModal);
+      setImgLinkFirebase(news.urlBanner);
       formNewsRef?.current?.setFieldsValue(news);
     }
   };
@@ -484,6 +485,7 @@ const News = () => {
             pageSize: pageSize,
             total: total,
             onchange: (page, pageSize) => {
+              console.log('onchange', page, pageSize);
               setPage(page);
               setPageSize(pageSize);
             },
