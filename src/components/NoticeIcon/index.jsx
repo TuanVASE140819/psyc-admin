@@ -45,16 +45,41 @@ const getUnreadData = (noticeData) => {
 //loop set timeout for notification
 
 const NoticeIconView = () => {
-  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+  // const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   const [notices, setNotices] = useState([]);
-  const { data } = useRequest(getNotices);
+  // const { data } = useRequest(getNotices);
+  // useEffect(() => {
+  //   setNotices(data || []);
+  // }, [data]);
+  // const noticeData = getNoticeData(notices);
+  // const unreadMsg = getUnreadData(noticeData || {});
+
+  const [notifyList, setNotifyList] = useState([]);
+
   useEffect(() => {
-    setNotices(data || []);
-  }, [data]);
-  const noticeData = getNoticeData(notices);
-  const unreadMsg = getUnreadData(noticeData || {});
+    const getNotifyList = async () => {
+      try {
+        const { data } = await getNotices();
+        setNotifyList(data);
+      } catch (error) {}
+    };
+
+    getNotifyList();
+
+    const interval = setInterval(() => {
+      getNotifyList();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const depositList = notifyList.filter((item) => item.type === 'deposit');
+  const withdrawList = notifyList.filter((item) => item.type === 'withdraw');
+  const depositUnread = depositList.filter((item) => item.status === 'notseen').length;
+  const withdrawUnread = withdrawList.filter((item) => item.status === 'notseen').length;
+  const totalUnread = depositUnread + withdrawUnread;
 
   const changeReadState = (id) => {
     setNotices(
@@ -84,7 +109,7 @@ const NoticeIconView = () => {
       <NoticeIcon
         className={styles.action}
         // set timeout 1000 s for variable coun
-        count={unreadMsg && Object.keys(unreadMsg).reduce((pre, key) => pre + unreadMsg[key], 0)}
+        count={totalUnread}
         onItemClick={(item) => {
           changeReadState(item.id);
           // nếu tyle là deposit thì chuyển hướng đến trang nạp tiền
@@ -106,8 +131,8 @@ const NoticeIconView = () => {
         <NoticeIcon.Tab
           tabKey="message"
           color="#108ee9"
-          count={unreadMsg.deposit}
-          list={noticeData.deposit}
+          count={depositUnread}
+          list={depositList}
           title="Nạp tiền"
           emptyText="您已读完所有消息"
           showViewMore
@@ -116,8 +141,8 @@ const NoticeIconView = () => {
           tabKey="event"
           title="Rút tiền"
           emptyText="你已完成所有待办"
-          count={unreadMsg.withdraw}
-          list={noticeData.withdraw}
+          count={withdrawUnread}
+          list={withdrawList}
           showViewMore
         />
       </NoticeIcon>

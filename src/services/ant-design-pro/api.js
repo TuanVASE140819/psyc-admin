@@ -9,7 +9,7 @@ export async function getNotices(options) {
 }
 
 export async function seenNoti(id, options) {
-  return request(`https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
+  return await request(`https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
     method: 'PUT',
     ...(options || {}),
   });

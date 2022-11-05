@@ -49,9 +49,9 @@ const NoticeList = ({
             <List.Item
               className={itemCls}
               key={item.key || i}
-              onClick={() => {
+              onClick={async () => {
+                await seenNoti(item.id);
                 onClick?.(item);
-                seenNoti(item.id);
               }}
             >
               <List.Item.Meta
