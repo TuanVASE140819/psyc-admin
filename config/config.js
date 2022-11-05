@@ -67,6 +67,28 @@ export default defineConfig({
       component: './dashboard',
     },
     {
+      path: '/survey',
+      name: 'Loại khảo sát',
+      icon: 'form',
+      access: 'admin',
+      routes: [
+        {
+          path: '/survey',
+          name: 'Loại Khảo Sát',
+          icon: 'form',
+          access: 'admin',
+          component: './survey',
+        },
+        {
+          path: '/survey/:zodiacId',
+          name: 'Khảo sát',
+          hideInMenu: true,
+          access: 'admin',
+          component: './survey/[zodiacId]',
+        },
+      ],
+    },
+    {
       path: '/users',
       name: 'Người dùng',
       icon: 'user',
@@ -75,33 +97,21 @@ export default defineConfig({
           path: '/users',
           redirect: '/users/category',
         },
-        {
-          path: '/users/specialize',
-          name: 'Chuyên môn',
-          // icon: 'smile',
-          access: 'admin',
-          component: './shop/category',
-        },
+
         {
           path: '/users/customers',
           name: 'Khách hàng',
           icon: 'user-add',
           access: 'admin',
-          component: './shop/users',
+          component: './users/customers',
         },
         {
           path: '/users/consutanlts',
           name: 'Tư vấn viên',
           // icon: 'smile',
           access: 'admin',
-          component: './shop/users-consutanlts',
+          component: './users/consutanlts',
         },
-        // {
-        //   path: '/users/productmaster',
-        //   name: 'Product',
-        //   access: 'admin',
-        //   component: './shop/productmaster',
-        // },
         {
           component: './404',
         },
@@ -123,18 +133,6 @@ export default defineConfig({
           access: 'admin',
           component: './data/news',
         },
-        // {
-        //   path: '/data/quote',
-        //   name: 'Quote',
-        //   access: 'admin',
-        //   component: './data/quote',
-        // },
-        // {
-        //   path: '/data/horoscopeitem',
-        //   name: 'HoroscopeItem',
-        //   access: 'admin',
-        //   component: './data/horoscopeitem',
-        // }
       ],
     },
     {
@@ -195,17 +193,17 @@ export default defineConfig({
           path: '/transaction',
           redirect: '/transaction/deposits',
         },
-        // {
-        //   path: '/transaction/withdraw',
-        //   name: 'Rút tiền',
-        //   access: 'admin',
-        //   component: './transaction/withdraw',
-        // },
         {
           path: '/transaction/deposits',
           name: 'Nạp tiền',
           access: 'admin',
           component: './transaction/deposits',
+        },
+        {
+          path: '/transaction/withdraws',
+          name: 'Rút tiền',
+          access: 'admin',
+          component: './transaction/withdraws',
         },
       ],
     },

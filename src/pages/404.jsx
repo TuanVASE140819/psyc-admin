@@ -6,10 +6,10 @@ const NoFoundPage = () => (
   <Result
     status="404"
     title="404"
-    subTitle="Sorry, the page you visited does not exist."
+    subTitle="Xin lỗi, trang bạn đang tìm kiếm không tồn tại."
     extra={
       <Button type="primary" onClick={() => history.push('/')}>
-        Back Home
+        Quay lại trang chủ
       </Button>
     }
   />

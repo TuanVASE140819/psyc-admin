@@ -1,12 +1,17 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Image, message, Space } from 'antd';
 import React from 'react';
-import { addHouse, getHouses, deleteHouse, updateHouse, getAnHouse } from '@/services/house';
+import {
+  addHouse,
+  getHouses,
+  deleteHouse,
+  updateHouse,
+  getAnHouse,
+} from '@/services/AtrologyService/HouseService/house';
 import { uploadFile } from '@/utils/uploadFile';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
-import LifeTopic from './component/LifeTopic';
 const House = () => {
   //config column table
   const column = [
@@ -416,9 +421,6 @@ const House = () => {
       }
     };
   };
-  const expandedRowRender = (record) => {
-    return <LifeTopic house={record} />;
-  };
   return (
     <>
       <PageContainer>
@@ -441,20 +443,6 @@ const House = () => {
             submittext: 'Submit',
             resetText: 'Reset',
           }}
-          // expandable={{
-          //   expandedRowRender,
-          // }}
-          // toolBarRender={(action) => [
-          //   <Button
-          //     size="middle"
-          //     key="buttonAddHouse"
-          //     type="primary"
-          //     icon={<PlusOutlined />}
-          //     onClick={() => handleModal()}
-          //   >
-          //     Add
-          //   </Button>,
-          // ]}
           request={async (params, sort, filter) => {
             const data = [];
             await getHouses(params.name ?? '').then((res) => {

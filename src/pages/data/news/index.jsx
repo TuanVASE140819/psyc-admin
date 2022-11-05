@@ -9,7 +9,13 @@ import {
 import { Switch } from 'antd';
 import { Button, message, Space, Tag } from 'antd';
 import React from 'react';
-import { addNews, getNews, deleteNews, updateNews, getAnNews } from '@/services/news';
+import {
+  addArticle,
+  deleteArticle,
+  getArticleList,
+  updateArticle,
+  getAnArticle,
+} from '@/services/ArticleService/article';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
@@ -397,10 +403,10 @@ const News = () => {
   const handleSubmitFormNews = async (values) => {
     console.log(values);
     if (values.edit) {
-      await updateNews({ ...values, id: newsRecord.id });
+      await updateArticle({ ...values, id: newsRecord.id });
       setShowModal(false);
     } else {
-      await addNews(values);
+      await addArticle(values);
       handleResetForm();
       setShowModal(false);
     }
@@ -412,7 +418,7 @@ const News = () => {
   const handleEditNewsForm = async (record) => {
     const idNews = record.id;
     setButtonEditLoading(true);
-    const news = await getAnNews(idNews);
+    const news = await getAnArticle(idNews);
     setButtonEditLoading(false);
     if (news) {
       setNewsRecord(news);
@@ -425,7 +431,7 @@ const News = () => {
 
   //xuli delete news
   const handleOkDeleteNews = async (record) => {
-    const result = await deleteNews(record.id);
+    const result = await deleteArticle(record.id);
     if (result) {
       tableNewsRef?.current?.reload();
     }
@@ -524,7 +530,7 @@ const News = () => {
             //     setTotal(res?.total);
             //   });
             // } else {
-            await getNews(params).then((res) => {
+            await getArticleList(params).then((res) => {
               res?.data?.map((item, index) => {
                 item.number = index + 1;
                 data[index] = item;

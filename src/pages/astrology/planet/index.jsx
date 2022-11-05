@@ -1,14 +1,14 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Col, message, Row } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { addPlanet, getPlanets } from '@/services/planet';
+import { addPlanet, getPlanets } from '@/services/AtrologyService/PlantService/planet';
 import { getZodiacs } from '@/services/ant-design-pro/zodiac';
 import {
   getPlanetZodiacs,
   getAnPlanetZodiac,
   updatePlanetZodiac,
   addPlanetZodiac,
-} from '@/services/planetzodiac';
+} from '@/services/AtrologyService/PlantService/planetzodiac';
 import { uploadFile } from '@/utils/uploadFile';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProSkeleton from '@ant-design/pro-skeleton';

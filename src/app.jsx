@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { setLocale, getLocale } from 'umi';
-import { getCurrentUser } from './services/ant-design-pro/user';
+import { getCurrentUser } from './services/UserService/customers';
 import { getUserInfo, setUserInfo, getAppToken, removeAppToken } from './utils/utils';
 import { remove } from 'lodash';
 import { message } from 'antd';

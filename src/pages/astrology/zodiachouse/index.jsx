@@ -11,8 +11,8 @@ import {
   addZodiacHouse,
   getAnZodiacHouse,
   updateZodiacHouse,
-} from '@/services/zodiachouse';
-import { getHouses } from '@/services/house';
+} from '@/services/AtrologyService/ZodiacService/zodiachouse';
+import { getHouses } from '@/services/AtrologyService/HouseService/house';
 import Meta from 'antd/lib/card/Meta';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
