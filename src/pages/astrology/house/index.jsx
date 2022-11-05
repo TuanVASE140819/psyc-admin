@@ -439,9 +439,10 @@ const House = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Search',
-            submittext: 'Submit',
-            resetText: 'Reset',
+            searchText: 'Tìm kiếm',
+            submittext: 'Thay đổi',
+            resetText: 'Quay lại',
+            placeholderTitle: 'Tìm kiếm',
           }}
           request={async (params, sort, filter) => {
             const data = [];

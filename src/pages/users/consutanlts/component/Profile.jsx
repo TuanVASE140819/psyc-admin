@@ -490,7 +490,7 @@ const Profile = (props) => {
   //xu li lien quan den map picker
   function handleChangeLocation(lat, lng) {
     setLocation({ lat: lat, lng: lng });
-    message.success('Get Location Success!');
+    message.success('Đã chọn vị trí');
   }
 
   function handleChangeZoom(newZoom) {

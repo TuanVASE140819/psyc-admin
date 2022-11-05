@@ -56,24 +56,24 @@ const User = () => {
         ],
       },
     },
-    {
-      title: 'Kinh độ',
-      dataIndex: 'longtitude',
-      search: false,
-      copyable: true,
-      valueType: 'text',
-      filters: true,
-      onFilter: true,
-    },
-    {
-      title: 'Vĩ độ độ',
-      dataIndex: 'latitude',
-      search: false,
-      copyable: true,
-      valueType: 'text',
-      filters: true,
-      onFilter: true,
-    },
+    // {
+    //   title: 'Kinh độ',
+    //   dataIndex: 'longtitude',
+    //   search: false,
+    //   copyable: true,
+    //   valueType: 'text',
+    //   filters: true,
+    //   onFilter: true,
+    // },
+    // {
+    //   title: 'Vĩ độ độ',
+    //   dataIndex: 'latitude',
+    //   search: false,
+    //   copyable: true,
+    //   valueType: 'text',
+    //   filters: true,
+    //   onFilter: true,
+    // },
     {
       title: 'Trạng thái',
       search: false,
@@ -204,7 +204,7 @@ const User = () => {
       labelLatitude: 'Latitude',
       widthLatitude: 'small',
       nameLatitude: 'latitude',
-      labelLongtitude: 'Longitude',
+      labelLongtitude: 'Kinh độ',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
     },
@@ -361,7 +361,7 @@ const User = () => {
 
   function handleChangeLocation(lat, lng) {
     setLocation({ lat: lat, lng: lng });
-    message.success('Get Location Success!');
+    message.success('Đã chọn vị trí');
   }
 
   function handleChangeZoom(newZoom) {

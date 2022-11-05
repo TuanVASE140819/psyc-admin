@@ -204,7 +204,7 @@ const TableList = () => {
               {...rest}
               placeholder={intl.formatMessage({
                 id: 'pages.searchTable.exception',
-                defaultMessage: 'Please enter exception information',
+                defaultMessage: 'Nhập thông tin lỗi',
               })}
             />
           );

@@ -197,6 +197,10 @@ export default () => {
       rowKey="id"
       search={{
         labelWidth: 'auto',
+        searchText: 'Tìm kiếm',
+        submittext: 'Thay đổi',
+        resetText: 'Quay lại',
+        placeholderTitle: 'Tìm kiếm',
       }}
       options={{
         setting: {
