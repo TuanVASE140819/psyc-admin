@@ -179,6 +179,7 @@ const User = () => {
       value: '',
       requiredField: 'true',
       ruleMessage: 'Input gmail before submit',
+      hidden: true,
     },
     {
       fieldType: 'formSelect',
@@ -367,6 +368,7 @@ const User = () => {
       setUserRecord(user);
       setFlagEditForm('edit');
       setShowModel(!showModal);
+      setImgLinkFirebase(user.imageUrl);
       formUserRef?.current?.setFieldsValue(user);
     }
     setButtonEditLoading(false);
@@ -420,7 +422,7 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${userRecord.fullname}`}
+          titleModal={`Edit ${userRecord.fullName}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
