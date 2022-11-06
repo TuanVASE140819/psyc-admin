@@ -70,6 +70,7 @@ export default () => {
       title: 'Tên ngân hàng',
       dataIndex: 'bankName',
       valueType: 'text',
+      search: false,
       sorter: (a, b) => a.bankName - b.bankName,
     },
     {
@@ -99,7 +100,8 @@ export default () => {
       },
     },
     {
-      title: 'Số tiền yêu cầu',
+      title: 'Số tiền yêu cầu (VNĐ)',
+      search: false,
       width: 150,
       dataIndex: 'requestAmount',
       valueType: 'text',
@@ -118,7 +120,8 @@ export default () => {
       },
     },
     {
-      title: 'Số tiền thực tế',
+      title: 'Số tiền thực tế (VNĐ)',
+      search: false,
       dataIndex: 'actualWithdrawal',
       valueType: 'text',
       sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
@@ -158,6 +161,7 @@ export default () => {
     {
       title: 'Ví',
       width: 100,
+      search: false,
       dataIndex: 'walletId',
       valueType: 'text',
       sorter: (a, b) => a.walletId - b.walletId,
@@ -176,6 +180,7 @@ export default () => {
       title: 'Ghi chú',
       dataIndex: 'description',
       valueType: 'text',
+      search: false,
       sorter: (a, b) => a.description - b.description,
       ellipsis: true,
       tip: 'Mô tả',

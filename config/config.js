@@ -207,24 +207,24 @@ export default defineConfig({
         },
       ],
     },
-    {
-      path: '/excel',
-      name: 'Excel',
-      icon: 'file-excel',
-      access: 'admin',
-      routes: [
-        {
-          path: '/excel',
-          redirect: '/excel/dailyHoroscopes',
-        },
-        {
-          path: '/excel/dailyHoroscopes',
-          name: 'Tử vi hàng ngày',
-          access: 'admin',
-          component: './excel/dailyHoroscopes',
-        },
-      ],
-    },
+    // {
+    //   path: '/excel',
+    //   name: 'Excel',
+    //   icon: 'file-excel',
+    //   access: 'admin',
+    //   routes: [
+    //     {
+    //       path: '/excel',
+    //       redirect: '/excel/dailyHoroscopes',
+    //     },
+    //     {
+    //       path: '/excel/dailyHoroscopes',
+    //       name: 'Tử vi hàng ngày',
+    //       access: 'admin',
+    //       component: './excel/dailyHoroscopes',
+    //     },
+    //   ],
+    // },
     {
       path: '/system-handler',
       name: 'system-handler',
