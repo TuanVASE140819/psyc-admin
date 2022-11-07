@@ -9,7 +9,6 @@ import ProSkeleton from '@ant-design/pro-skeleton';
 import Quote from './component/Quote';
 import DailyHoroscope from './component/DailyHoroscope';
 
-
 import {
   getDailyHoroscope,
   getDailyHoroscopes,

@@ -68,26 +68,47 @@ export default defineConfig({
     },
     {
       path: '/survey',
-      name: 'Loại khảo sát',
+      name: 'Chiêm tinh học',
       icon: 'form',
       access: 'admin',
+      component: './survey',
       routes: [
+        // {
+        //   path: '/survey',
+        //   redirect: '/survey',
+        // },
+        // {
+        //   path: '/survey/:surveyTypeId',
+        //   name: 'Detail Zodiac',
+        //   hideInMenu: true,
+        //   access: 'admin',
+        //   component: './survey/[surveyTypeId]',
+        // },
+
         {
-          path: '/survey',
-          name: 'Loại Khảo Sát',
-          icon: 'form',
-          access: 'admin',
-          component: './survey',
-        },
-        {
-          path: '/survey/:zodiacId',
+          path: '/survey/:surveyTypeId',
           name: 'Khảo sát',
           hideInMenu: true,
           access: 'admin',
-          component: './survey/[zodiacId]',
+          component: './survey/[surveyTypeId]',
+        },
+        {
+          path: '/survey/surveylist/questionlist',
+          name: 'Danh sách câu hỏi',
+          hideInMenu: true,
+          access: 'admin',
+          component: './survey/surveylist/questionlist',
+        },
+        {
+          path: '/survey/surveylist/questionlist/question',
+          name: 'Câu trả lời',
+          hideInMenu: true,
+          access: 'admin',
+          component: './survey/surveylist/questionlist/question',
         },
       ],
     },
+
     {
       path: '/users',
       name: 'Người dùng',
