@@ -5,7 +5,8 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
+// import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
+import { getQuestionBySurveyId, getQuestion } from '@/services/SurveyService/survey';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -17,13 +18,13 @@ const User = () => {
   const column = [
     {
       title: 'STT',
-      dataIndex: 'number',
-      sorter: (a, b) => a.number - b.number,
-      search: false,
+      dataIndex: 'id',
+      hideInSearch: true,
+      hideInForm: true,
     },
     {
-      title: 'Họ và tên',
-      dataIndex: 'fullname',
+      title: 'Câu hỏi',
+      dataIndex: 'description',
       copyable: true,
       valueType: 'fullname',
       sorter: (a, b) => a.fullname.length - b.fullname.length,
@@ -37,54 +38,6 @@ const User = () => {
           },
         ],
       },
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      search: false,
-      copyable: true,
-      valueType: 'email',
-      sorter: (a, b) => a.email.length - b.email.length,
-      filters: true,
-      onFilter: true,
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter phone number to search',
-          },
-        ],
-      },
-    },
-    // {
-    //   title: 'Kinh độ',
-    //   dataIndex: 'longtitude',
-    //   search: false,
-    //   copyable: true,
-    //   valueType: 'text',
-    //   filters: true,
-    //   onFilter: true,
-    // },
-    // {
-    //   title: 'Vĩ độ độ',
-    //   dataIndex: 'latitude',
-    //   search: false,
-    //   copyable: true,
-    //   valueType: 'text',
-    //   filters: true,
-    //   onFilter: true,
-    // },
-    {
-      title: 'Trạng thái',
-      search: false,
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: {
-        null: { text: 'Đang chờ', status: 'Default' },
-        active: { text: 'Hoạt động', status: 'Success' },
-        inactive: { text: 'Ngừng hoạt động', status: 'Error' },
-      },
-      width: '20%',
     },
     {
       title: 'Hành động',
@@ -465,13 +418,21 @@ const User = () => {
           expandable={{
             expandedRowRender,
           }}
-          request={async (params, sort, filter) => {
-            const data = [];
-            const arr = await getCustomers(params.fullname ?? '');
-            setTotal(arr.length);
+          //getQuestionBySurveyId
+          request={async (params, sorter, filter, surveyId) => {
+            const res = await getQuestionBySurveyId(1);
+            if (res) {
+              setTotal(res.total);
+              return {
+                data: res.data,
+                success: true,
+                total: res.total,
+              };
+            }
             return {
-              data: arr.map((item, index) => ({ ...item, number: index + 1 })),
+              data: [],
               success: true,
+              total: 0,
             };
           }}
           onReset={true}

@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Button, message, Space, Tag } from 'antd';
+import { Button, message, Space, Tag, Rate } from 'antd';
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -55,17 +55,14 @@ const User = () => {
       },
     },
     {
-      title: 'Cấp độ',
+      title: 'Xếp hạng',
       search: false,
-      dataIndex: 'level',
+      dataIndex: 'rating',
       valueType: 'select',
-      // valueEnum: {
-      //   1: { text: 'Cấp 1', status: 'Default' },
-      //   2: { text: 'Cấp 2', status: 'Processing' },
-      //   3: { text: 'Cấp 3', status: 'Success' },
-      //   4: { text: 'Cấp 4', status: 'Error' },
-      //   5: { text: 'Cấp 5', status: 'Warning' },
-      // },
+      // use Rate
+      render: (_, record) => {
+        return <Rate allowHalf defaultValue={record.rating} />;
+      },
     },
     {
       title: 'Trạng thái',
@@ -161,24 +158,24 @@ const User = () => {
       key: 'fieldAddUsername',
       label: 'Họ và tên',
       width: 'lg',
-      placeholder: 'Enter username ',
+      placeholder: 'Nhập tên người dùng',
       name: 'fullName',
       value: 'fullname',
       requiredField: 'true',
-      ruleMessage: 'Input username before submit',
+      ruleMessage: 'Nhập tên người dùng',
     },
     {
       fieldType: 'formText',
       key: 'fieldAddPhoneNumberUser',
       label: 'Gmail',
       width: 'lg',
-      placeholder: 'Enter phone number',
+      placeholder: 'NHập gmail',
       name: 'email',
       readOnly: 'true',
       disabled: 'true',
       value: '',
       requiredField: 'true',
-      ruleMessage: 'Input gmail before submit',
+      ruleMessage: 'Nhập gmail',
       hidden: true,
     },
     {
@@ -197,9 +194,9 @@ const User = () => {
           valueDisplay: 'Khóa',
         },
       ],
-      placeholder: 'Please select status',
+      placeholder: 'Chọn trạng thái',
       requiredField: 'true',
-      ruleMessage: 'Please select user status',
+      ruleMessage: 'Chọn trạng thái',
     },
     {
       fieldType: 'formInputFileImg',
@@ -212,7 +209,7 @@ const User = () => {
       nameInputFile: 'avatarFileToFirebase',
       readOnly: 'true',
       requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
+      ruleMessage: 'Tải ảnh lên trước khi submit',
     },
     // {
     //   fieldType: 'checkEdit',

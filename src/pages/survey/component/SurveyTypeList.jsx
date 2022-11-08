@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
 import React from 'react';
-import Zodiac from './Zodiac';
+import SurveyCard from './SurveyCard';
 
 const SurveyTypeList = (props) => {
   const { dataList } = props;
@@ -14,7 +14,7 @@ const SurveyTypeList = (props) => {
       }}
     >
       {dataList.map((item) => (
-        <Zodiac zodiac={item} />
+        <SurveyCard surveyType={item} />
       ))}
     </Col>
   );

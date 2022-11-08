@@ -20,6 +20,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
 
+import vi_VN from 'antd/es/locale/vi_VN';
 const News = () => {
   const column = [
     {
@@ -34,16 +35,11 @@ const News = () => {
       dataIndex: 'title',
       copyable: true,
       sorter: (a, b) => a.title.localeCompare(b.title),
-      filters: true,
-      onFilter: true,
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter News Title to search',
-          },
-        ],
-      },
+      // placeholder: 'Tìm kiếm theo tiêu đề' in id = 'title' and class = 'ant-input'
+      inputPlaceholder: 'Nhập từ khóa',
+
+      width: '20%',
+
       width: '50%',
     },
     {
@@ -162,41 +158,23 @@ const News = () => {
       key: 'fieldAddTitle',
       label: 'Tiêu đề bài viết',
       width: 'lg',
-      placeholder: 'Enter News Title',
+      placeholder: 'Nhập tiêu đề bài viết',
       name: 'title',
       requiredField: 'true',
-      ruleMessage: 'Input News Title before submit',
+      ruleMessage: 'Vui lòng nhập tiêu đề bài viết',
     },
-    // {
-    //   fieldType: 'formText',
-    //   key: 'fieldAddNewsTag',
-    //   label: 'News Tag',
-    //   width: 'lg',
-    //   placeholder: 'Enter News Tag',
-    //   name: 'tag',
-    //   requiredField: 'true',
-    //   ruleMessage: 'Input News Tag before submit',
-    // },
+
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
       label: 'Mô tả bài viết',
       width: 'lg',
-      placeholder: 'Enter News description',
+      placeholder: 'Nhập mô tả bài viết',
       name: 'description',
       requiredField: 'true',
-      ruleMessage: 'Input description before submit',
+      ruleMessage: 'Vui lòng nhập mô tả bài viết',
     },
-    // {
-    //   fieldType: 'formTextArea',
-    //   key: 'fieldAddNewsContent',
-    //   label: 'Content',
-    //   width: 'lg',
-    //   placeholder: 'Enter News content',
-    //   name: 'content',
-    //   requiredField: 'true',
-    //   ruleMessage: 'Input content before submit',
-    // },
+
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -208,7 +186,7 @@ const News = () => {
       nameInputFile: 'newsFileToFirebase',
       readOnly: true,
       requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
+      ruleMessage: 'Vui lòng nhập đường dẫn ảnh',
     },
     {
       fieldType: 'EditorMainContent',
@@ -222,41 +200,23 @@ const News = () => {
       key: 'fieldAddTitle',
       label: 'Tiêu đề bài viết',
       width: 'lg',
-      placeholder: 'Enter News Title',
+      placeholder: 'Nhập tiêu đề bài viết',
       name: 'title',
       requiredField: 'true',
-      ruleMessage: 'Input News Title before submit',
+      ruleMessage: 'Vui lòng nhập tiêu đề bài viết',
     },
-    // {
-    //   fieldType: 'formText',
-    //   key: 'fieldAddNewsTag',
-    //   label: 'createDay',
-    //   width: 'lg',
-    //   placeholder: 'Enter News Tag',
-    //   name: 'tag',
-    //   requiredField: 'true',
-    //   ruleMessage: 'Input News Tag before submit',
-    // },
+
     {
       fieldType: 'formTextArea',
       key: 'fieldAddNewsDescription',
       label: 'Mô tả bài viết',
       width: 'lg',
-      placeholder: 'Enter News description',
+      placeholder: 'Nhập mô tả bài viết',
       name: 'description',
       requiredField: 'true',
-      ruleMessage: 'Input description before submit',
+      ruleMessage: 'Vui lòng nhập mô tả bài viết',
     },
-    // {
-    //   fieldType: 'formTextArea',
-    //   key: 'fieldAddNewsContent',
-    //   label: 'Content',
-    //   width: 'lg',
-    //   placeholder: 'Enter News content',
-    //   name: 'content',
-    //   requiredField: 'true',
-    //   ruleMessage: 'Input content before submit',
-    // },
+
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -268,16 +228,11 @@ const News = () => {
       nameInputFile: 'newsFileToFirebase',
       readOnly: true,
       requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
+      ruleMessage: 'Vui lòng nhập đường dẫn ảnh',
     },
     {
       fieldType: 'EditorMainContent',
       nameTextArea: 'contentNews',
-      // },
-      // {
-      //   fieldType: 'checkEdit',
-      //   name: 'edit',
-      //   value: 'edit',
     },
   ];
 
@@ -492,9 +447,11 @@ const News = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Search',
-            submittext: 'Submit',
-            resetText: 'Reset',
+            searchText: 'Tìm kiếm',
+            submittext: 'Thay đổi',
+            resetText: 'Quay lại',
+            placeholderTitle: 'Tìm kiếm',
+            inputPlaceholder: 'Nhập từ khóa',
           }}
           toolBarRender={(action) => [
             <Button
@@ -504,7 +461,7 @@ const News = () => {
               icon={<PlusOutlined />}
               onClick={() => handleModal()}
             >
-              Add
+              Thêm tin tức
             </Button>,
           ]}
           request={async (params, sort, filter) => {

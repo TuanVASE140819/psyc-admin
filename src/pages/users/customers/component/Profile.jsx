@@ -1,6 +1,6 @@
 import { uploadFile } from '@/utils/uploadFile';
 import { Avatar, Button, message, Modal, Space, Tag } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getProfiles,
   deleteProfile,
@@ -14,7 +14,17 @@ import ProTable from '@ant-design/pro-table';
 import MapPicker from 'react-google-map-picker';
 import dayjs from 'dayjs';
 
+//
+import '@goongmaps/goong-js/dist/goong-js.css';
+import '@goongmaps/goong-geocoder/dist/goong-geocoder.css';
+import React, { Component } from 'react';
+import MapGL from '@goongmaps/goong-map-react';
+import Geocoder from '@goongmaps/goong-geocoder-react';
+
 const Profile = (props) => {
+  const REACT_APP_MAPBOX_TOKEN = 'x0rKFwTEwdiUy78J0AmJ3fCcUDbFrDNGY9vFmWB4';
+  //mapRef
+  const mapRef = React.useRef();
   const { user } = props;
 
   const DefaultLocation = { lat: 10.8, lng: 106.8 };
@@ -499,7 +509,7 @@ const Profile = (props) => {
   //xu li lien quan den map picker
   function handleChangeLocation(lat, lng) {
     setLocation({ lat: lat, lng: lng });
-    message.success('Get Location Success!');
+    message.success('Đã chọn vị trí');
   }
 
   function handleChangeZoom(newZoom) {
@@ -622,15 +632,60 @@ const Profile = (props) => {
           </Button>,
         ]}
       >
-        <MapPicker
-          defaultLocation={defaultLocation}
+        <MapGL
+          ref={mapRef}
+          latitude={location.lat}
+          longitude={location.lng}
           zoom={zoom}
-          mapTypeId="roadmap"
-          style={{ height: '700px' }}
-          onChangeLocation={handleChangeLocation}
-          onChangeZoom={handleChangeZoom}
-          apiKey="AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8"
-        />
+          width="100%"
+          height="500px"
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          onViewportChange={(viewport) => {
+            setLocation({ lat: viewport.latitude, lng: viewport.longitude });
+            setZoom(viewport.zoom);
+          }}
+          goongApiAccessToken="x0rKFwTEwdiUy78J0AmJ3fCcUDbFrDNGY9vFmWB4"
+        >
+          <Geocoder
+            mapRef={mapRef}
+            onViewportChange={(viewport) => {
+              const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+              return handleGeocoderViewportChange(viewport, geocoderDefaultOverrides);
+            }}
+            goongApiAccessToken="3yNUgjbBqKLrfnCP7jfW4w8Iq2uGeTPKqdoL1kwg"
+            position="top-left"
+          />
+        </MapGL>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            marginTop: '20px',
+          }}
+        >
+          <Button
+            type="primary"
+            onClick={() => {
+              formProfileRef?.current?.setFieldsValue({
+                location: `${location.lat},${location.lng}`,
+              });
+              handleCancelModalPicker();
+            }}
+          >
+            Chọn vị trí
+          </Button>
+          <Button
+            type="default"
+            onClick={() => {
+              handleResetLocation();
+            }}
+          >
+            Reset vị trí
+          </Button>
+        </div>
       </Modal>
     </>
   );

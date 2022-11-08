@@ -5,6 +5,7 @@ import { getASurveyType } from '@/services/SurveyService/survey';
 import { getSurveyBySurveyTypeId } from '@/services/SurveyService/survey';
 import ShortZodiacDetail from './component/SurveyType';
 import SurveyList from './component/SurveyList';
+import QuestionList from './component/QuestionList';
 
 const DetailZodiac = (props) => {
   const {
@@ -34,17 +35,19 @@ const DetailZodiac = (props) => {
     })();
   }, [triggerLoadZodiac]);
 
-  console.log('dataList', dataList);
-
   useEffect(() => {
     (async () => {
-      try {
-        setLoading(true);
-        const survey = await getSurveyBySurveyTypeId(zodiacId);
-        setSurvey(survey);
-        setDataList(survey);
-      } catch (error) {
-        console.log('errorLoadDetailZodiac', error);
+      setLoading(true);
+      const listSurvey = await getSurveyBySurveyTypeId(zodiacId);
+      if (listSurvey?.data) {
+        const listSurveyDataSrc = [];
+        listSurvey.data?.map((item) => {
+          const survey = {};
+          survey.id = item.id;
+          survey.name = item.name;
+          listSurveyDataSrc.push(survey);
+        });
+        setDataList(listSurveyDataSrc);
       }
       setLoading(false);
     })();
@@ -62,7 +65,7 @@ const DetailZodiac = (props) => {
         }}
       >
         <ShortZodiacDetail zodiac={zodiac} />
-        <SurveyList dataList={dataList} />
+        <QuestionList dataList={dataList} />
       </Content>
     </>
   );

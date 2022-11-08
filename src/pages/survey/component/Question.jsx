@@ -6,10 +6,15 @@ import { ProCard } from '@ant-design/pro-components';
 import style from './zodiac.less';
 
 const Zodiac = (props) => {
-  const { zodiac } = props;
+  const { surveyType } = props;
+  const { survey } = props;
   //list data zodiac
   const [dataList, setDataList] = useState([]);
-  const handleClick = () => {};
+  const handleClick = () => {
+    // chuyen sang trang question
+    history.push(`/survey/1/${survey.id}`);
+  };
+  // error ko biết lưu biến surveyType.id
   return (
     <>
       <Col
@@ -36,7 +41,7 @@ const Zodiac = (props) => {
             }}
           />
           <div className={style.content}>
-            <div className={style.title}>Bộ câu hỏi 1</div>
+            <div className={style.title}>{survey.name}</div>
           </div>
         </Card>
       </Col>

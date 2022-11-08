@@ -8,7 +8,7 @@ const codeMessage = {
   201: 'Tạo thành công',
   202: '一个请求已经进入后台排队（异步任务）。',
   204: '删除数据成功。',
-  400: 'There was an error in the requested request, and the server did not create or modify data.',
+  400: 'Đã xảy ra lỗi trong yêu cầu được yêu cầu và máy chủ không tạo hoặc sửa đổi dữ liệu.',
   401: 'The user does not have permission (token, user name, wrong password).',
   403: 'The user is authorized, but access is prohibited.',
   404: 'Resource Empty',

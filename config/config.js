@@ -77,6 +77,7 @@ export default defineConfig({
           name: 'Loại Khảo Sát',
           icon: 'form',
           access: 'admin',
+          hideInMenu: true,
           component: './survey',
         },
         {
@@ -85,6 +86,13 @@ export default defineConfig({
           hideInMenu: true,
           access: 'admin',
           component: './survey/[zodiacId]',
+        },
+        {
+          path: '/survey/:zodiacId/:surveyId',
+          name: 'Câu hỏi',
+          hideInMenu: true,
+          access: 'admin',
+          component: './survey/[surveyId]',
         },
       ],
     },
@@ -207,24 +215,24 @@ export default defineConfig({
         },
       ],
     },
-    {
-      path: '/excel',
-      name: 'Excel',
-      icon: 'file-excel',
-      access: 'admin',
-      routes: [
-        {
-          path: '/excel',
-          redirect: '/excel/dailyHoroscopes',
-        },
-        {
-          path: '/excel/dailyHoroscopes',
-          name: 'Tử vi hàng ngày',
-          access: 'admin',
-          component: './excel/dailyHoroscopes',
-        },
-      ],
-    },
+    // {
+    //   path: '/excel',
+    //   name: 'Excel',
+    //   icon: 'file-excel',
+    //   access: 'admin',
+    //   routes: [
+    //     {
+    //       path: '/excel',
+    //       redirect: '/excel/dailyHoroscopes',
+    //     },
+    //     {
+    //       path: '/excel/dailyHoroscopes',
+    //       name: 'Tử vi hàng ngày',
+    //       access: 'admin',
+    //       component: './excel/dailyHoroscopes',
+    //     },
+    //   ],
+    // },
     {
       path: '/system-handler',
       name: 'system-handler',

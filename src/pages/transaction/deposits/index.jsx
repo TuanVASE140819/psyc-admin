@@ -1,4 +1,4 @@
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
+import React from 'react';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
 import { Button, Dropdown, Menu, message, Space, Tag } from 'antd';
 import { useRef } from 'react';
@@ -166,7 +166,10 @@ const rejectDeposit = async (id) => {
 
 export default () => {
   const actionRef = useRef();
-
+  //paging
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(8);
+  const [total, setTotal] = React.useState(100);
   return (
     <ProTable
       columns={columns}
@@ -181,6 +184,7 @@ export default () => {
             date: params.dateCreate,
             pageSize: params.pageSize,
             pageNumber: params.current,
+            total: params.totalpage,
           },
         });
       }}
@@ -197,6 +201,10 @@ export default () => {
       rowKey="id"
       search={{
         labelWidth: 'auto',
+        searchText: 'Tìm kiếm',
+        submittext: 'Thay đổi',
+        resetText: 'Quay lại',
+        placeholderTitle: 'Tìm kiếm',
       }}
       options={{
         setting: {
@@ -220,7 +228,8 @@ export default () => {
         pageSizeOptions: ['10', '20', '30', '40', '50'],
         defaultPageSize: 10,
         defaultCurrent: 1,
-        total: 100,
+        //total page được api trả về
+        total: total,
         showTotal: (total, range) => `Hiển thị ${range[0]}-${range[1]} của ${total} kết quả`,
       }}
       dateFormatter="string"
