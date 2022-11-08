@@ -160,19 +160,16 @@ const Zodiac = () => {
   useEffect(() => {
     (async () => {
       setLoadingZodiac(true);
-      const listZodiac = await getSurveyTypeList();
-      if (listZodiac?.data) {
-        const listDataSrc = [];
-        listZodiac.data?.map((item) => {
-          const zodiac = {};
-          zodiac.id = item?.id;
-          zodiac.avatar = item?.imageUrl;
-          zodiac.name = item?.name;
-          zodiac.title = item?.name;
-          zodiac.selected = false;
-          listDataSrc.push(zodiac);
+      const listSurveyType = await getSurveyTypeList();
+      if (listSurveyType?.data) {
+        const listSurveyTypeDataSrc = [];
+        listSurveyType.data?.map((item) => {
+          const surveyType = {};
+          surveyType.id = item.id;
+          surveyType.name = item.name;
+          listSurveyTypeDataSrc.push(surveyType);
         });
-        setDataList(listDataSrc);
+        setDataList(listSurveyTypeDataSrc);
       }
       setLoadingZodiac(false);
     })();

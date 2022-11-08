@@ -77,6 +77,7 @@ export default defineConfig({
           name: 'Loại Khảo Sát',
           icon: 'form',
           access: 'admin',
+          hideInMenu: true,
           component: './survey',
         },
         {
@@ -85,6 +86,13 @@ export default defineConfig({
           hideInMenu: true,
           access: 'admin',
           component: './survey/[zodiacId]',
+        },
+        {
+          path: '/survey/:zodiacId/:surveyId',
+          name: 'Câu hỏi',
+          hideInMenu: true,
+          access: 'admin',
+          component: './survey/[surveyId]',
         },
       ],
     },

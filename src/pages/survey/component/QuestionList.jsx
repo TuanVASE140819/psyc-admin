@@ -1,26 +1,9 @@
 import { Col, Modal, Row, Button } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import Question from './Question';
-import ModalForm from '@/components/ModalForm';
-import { Input } from 'antd';
 
 const QuestionList = (props) => {
   const { dataList } = props;
-  const { TextArea } = Input;
-
-  const [showModal, setShowModal] = React.useState(false);
-  //xu li dong mo modal
-  const handleModal = () => {
-    setShowModal(false);
-  };
-  //xuli dong modal
-  const handleCancelModal = () => {
-    setShowModal(false);
-  };
-  //
-  const handleOk = () => {
-    setShowModal(false);
-  };
 
   return (
     <>
@@ -31,7 +14,9 @@ const QuestionList = (props) => {
           marginTop: '12px',
         }}
       >
-        <Question onClick={() => handleModal()} />
+        {dataList.map((item) => (
+          <Question survey={item} />
+        ))}
       </Col>
     </>
   );
