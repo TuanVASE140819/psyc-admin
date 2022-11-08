@@ -3286,7 +3286,9 @@
     "tinyqueue" "^2.0.0"
     "vt-pbf" "^3.1.1"
 
-"@goongmaps/goong-map-react@>= 1.0.4":
+"@goongmaps/goong-map-react@^1.1.0", "@goongmaps/goong-map-react@>= 1.0.4":
+  "integrity" "sha512-87doyTMqIyOjWcvhWpC21mfWPuKmIksFGvxPaELPoG7UxfwB5Zf2qVIDycJ4e3GfjpZolBJ51F14GzW4+Y+rAw=="
+  "resolved" "https://registry.npmjs.org/@goongmaps/goong-map-react/-/goong-map-react-1.1.0.tgz"
   "version" "1.1.0"
   dependencies:
     "@babel/runtime" "^7.0.0"
