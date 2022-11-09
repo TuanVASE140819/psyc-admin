@@ -1,6 +1,6 @@
 import { uploadFile } from '@/utils/uploadFile';
 import { Avatar, Button, message, Modal, Space, Tag } from 'antd';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getProfiles,
   deleteProfile,
@@ -14,20 +14,9 @@ import ProTable from '@ant-design/pro-table';
 import MapPicker from 'react-google-map-picker';
 import dayjs from 'dayjs';
 
-//
-import '@goongmaps/goong-js/dist/goong-js.css';
-import '@goongmaps/goong-geocoder/dist/goong-geocoder.css';
-import React, { Component } from 'react';
-import MapGL, { Marker } from '@goongmaps/goong-map-react';
-import ReactMapGL from '@goongmaps/goong-map-react';
-import Geocoder from '@goongmaps/goong-geocoder-react';
-import { EnvironmentOutlined } from '@ant-design/icons';
-
-// import '@goongmaps/goong-geocoder-react/dist/goong-geocoder.css';
-
 const Profile = (props) => {
   //mapRef
-  const mapRef = React.useRef();
+
   const { user } = props;
 
   const DefaultLocation = { lat: 10.8, lng: 106.8 };
@@ -644,76 +633,15 @@ const Profile = (props) => {
           </Button>,
         ]}
       >
-        <MapGL
-          ref={mapRef}
-          latitude={location.lat}
-          longitude={location.lng}
+        <MapPicker
+          defaultLocation={defaultLocation}
           zoom={zoom}
-          width="100%"
-          height="500px"
-          onViewportChange={(viewport) => {
-            setLocation({ lat: viewport.latitude, lng: viewport.longitude });
-            setZoom(viewport.zoom);
-          }}
-          goongApiAccessToken="x0rKFwTEwdiUy78J0AmJ3fCcUDbFrDNGY9vFmWB4"
-        >
-          <Geocoder
-            mapRef={mapRef}
-            // onViewportChange={(viewport) => {
-            //   const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
-            //   return this.handleGeocoderViewportChange({
-            //     ...viewport,
-            //     ...geocoderDefaultOverrides,
-            //   });
-            // }}
-            goongApiAccessToken="3yNUgjbBqKLrfnCP7jfW4w8Iq2uGeTPKqdoL1kwg"
-            placeholder="Tìm kiếm địa điểm"
-            proximity={{
-              latitude: location.lat,
-              longitude: location.lng,
-            }}
-            onClick={console.log('click')}
-
-            // không click được vào search box
-          >
-            {({ geocoder }) => {
-              return (
-                <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}>{geocoder}</div>
-              );
-            }}
-          </Geocoder>
-        </MapGL>
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Button
-            type="primary"
-            onClick={() => {
-              formProfileRef?.current?.setFieldsValue({
-                location: `${location.lat},${location.lng}`,
-              });
-              handleCancelModalPicker();
-            }}
-          >
-            Chọn vị trí
-          </Button>
-          <Button
-            type="default"
-            onClick={() => {
-              handleResetLocation();
-            }}
-          >
-            Reset vị trí
-          </Button>
-        </div>
+          mapTypeId="roadmap"
+          style={{ height: '700px' }}
+          onChangeLocation={handleChangeLocation}
+          onChangeZoom={handleChangeZoom}
+          apiKey="AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8"
+        />
       </Modal>
     </>
   );
