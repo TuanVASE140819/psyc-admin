@@ -112,7 +112,7 @@ const NoticeIconView = () => {
           }
           // nếu tyle là withdraw thì chuyển hướng đến trang rút tiền
           if (item.type === 'withdraw') {
-            window.location.href = '/transaction/withdraw';
+            window.location.href = '/transaction/withdraws';
           }
         }}
         onClear={(title, key) => clearReadState(title, key)}

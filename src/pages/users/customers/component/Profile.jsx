@@ -18,11 +18,14 @@ import dayjs from 'dayjs';
 import '@goongmaps/goong-js/dist/goong-js.css';
 import '@goongmaps/goong-geocoder/dist/goong-geocoder.css';
 import React, { Component } from 'react';
-import MapGL from '@goongmaps/goong-map-react';
+import MapGL, { Marker } from '@goongmaps/goong-map-react';
+import ReactMapGL from '@goongmaps/goong-map-react';
 import Geocoder from '@goongmaps/goong-geocoder-react';
+import { EnvironmentOutlined } from '@ant-design/icons';
+
+// import '@goongmaps/goong-geocoder-react/dist/goong-geocoder.css';
 
 const Profile = (props) => {
-  const REACT_APP_MAPBOX_TOKEN = 'x0rKFwTEwdiUy78J0AmJ3fCcUDbFrDNGY9vFmWB4';
   //mapRef
   const mapRef = React.useRef();
   const { user } = props;
@@ -535,6 +538,15 @@ const Profile = (props) => {
     setTriggerDataTable(!triggerDataTable);
   };
 
+  // state viewport map picker
+  const [viewport, setViewport] = React.useState({
+    width: '100%',
+    height: '100%',
+    latitude: DefaultLocation.lat,
+    longitude: DefaultLocation.lng,
+    zoom: DefaultZoom,
+  });
+
   return (
     <>
       <div
@@ -639,7 +651,6 @@ const Profile = (props) => {
           zoom={zoom}
           width="100%"
           height="500px"
-          mapStyle="mapbox://styles/mapbox/streets-v11"
           onViewportChange={(viewport) => {
             setLocation({ lat: viewport.latitude, lng: viewport.longitude });
             setZoom(viewport.zoom);
@@ -648,15 +659,32 @@ const Profile = (props) => {
         >
           <Geocoder
             mapRef={mapRef}
-            onViewportChange={(viewport) => {
-              const geocoderDefaultOverrides = { transitionDuration: 1000 };
+            // onViewportChange={(viewport) => {
+            //   const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
-              return handleGeocoderViewportChange(viewport, geocoderDefaultOverrides);
-            }}
+            //   return this.handleGeocoderViewportChange({
+            //     ...viewport,
+            //     ...geocoderDefaultOverrides,
+            //   });
+            // }}
             goongApiAccessToken="3yNUgjbBqKLrfnCP7jfW4w8Iq2uGeTPKqdoL1kwg"
-            position="top-left"
-          />
+            placeholder="Tìm kiếm địa điểm"
+            proximity={{
+              latitude: location.lat,
+              longitude: location.lng,
+            }}
+            onClick={console.log('click')}
+
+            // không click được vào search box
+          >
+            {({ geocoder }) => {
+              return (
+                <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}>{geocoder}</div>
+              );
+            }}
+          </Geocoder>
         </MapGL>
+
         <div
           style={{
             display: 'flex',

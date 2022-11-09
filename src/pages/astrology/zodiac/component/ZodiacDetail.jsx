@@ -38,7 +38,7 @@ const ZodiacDetail = (props) => {
       placeholder: 'nhập tên cung hoàng đạo',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input Zodiac Name before submit',
+      ruleMessage: 'Vui lòng nhập tên cung hoàng đạo',
     },
     {
       fieldType: 'formCalendar',

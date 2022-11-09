@@ -10,6 +10,36 @@ import dayjs from 'dayjs';
 
 const ShortZodiacDetail = (props) => {
   const { zodiac } = props;
+  const buttonSubmitter = [
+    {
+      key: 'clearFieldFormZodiac',
+      type: 'default',
+      click: 'reset',
+      name: 'Quay lại',
+      loading: false,
+    },
+    {
+      key: 'submitAddZodiac',
+      type: 'primary',
+      click: 'submit',
+      name: 'Lưu',
+      loading: false,
+    },
+  ];
+
+  const formFieldAdd = [
+    {
+      fieldType: 'formText',
+      key: 'name',
+      label: 'Tên khảo sát',
+      width: 'lg',
+      placeholder: 'Nhập tên khảo sát',
+      name: 'name',
+      requiredField: 'true',
+      ruleMessage: 'Vui lòng nhập tên khảo sát',
+    },
+  ];
+
   return (
     <>
       <Content

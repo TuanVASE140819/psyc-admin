@@ -1,8 +1,65 @@
 import { ProCard, StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import { useState } from 'react';
 import { Column } from '@ant-design/plots';
 const { Statistic } = StatisticCard;
+import { Avatar, Card, Rate, Skeleton, Switch, Col } from 'antd';
+
+import { ProList } from '@ant-design/pro-components';
+import { Button, Progress, Space, Tag } from 'antd';
+import { useState } from 'react';
+
+const dataSource = [
+  {
+    title: 'Vũ Anh Tuấn',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn A',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn B',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn C',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn D',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Vũ Anh Tuấn',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn A',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn B',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn C',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+  {
+    title: 'Nguyễn Văn D',
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+  },
+];
 export default () => {
   const data = [
     {
@@ -117,51 +174,107 @@ export default () => {
       ],
     },
   };
-    const [responsive, setResponsive] = useState(false);
-    return (<RcResizeObserver key="resize-observer" onResize={(offset) => {
-            setResponsive(offset.width < 596);
-        }}>
-      <ProCard title="数据概览" extra="2019年9月28日 星期五" split={responsive ? 'horizontal' : 'vertical'} headerBordered bordered>
+  const [responsive, setResponsive] = useState(false);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (keys) => setSelectedRowKeys(keys),
+  };
+
+  return (
+    <RcResizeObserver
+      key="resize-observer"
+      onResize={(offset) => {
+        setResponsive(offset.width < 596);
+      }}
+    >
+      <ProCard
+        title="THỐNG KÊ DOANH THU"
+        extra=""
+        split={responsive ? 'horizontal' : 'vertical'}
+        headerBordered
+        bordered
+        width="70%"
+      >
         <ProCard split="horizontal">
           <ProCard split="horizontal">
             <ProCard split="vertical">
-              <StatisticCard statistic={{
-            title: 'DOANH THU NGÀY',
-            value: 234,
-            description: <Statistic title="Ngày hôm qua" value="8.04%" trend="down"/>,
-        }}/>
-              <StatisticCard statistic={{
-            title: 'DOANH THU THÁNG',
-            value: 234,
-            description: <Statistic title="Tháng trước" value="8.04%" trend="up"/>,
-        }}/>
+              <StatisticCard
+                statistic={{
+                  title: 'DOANH THU NGÀY',
+                  value: 234,
+                  description: <Statistic title="Ngày hôm qua" value="8.04%" trend="down" />,
+                }}
+              />
+              <StatisticCard
+                statistic={{
+                  title: 'DOANH THU THÁNG',
+                  value: 234,
+                  description: <Statistic title="Tháng trước" value="8.04%" trend="up" />,
+                }}
+              />
             </ProCard>
             <ProCard split="vertical">
-              <StatisticCard statistic={{
-            title: 'TỔNG RÚT money',
-            value: '120.000.000',
-            suffix: 'VND',
-        }}/>
-              <StatisticCard statistic={{
-            title: 'TỔNG NẠP money',
-            value: '120.000.000',
-            suffix: 'VND',
-        }}/>
+              <StatisticCard
+                statistic={{
+                  title: 'TỔNG RÚT(VNĐ)',
+                  value: '120.000.000',
+                  suffix: 'VND',
+                }}
+              />
+              <StatisticCard
+                statistic={{
+                  title: 'TỔNG NẠP(VNĐ)',
+                  value: '120.000.000',
+                  suffix: 'VND',
+                }}
+              />
             </ProCard>
           </ProCard>
           <h1>Tỉ lệ rút nạp</h1>
-          <Column {...config}
+          <Column
+            {...config}
             style={{
               height: '300px',
             }}
-           />
+          />
         </ProCard>
-        <ProCard title="默认尺寸" extra="extra" tooltip="这是提示" style={{ maxWidth: 300 }}>
-        <div>Card content</div>
-        <div>Card content</div>
-        <div>Card content</div>
+        <ProCard split="horizontal">
+          <ProList
+            rowKey="title"
+            headerTitle="TOP 10 TƯ VẤN VIÊN CÓ LƯỢT ĐẶT LỊCH NHIỀU NHẤT"
+            expandable={{ expandedRowKeys, onExpandedRowsChange: setExpandedRowKeys }}
+            dataSource={dataSource}
+            metas={{
+              title: {},
+              subTitle: {
+                render: () => {
+                  return (
+                    <Space size={0}>
+                      <Tag color="blue">Gia đình</Tag>
+                      <Tag color="#5BD8A6">Tình cảm</Tag>
+                    </Space>
+                  );
+                },
+              },
+              description: {
+                render: () => {
+                  return <Rate value={4} />;
+                },
+              },
+              avatar: {},
+
+              actions: {
+                render: () => {
+                  return <a key="invite">Số lượt đặt lịch thành công : 200</a>;
+                },
+              },
+            }}
+          />
+        </ProCard>
       </ProCard>
-   
-      </ProCard>
-    </RcResizeObserver>);
+    </RcResizeObserver>
+  );
 };

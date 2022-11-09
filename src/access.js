@@ -1,5 +1,5 @@
 /**
- * @see https://umijs.org/zh-CN/plugins/plugin-access
+ * @see https://umijs.org/vi-VN/plugins/plugin-access
  * */
 export default function access(initialState) {
   const { currentUser } = initialState || {};

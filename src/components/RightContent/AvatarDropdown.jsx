@@ -84,11 +84,11 @@ const AvatarDropdown = ({ menu }) => {
           size="small"
           className={styles.avatar}
           src={
-            'https://cdn1.vectorstock.com/i/1000x1000/11/10/admin-icon-male-person-profile-avatar-with-gear-vector-25811110.jpg'
+            'https://firebasestorage.googleapis.com/v0/b/psychologicalcounseling-28efa.appspot.com/o/useravatar%2F1667980090641boss-512%20(1).webp?alt=media&token=6e4db08c-12f1-44b7-92fa-5c89b59190a9'
           }
           alt="avatar"
         />
-        {/* <span className={`${styles.name} anticon`}>{currentUser.userName}</span> */}
+        <span className={`${styles.name} anticon`}>Admin PSYC</span>
       </span>
     </HeaderDropdown>
   );

@@ -17,11 +17,17 @@ import {
   updateZodiac,
   getAnZodiac,
 } from '@/services/ant-design-pro/zodiac';
-import { getSurveyTypeList, getASurveyType } from '@/services/SurveyService/survey';
+import {
+  getSurveyTypeList,
+  getASurveyType,
+  createSurveyType,
+  updateSurveyType,
+} from '@/services/SurveyService/survey';
 import showConfirm from '@/components/ModalConfirm';
 import ProSkeleton from '@ant-design/pro-skeleton';
 import SurveyTypeList from './component/SurveyTypeList';
 import { Content } from 'antd/lib/layout/layout';
+import { create } from 'lodash';
 
 const Zodiac = () => {
   const buttonSubmitter = [
@@ -44,82 +50,26 @@ const Zodiac = () => {
   const formFieldAdd = [
     {
       fieldType: 'formText',
-      key: 'fieldAddZodiacName',
+      key: 'name',
       label: 'Tên loại khảo sát',
       width: 'lg',
       placeholder: 'Nhập tên loại khảo sát',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input Zodiac Name before submit',
+      ruleMessage: 'Vui lòng nhập tên loại khảo sát',
     },
   ];
 
   const formFieldEdit = [
     {
       fieldType: 'formText',
-      key: 'fieldEditZodiacName',
-      label: 'Tên cung hoàng đạo',
+      key: 'name',
+      label: 'Tên loại khảo sát',
       width: 'lg',
-      placeholder: 'Nhập tên cung hoàng đạo',
+      placeholder: 'Nhập tên loại khảo sát',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input Zodiac Name before submit',
-    },
-    {
-      fieldType: 'formCalendar',
-      labelTimeDay: 'Zodiac Time Day Start',
-      nameTimeDay: 'zodiacDayStart',
-      minTimeDay: '1',
-      maxTimeDay: '31',
-      placeholderTimeDay: 'Zodiac Day Start',
-      controlsTimeDay: 'false',
-
-      labelTimeMonth: 'Zodiac Time Month Start',
-      nameTimeMonth: 'zodiacMonthStart',
-      minTimeMonth: '1',
-      maxTimeMonth: '12',
-      placeholderTimeMonth: 'Zodiac Month Start',
-      controlsTimeMonth: 'false',
-    },
-    {
-      fieldType: 'formCalendar',
-      labelTimeDay: 'Zodiac Time Day End',
-      nameTimeDay: 'zodiacDayEnd',
-      minTimeDay: '1',
-      maxTimeDay: '31',
-      placeholderTimeDay: 'Zodiac Day End',
-      controlsTimeDay: 'false',
-
-      fieldType: 'formCalendar',
-      labelTimeMonth: 'Zodiac Time Month End',
-      nameTimeMonth: 'zodiacMonthEnd',
-      minTimeMonth: '1',
-      maxTimeMonth: '12',
-      placeholderTimeMonth: 'Zodiac Month End',
-      controlsTimeMonth: 'false',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Zodiac Icon',
-      width: 'lg',
-      placeholder: 'Icon Link',
-      name: 'icon',
-      nameUpload: 'iconZodiac',
-      nameInputFile: 'zodiacFileToFirebase',
-      readOnly: true,
-      requiredField: true,
-      ruleMessage: 'Upload image before submit',
-    },
-    {
-      fieldType: 'formTextArea',
-      key: 'fieldAddZodiacDescription',
-      label: 'Description',
-      width: 'lg',
-      placeholder: 'Enter Zodiac description',
-      name: 'descreiption',
-      requiredField: 'true',
-      ruleMessage: 'Input description before submit',
+      ruleMessage: 'Vui lòng nhập tên loại khảo sát',
     },
     {
       fieldType: 'EditorMainContent',
@@ -295,10 +245,10 @@ const Zodiac = () => {
       dataEdit.zodiacIcon = dataEdit.icon;
       delete dataEdit.icon;
       // handleCancelModal();
-      await updateZodiac(idZodiac, dataEdit);
+      await updateSurveyType(idZodiac, dataEdit);
     } else {
       console.log(values);
-      await addZodiac(values);
+      await createSurveyType(values);
       handleResetForm();
       setStateEditor(null);
     }
@@ -342,29 +292,6 @@ const Zodiac = () => {
     }
   };
 
-  //xuli up anh trong text editor
-  const handleUploadImgInEditor = () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.click();
-    input.onchange = async () => {
-      try {
-        let file = input.files[0];
-        message.loading('Upload...', 9999);
-        const imgLinkEditor = await uploadFile(file, 'editor');
-        message.destroy();
-        if (imgLinkEditor) {
-          message.success('Add Image Success!');
-          const range = editorRef?.current?.getEditorSelection();
-          editorRef?.current?.getEditor().insertEmbed(range.index, 'image', imgLinkEditor);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  };
-
   return (
     <>
       <PageContainer
@@ -405,7 +332,6 @@ const Zodiac = () => {
         stateEditor={stateEditor}
         handleChangeStateEditor={handleChangeStateEditor}
         editorRef={editorRef}
-        handleUploadImgInEditor={handleUploadImgInEditor}
         handleResetForm={handleResetForm}
       />
     </>
