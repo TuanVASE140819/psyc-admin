@@ -86,6 +86,7 @@ export default () => {
       dataIndex: 'dateCreate',
       valueType: 'date',
       search: true,
+      width: 100,
       sorter: (a, b) => a.dateCreate - b.dateCreate,
       // format 2022-10-23 (12:12:12)
       render: (dom, entity) => {
@@ -102,7 +103,7 @@ export default () => {
     {
       title: 'Số tiền yêu cầu (VNĐ)',
       search: false,
-      width: 150,
+      width: 100,
       dataIndex: 'requestAmount',
       valueType: 'text',
       sorter: (a, b) => a.requestAmount - b.requestAmount,
@@ -122,6 +123,7 @@ export default () => {
     {
       title: 'Số tiền thực tế (VNĐ)',
       search: false,
+      width: 100,
       dataIndex: 'actualWithdrawal',
       valueType: 'text',
       sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
@@ -140,7 +142,7 @@ export default () => {
     },
     {
       title: 'Trạng thái',
-      width: 120,
+      width: 100,
       dataIndex: 'status',
       search: false,
       valueType: 'text',
@@ -160,7 +162,7 @@ export default () => {
     },
     {
       title: 'Ví',
-      width: 100,
+      width: 80,
       search: false,
       dataIndex: 'walletId',
       valueType: 'text',
@@ -180,6 +182,7 @@ export default () => {
       title: 'Ghi chú',
       dataIndex: 'description',
       valueType: 'text',
+
       search: false,
       sorter: (a, b) => a.description - b.description,
       ellipsis: true,
@@ -328,6 +331,9 @@ const RejectPopup = ({ id, onCancel, onOK }) => {
       title="Chọn lý do từ chối"
       open
       onOk={_onOK}
+      //Button OK sẽ hiện thị khi có lý do từ chối
+      okButtonProps={{ disabled: !reason }}
+      okText="Từ chối"
       confirmLoading={confirmLoading}
       onCancel={onCancel}
     >

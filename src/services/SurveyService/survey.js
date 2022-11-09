@@ -46,12 +46,22 @@ export const getOptionByQuestionId = async (questionId) => {
     });
 };
 
-export const createSurveyType = (body) => {
-  return request.post('api/SurveyTypes/create', { data: body });
+// /api/SurveyTypes/create
+export const createSurveyType = async (body) => {
+  return await request.post('api/SurveyTypes/create', { data: body }).then((res) => {
+    console.log('E');
+    return res;
+  });
+};
+// api​/SurveyTypes​/update
+export const updateSurveyType = async (body) => {
+  return await request.put('api/SurveyTypes/update', { data: body }).then((res) => {
+    console.log('F');
+    return res;
+  });
 };
 
 ///api/Surveys/getallsurvey
-
 export const getSurveyList = (body) => {
   return request.get('api/Surveys/getallsurvey');
 };

@@ -53,14 +53,20 @@ const columns = [
 
     render: (dom, entity) => {
       return (
-        <Tag color="green">
-          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+        <div
+          style={{
+            // in đậm
+            fontWeight: 'bold',
+          }}
+        >
+          {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu chấm ở hàng nghìn} */}
           {entity.amount < 999 && entity.amount < 0
             ? entity.amount
             : entity.amount < 0
             ? entity.amount
-            : entity.amount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
-        </Tag>
+            : // sau 3 chữ số thì thêm dấu chấm ở hàng nghìn
+              entity.amount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+        </div>
       );
     },
   },

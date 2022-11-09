@@ -49,7 +49,7 @@ const Zodiac = () => {
       placeholder: 'Nhập tên cung hoàng đạo',
       name: 'zodiacName',
       requiredField: 'true',
-      ruleMessage: 'Input Zodiac Name before submit',
+      ruleMessage: 'Vui lòng nhập tên cung hoàng đạo',
     },
     {
       fieldType: 'formCalendar',
@@ -122,7 +122,7 @@ const Zodiac = () => {
       placeholder: 'Nhập tên cung hoàng đạo',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input Zodiac Name before submit',
+      ruleMessage: 'Vui lòng nhập tên cung hoàng đạo',
     },
     {
       fieldType: 'formCalendar',

@@ -65,7 +65,7 @@ export const layout = ({ initialState, setInitialState }) => {
       }
 
       if (!initialState?.currentUser && location.pathname !== loginPath) {
-        message.error('Not Logged in. Please Loggin');
+        message.error('Chưa đăng nhập. Vui lòng đăng nhập để tiếp tục');
         history.push(loginPath);
       }
     },
