@@ -91,34 +91,16 @@ export const layout = ({ initialState, setInitialState }) => {
               }}
             />
           )}
-          <MessengerChat
+          {/* <MessengerChat
             pageId="110220568567445"
             language="vi_VN"
-            themeColor={'#000000'}
-            bottomSpacing={300}
-            loggedInGreeting="loggedInGreeting"
-            loggedOutGreeting="loggedOutGreeting"
+            themeColor={'#0084ff'}
+            bottomSpacing={100}
+            loggedInGreeting="Chào bạn, chúng tôi có thể giúp gì cho bạn?"
+            loggedOutGreeting="Chào bạn, chúng tôi có thể giúp gì cho bạn?"
             greetingDialogDisplay={'show'}
             debugMode={true}
-            onMessengerShow={() => {
-              console.log('onMessengerShow');
-            }}
-            onMessengerHide={() => {
-              console.log('onMessengerHide');
-            }}
-            onMessengerDialogShow={() => {
-              console.log('onMessengerDialogShow');
-            }}
-            onMessengerDialogHide={() => {
-              console.log('onMessengerDialogHide');
-            }}
-            onMessengerMounted={() => {
-              console.log('onMessengerMounted');
-            }}
-            onMessengerLoad={() => {
-              console.log('onMessengerLoad');
-            }}
-          />
+          /> */}
         </>
       );
     },

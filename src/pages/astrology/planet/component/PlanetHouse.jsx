@@ -318,7 +318,7 @@ const PlanetHouse = (props) => {
           background: '#fff',
         }}
       >
-        <Button
+        {/* <Button
           size="middle"
           key="buttonAddPlanetHouse"
           type="primary"
@@ -329,7 +329,7 @@ const PlanetHouse = (props) => {
           }}
         >
           Thêm Dữ Liệu
-        </Button>
+        </Button> */}
         {loadingListHouse ? (
           <ProSkeleton type="list" list="12" />
         ) : (

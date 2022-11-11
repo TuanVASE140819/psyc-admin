@@ -107,16 +107,34 @@ export default () => {
       dataIndex: 'requestAmount',
       valueType: 'text',
       sorter: (a, b) => a.requestAmount - b.requestAmount,
+      // render: (dom, entity) => {
+      //   return (
+      //     <Tag color="green">
+      //       {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+      //       {entity.requestAmount < 999 && entity.requestAmount < 0
+      //         ? entity.requestAmount
+      //         : entity.requestAmount < 0
+      //         ? entity.requestAmount
+      //         : entity.requestAmount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+      //     </Tag>
+      //   );
+      // },
       render: (dom, entity) => {
         return (
-          <Tag color="green">
-            {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+          <div
+            style={{
+              // in đậm
+              fontWeight: 'bold',
+            }}
+          >
+            {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu chấm ở hàng nghìn} */}
             {entity.requestAmount < 999 && entity.requestAmount < 0
               ? entity.requestAmount
               : entity.requestAmount < 0
               ? entity.requestAmount
-              : entity.requestAmount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
-          </Tag>
+              : // sau 3 chữ số thì thêm dấu chấm ở hàng nghìn
+                entity.requestAmount.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+          </div>
         );
       },
     },
@@ -129,14 +147,19 @@ export default () => {
       sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
       render: (dom, entity) => {
         return (
-          <Tag color="green">
+          <div
+            style={{
+              // in đậm
+              fontWeight: 'bold',
+            }}
+          >
             {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
             {entity.actualWithdrawal < 999 && entity.actualWithdrawal < 0
               ? entity.actualWithdrawal
               : entity.actualWithdrawal < 0
               ? entity.actualWithdrawal
               : entity.actualWithdrawal.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
-          </Tag>
+          </div>
         );
       },
     },

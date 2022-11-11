@@ -175,7 +175,7 @@ const News = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'News Banner',
+      label: 'Ảnh bài viết',
       width: 'lg',
       placeholder: 'Banner Link',
       name: 'banner',
@@ -235,7 +235,7 @@ const News = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'News Banner',
+      label: 'Ảnh bài viết',
       width: 'lg',
       placeholder: 'Banner Link',
       name: 'banner',

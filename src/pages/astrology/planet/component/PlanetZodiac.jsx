@@ -295,7 +295,7 @@ const PlanetZodiac = (props) => {
           background: '#fff',
         }}
       >
-        <Button
+        {/* <Button
           size="middle"
           key="buttonAddPlanet"
           type="primary"
@@ -306,7 +306,7 @@ const PlanetZodiac = (props) => {
           }}
         >
           Thêm Dữ Liệu
-        </Button>
+        </Button> */}
         {loadingListZodiac ? (
           <ProSkeleton type="list" list="12" />
         ) : (
