@@ -49,6 +49,7 @@ const columns = [
     title: 'Số tiền (VNĐ)',
     dataIndex: 'amount',
     valueType: 'text',
+    search: false,
     sorter: (a, b) => a.amount - b.amount,
 
     render: (dom, entity) => {
@@ -175,7 +176,9 @@ export default () => {
   //paging
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(8);
-  const [total, setTotal] = React.useState(100);
+  const [total, setTotal] = React.useState(90);
+  //trigger render table
+  const [triggerDataTable, setTriggerDataTable] = React.useState(false);
   return (
     <ProTable
       columns={columns}
@@ -192,6 +195,7 @@ export default () => {
             pageNumber: params.current,
             total: params.totalpage,
           },
+          setTotal: params.totalpage,
         });
       }}
       editable={{
@@ -229,14 +233,14 @@ export default () => {
         },
       }}
       pagination={{
-        //phân trang theo api trả về
-        showSizeChanger: true,
-        pageSizeOptions: ['10', '20', '30', '40', '50'],
-        defaultPageSize: 10,
-        defaultCurrent: 1,
-        //total page được api trả về
+        current: page,
+        pageSize: pageSize,
         total: total,
-        showTotal: (total, range) => `Hiển thị ${range[0]}-${range[1]} của ${total} kết quả`,
+        showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} kết quả`,
+        onChange: (page, pageSize) => {
+          setPage(page);
+          setPageSize(pageSize);
+        },
       }}
       dateFormatter="string"
       headerTitle="Danh sách giao dịch nạp tiền"
