@@ -1,4 +1,4 @@
-import { EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Space, Tag } from 'antd';
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -6,14 +6,26 @@ import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
 // import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
-import { getQuestionBySurveyId, getQuestion } from '@/services/SurveyService/survey';
+import {
+  getQuestionBySurveyId,
+  getQuestion,
+  updateQuestion,
+  addQuestion,
+  deleteQuestion,
+} from '@/services/SurveyService/survey';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
 import dayjs from 'dayjs';
 import MapPicker from 'react-google-map-picker';
 
-const User = () => {
+const User = (props) => {
+  const {
+    match: {
+      params: { zodiacId, surveyId },
+    },
+  } = props;
+
   //config column
   const column = [
     {
@@ -40,7 +52,7 @@ const User = () => {
       },
     },
     {
-      title: 'Hành động',
+      title: '',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -56,6 +68,29 @@ const User = () => {
                 onClick={() => handleEditUserForm(record)}
               >
                 Chi tiết
+              </Button>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      title: '',
+      dataIndex: 'actionDelete',
+      search: false,
+      render: (_, record) => {
+        return (
+          <div>
+            <div>
+              <Button
+                danger
+                key="editUser"
+                size="middle"
+                icon={<DeleteOutlined />}
+                block={true}
+                onClick={() => handelDeleteQuestion(record)}
+              >
+                Xóa
               </Button>
             </div>
           </div>
@@ -85,35 +120,11 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddUsername',
-      label: 'Họ và tên',
+      label: 'Mô tả',
       width: 'lg',
-      placeholder: 'Nhập tên người dùng',
-      name: 'username',
+      name: 'description',
+      value: 'description',
       requiredField: 'true',
-      ruleMessage: 'Input username before submit',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddPhoneNumberUser',
-      label: 'Phone Number',
-      width: 'lg',
-      placeholder: 'Enter phone number',
-      name: 'phoneNumber',
-      requiredField: 'true',
-      ruleMessage: 'Input phone number before submit',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Avatar',
-      width: 'lg',
-      placeholder: 'Avatar Link',
-      name: 'avatarLink',
-      nameUpload: 'avatarUser',
-      nameInputFile: 'avatarFileToFirebase',
-      readOnly: 'true',
-      // requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
     },
   ];
 
@@ -121,120 +132,17 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddUsername',
-      label: 'Họ và tên',
+      label: 'Mô tả',
       width: 'lg',
-      placeholder: 'Enter username ',
-      name: 'fullname',
-      value: 'fullname',
+      name: 'description',
+      value: 'description',
       requiredField: 'true',
-      ruleMessage: 'Input username before submit',
     },
     {
-      fieldType: 'formText',
-      key: 'fieldAddPhoneNumberUser',
-      label: 'Gmail',
-      width: 'lg',
-      placeholder: 'Enter phone number',
-      name: 'email',
-      readOnly: 'true',
-      disabled: 'true',
-      value: '',
-      requiredField: 'true',
-      ruleMessage: 'Input gmail before submit',
-      hidden: true,
+      fieldType: 'checkEdit',
+      name: 'edit',
+      value: 'edit',
     },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddAddressUser',
-      label: 'Dia chỉ',
-      width: 'lg',
-      placeholder: 'Địa chỉ',
-      name: 'address',
-      value: '',
-    },
-    {
-      fieldType: 'position',
-      labelLatitude: 'Latitude',
-      widthLatitude: 'small',
-      nameLatitude: 'latitude',
-      labelLongtitude: 'Kinh độ',
-      widthLongtitude: 'small',
-      nameLongtitude: 'longitude',
-    },
-    {
-      fieldType: 'formSelect',
-      key: 'selectGenderUser',
-      name: 'gender',
-      label: 'Giới tính',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'Male',
-          valueDisplay: 'Nam',
-        },
-        {
-          valueName: 'Female',
-          valueDisplay: 'Nữ',
-        },
-        {
-          valueName: 'Other',
-          valueDisplay: 'Khác',
-        },
-      ],
-      placeholder: 'Chọn giới tính',
-      requiredField: 'true',
-      ruleMessage: 'Chọn giới tính',
-      allowClear: false,
-    },
-    {
-      fieldType: 'datePicker',
-      key: 'fieldEditBirthDate',
-      label: 'Ngày và giờ sinh',
-      width: 'lg',
-      placeholder: 'Chọn ngày và giờ sinh',
-      name: 'dob',
-      requiredField: 'true',
-      ruleMessage: 'Nhập ngày và giờ sinh',
-    },
-    {
-      fieldType: 'formSelect',
-      key: 'selectStatusUser',
-      name: 'status',
-      label: 'Trạng thái',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'active',
-          valueDisplay: 'Hoạt động',
-        },
-        {
-          valueName: 'inactive',
-          valueDisplay: 'Khóa',
-        },
-      ],
-      placeholder: 'Please select status',
-      requiredField: 'true',
-      ruleMessage: 'Please select user status',
-      allowClear: false,
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Avatar',
-      width: 'lg',
-      placeholder: 'Avatar Link',
-      name: 'imageUrl',
-      nameUpload: 'avatarUser',
-      nameInputFile: 'avatarFileToFirebase',
-      readOnly: 'true',
-      requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
-    },
-    // {
-    //   fieldType: 'checkEdit',
-    //   name: 'edit',
-    //   value: 'edit',
-    // },
   ];
   const DefaultLocation = { lat: 10.8, lng: 106.8 };
   const DefaultZoom = 10;
@@ -378,32 +286,46 @@ const User = () => {
     setLoadingUploadingImgFirebase(false);
   };
 
-  const handleSubmitFormUser = async (values) => {
-    const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
-    await editCustomer({
-      ...values,
-      id: userRecord.id,
-      dob: tempDOB,
-      latitude: values.latitude.toString(),
-      longitude: values.longitude.toString(),
-    });
+  const handleEditQuestion = async (values) => {
+    setButtonLoading(true);
+    await updateQuestion({ ...values, id: userRecord.id });
     setShowModel(false);
-
     actionRef?.current?.reload();
+    setButtonLoading(false);
+  };
+
+  const handleAddQuestion = async (values) => {
+    try {
+      setButtonLoading(true);
+      await addQuestion({ ...values, surveyId: zodiacId });
+      setShowModel(false);
+      actionRef?.current?.reload();
+      setButtonLoading(false);
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   const handleEditUserForm = async (record) => {
-    const userId = record?.id;
-    setButtonEditLoading(true);
-    const user = await getAnCustomer(userId);
-    if (user) {
-      setUserRecord(user);
-      setFlagEditForm('edit');
-      setShowModel(!showModal);
-      setImgLinkFirebase(user.imageUrl);
-      formUserRef?.current?.setFieldsValue(user);
-    }
-    setButtonEditLoading(false);
+    setUserRecord(record);
+    setFlagEditForm('edit');
+    setShowModel(!showModal);
+    // setImgLinkFirebase(user.imageUrl);
+    setTimeout(() => {
+      formUserRef?.current?.setFieldsValue(record);
+    }, 0);
+  };
+
+  const handelDeleteQuestion = async (record) => {
+    message.loading('Đang xóa...', 9999);
+    await deleteQuestion(record.id);
+    actionRef?.current?.reload();
+    message.destroy();
+  };
+
+  const onClickAddQuestion = () => {
+    setFlagEditForm('add');
+    setShowModel(!showModal);
   };
 
   const expandedRowRender = (record) => {
@@ -412,6 +334,9 @@ const User = () => {
   return (
     <>
       <PageContainer>
+        <Button type="primary" style={{ marginBottom: 20 }} onClick={onClickAddQuestion}>
+          Thêm câu hỏi
+        </Button>
         <ProTable
           columns={column}
           rowKey={(record) => record.id}
@@ -419,8 +344,8 @@ const User = () => {
             expandedRowRender,
           }}
           //getQuestionBySurveyId
-          request={async (params, sorter, filter, surveyId) => {
-            const res = await getQuestionBySurveyId(1);
+          request={async (params, sorter, filter) => {
+            const res = await getQuestionBySurveyId(surveyId);
             if (res) {
               setTotal(res.total);
               return {
@@ -458,11 +383,11 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa ${userRecord.fullname}`}
+          titleModal={`Chỉnh sửa câu hỏi`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
-          handleSubmitForm={handleSubmitFormUser}
+          handleSubmitForm={handleEditQuestion}
           formField={formFieldEditUser}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
@@ -472,11 +397,11 @@ const User = () => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Add New User"
+          titleModal="Thêm câu hỏi"
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
-          handleSubmitForm={handleSubmitFormUser}
+          handleSubmitForm={handleAddQuestion}
           formField={formFieldAddUser}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}

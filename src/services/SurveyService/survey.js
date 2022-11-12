@@ -36,6 +36,27 @@ export const getQuestionBySurveyId = async (surveyId) => {
     });
 };
 
+export const addQuestion = async (data) => {
+  return await request.post('/api/Questions/create', { data }).then((res) => {
+    console.log('C');
+    return res;
+  });
+};
+
+export const deleteQuestion = async (id) => {
+  return await request.delete('/api/Questions/removefromsurvey', { data: { id } }).then((res) => {
+    console.log('C');
+    return res;
+  });
+};
+
+export const updateQuestion = async (data) => {
+  return await request.put('/api/Questions/update', { data }).then((res) => {
+    console.log('C');
+    return res;
+  });
+};
+
 //https://psycteam.azurewebsites.net/api/OptionQuestions/getoptionbyquestionid?questionid=1
 export const getOptionByQuestionId = async (questionId) => {
   return await request
