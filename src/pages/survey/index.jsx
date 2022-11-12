@@ -106,24 +106,11 @@ const Zodiac = () => {
   const [buttonEditLoading, setButtonEditLoading] = React.useState(false);
   //list data zodiac
   const [dataList, setDataList] = useState([]);
+  const [mode, setMode] = useState('add');
 
   useEffect(() => {
-    (async () => {
-      setLoadingZodiac(true);
-      const listSurveyType = await getSurveyTypeList();
-      if (listSurveyType?.data) {
-        const listSurveyTypeDataSrc = [];
-        listSurveyType.data?.map((item) => {
-          const surveyType = {};
-          surveyType.id = item.id;
-          surveyType.name = item.name;
-          listSurveyTypeDataSrc.push(surveyType);
-        });
-        setDataList(listSurveyTypeDataSrc);
-      }
-      setLoadingZodiac(false);
-    })();
-  }, [triggerAddNewZodiac]);
+    getList();
+  }, []);
 
   //xuli loading upload img firebase
   React.useEffect(() => {
@@ -158,6 +145,26 @@ const Zodiac = () => {
     });
     setButtonSubmitterZodiac(newButtonSubmitZodiac);
   }, [buttonLoading]);
+
+  const getList = async () => {
+    try {
+      setLoadingZodiac(true);
+      const listSurveyType = await getSurveyTypeList();
+      if (listSurveyType?.data) {
+        const listSurveyTypeDataSrc = [];
+        listSurveyType.data?.map((item) => {
+          const surveyType = {};
+          surveyType.id = item.id;
+          surveyType.name = item.name;
+          listSurveyTypeDataSrc.push(surveyType);
+        });
+        setDataList(listSurveyTypeDataSrc);
+      }
+    } catch (error) {
+    } finally {
+      setLoadingZodiac(false);
+    }
+  };
 
   //customupload img
   const customUpload = async ({ onError, onSuccess, file }) => {
@@ -197,12 +204,20 @@ const Zodiac = () => {
     }
   };
 
-  //xu li dong mo modal
-  const handleModal = () => {
-    setShowModal(!showModal);
-    setFlagEditForm('');
+  const onClickAdd = () => {
+    setMode('add');
+    setShowModal(true);
     setZodiacRecord(null);
-    setImgLinkFirebase(null);
+    formZodiacRef.current?.resetFields();
+  };
+
+  const onClickEdit = (item) => {
+    setMode('edit');
+    setShowModal(true);
+    setZodiacRecord(item);
+    setTimeout(() => {
+      formZodiacRef.current?.setFieldsValue(item);
+    }, 0);
   };
 
   //xuli dong modal
@@ -226,34 +241,48 @@ const Zodiac = () => {
 
   //xuli submit form
   const handleSubmitFormZodiac = async (values) => {
-    setButtonLoading(true);
-    setStateEditor(values.zodiacMainContent);
-    if (values.edit) {
-      const idZodiac = zodiacRecord.id;
-      const newValues = Object.assign({}, values);
-      const attr = 'edit';
-      const dataEdit = Object.keys(newValues).reduce((item, key) => {
-        if (key !== attr) {
-          item[key] = newValues[key];
-        }
-        return item;
-      }, {});
-      dataEdit.zodiacDescription = dataEdit.descreiption;
-      delete dataEdit.descreiption;
-      dataEdit.zodiacName = dataEdit.name;
-      delete dataEdit.name;
-      dataEdit.zodiacIcon = dataEdit.icon;
-      delete dataEdit.icon;
-      // handleCancelModal();
-      await updateSurveyType(idZodiac, dataEdit);
-    } else {
-      console.log(values);
-      await createSurveyType(values);
-      handleResetForm();
-      setStateEditor(null);
+    try {
+      setButtonLoading(true);
+      if (mode === 'add') {
+        await createSurveyType(values);
+      } else {
+        await updateSurveyType({ ...values, id: zodiacRecord.id });
+      }
+      await getList();
+      setShowModal(false);
+    } catch (error) {
+    } finally {
+      setButtonLoading(false);
     }
-    tableZodiacRef?.current?.reload();
-    setButtonLoading(false);
+
+    // setButtonLoading(true);
+    // setStateEditor(values.zodiacMainContent);
+    // if (values.edit) {
+    //   const idZodiac = zodiacRecord.id;
+    //   const newValues = Object.assign({}, values);
+    //   const attr = 'edit';
+    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
+    //     if (key !== attr) {
+    //       item[key] = newValues[key];
+    //     }
+    //     return item;
+    //   }, {});
+    //   dataEdit.zodiacDescription = dataEdit.descreiption;
+    //   delete dataEdit.descreiption;
+    //   dataEdit.zodiacName = dataEdit.name;
+    //   delete dataEdit.name;
+    //   dataEdit.zodiacIcon = dataEdit.icon;
+    //   delete dataEdit.icon;
+    //   // handleCancelModal();
+    //   await updateSurveyType(idZodiac, dataEdit);
+    // } else {
+    //   console.log(values);
+    //   await createSurveyType(values);
+    //   handleResetForm();
+    //   setStateEditor(null);
+    // }
+    // tableZodiacRef?.current?.reload();
+    // setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
@@ -306,21 +335,24 @@ const Zodiac = () => {
             key="buttonAddPlanet"
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => handleModal()}
+            onClick={onClickAdd}
           >
             Thêm loại khảo sát
           </Button>
           {loadingZodiac ? (
             <ProSkeleton type="list" statistic={false} />
           ) : (
-            <SurveyTypeList dataList={dataList} />
+            <SurveyTypeList
+              dataList={dataList}
+              onDelete={() => console.log('delete')}
+              onEdit={onClickEdit}
+            />
           )}
         </Content>
       </PageContainer>
-
       <ModalForm
         showModal={showModal}
-        titleModal="Thêm loại khảo sát"
+        titleModal={mode === 'add' ? 'Thêm loại khảo sát' : 'Chỉnh sửa loại khảo sát'}
         widthModal="900"
         handleCancelModel={handleCancelModal}
         formRef={formZodiacRef}

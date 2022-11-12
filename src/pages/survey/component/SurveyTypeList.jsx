@@ -14,7 +14,7 @@ const SurveyTypeList = (props) => {
       }}
     >
       {dataList.map((item) => (
-        <SurveyCard surveyType={item} />
+        <SurveyCard surveyType={item} {...props} />
       ))}
     </Col>
   );

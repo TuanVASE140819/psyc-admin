@@ -5,7 +5,7 @@ import Meta from 'antd/lib/card/Meta';
 import { history } from 'umi';
 
 const surveyType = (props) => {
-  const { surveyType } = props;
+  const { surveyType, onClick, onEdit, onDelete, onChange } = props;
   const handleClick = () => {
     history.push(`/survey/${surveyType.id}`);
   };
@@ -28,9 +28,9 @@ const surveyType = (props) => {
           borderBlockColor: '#1890ff',
         }}
         actions={[
-          <DeleteOutlined key="setting" />,
+          <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
           // edit
-          <EditOutlined key="edit" style={{}} />,
+          <EditOutlined key="edit" style={{}} onClick={() => onEdit(surveyType)} />,
           <div onClick={handleClick} key="ellipsis">
             Chi tiết
           </div>,
