@@ -60,94 +60,12 @@ const dataSource = [
       'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
   },
 ];
-export default () => {
-  const data = [
-    {
-      name: 'Rút',
-      Month: 'Tháng 1',
-      money: 186.9,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 2',
-      money: 28.8,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 3',
-      money: 39.3,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 4',
-      money: 81.4,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 5',
-      money: 47,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 6',
-      money: 20.3,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 7',
-      money: 24,
-    },
-    {
-      name: 'Rút',
-      Month: 'Tháng 8',
-      money: 35.6,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 1',
-      money: 12.4,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 2',
-      money: 23.2,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 3',
-      money: 34.5,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 4',
-      money: 99.7,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 5',
-      money: 52.6,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 6',
-      money: 35.5,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 7',
-      money: 37.4,
-    },
-    {
-      name: 'Nạp',
-      Month: 'Tháng 8',
-      money: 42.4,
-    },
-  ];
+export default ({ d }) => {
   const config = {
-    data,
+    data: [...d[1], ...d[2]].map((item) => ({ ...item, value: item.total })),
     isGroup: true,
-    xField: 'Month',
-    yField: 'money',
+    xField: 'month',
+    yField: 'value',
     seriesField: 'name',
 
     /** 设置颜色 */
@@ -204,7 +122,8 @@ export default () => {
               <StatisticCard
                 statistic={{
                   title: 'DOANH THU NGÀY',
-                  value: 234,
+                  value: d[0].incomeDaily,
+                  suffix: 'VND',
                   description: <Statistic title="Ngày hôm qua" value="8.04%" trend="down" />,
                 }}
               />
@@ -212,6 +131,7 @@ export default () => {
                 statistic={{
                   title: 'DOANH THU THÁNG',
                   value: 234,
+                  suffix: 'VND',
                   description: <Statistic title="Tháng trước" value="8.04%" trend="up" />,
                 }}
               />
@@ -220,14 +140,14 @@ export default () => {
               <StatisticCard
                 statistic={{
                   title: 'TỔNG RÚT(VNĐ)',
-                  value: '120.000.000',
+                  value: d[0].totalWithdrawal,
                   suffix: 'VND',
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: 'TỔNG NẠP(VNĐ)',
-                  value: '120.000.000',
+                  value: d[0].totalDeposit,
                   suffix: 'VND',
                 }}
               />
@@ -243,32 +163,35 @@ export default () => {
         </ProCard>
         <ProCard split="horizontal">
           <ProList
-            rowKey="title"
+            rowKey="id"
             headerTitle="TOP 10 TƯ VẤN VIÊN CÓ LƯỢT ĐẶT LỊCH NHIỀU NHẤT"
             expandable={{ expandedRowKeys, onExpandedRowsChange: setExpandedRowKeys }}
-            dataSource={dataSource}
+            dataSource={d[3].map((item) => ({
+              ...item,
+              title: item.fullName,
+              avatar: item.imageUrl,
+            }))}
             metas={{
               title: {},
-              subTitle: {
-                render: () => {
+              subTitle: {},
+              description: {
+                render: (_, record) => {
                   return (
-                    <Space size={0}>
-                      <Tag color="blue">Gia đình</Tag>
-                      <Tag color="#5BD8A6">Tình cảm</Tag>
-                    </Space>
+                    <div>
+                      <Rate value={record.rating} />
+                      <div>{record.email}</div>
+                      <div>{record.phone}</div>
+                      <div>Số năm kinh nghiệm: {record.experience}</div>
+                    </div>
                   );
                 },
               },
-              description: {
-                render: () => {
-                  return <Rate value={4} />;
-                },
-              },
+
               avatar: {},
 
               actions: {
-                render: () => {
-                  return <a key="invite">Số lượt đặt lịch thành công : 200</a>;
+                render: ({ props: { record } }) => {
+                  return <a key="invite">Số lượt đặt lịch thành công : {record.booking}</a>;
                 },
               },
             }}
