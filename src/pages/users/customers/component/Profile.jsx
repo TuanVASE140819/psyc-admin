@@ -458,7 +458,6 @@ const Profile = (props) => {
   //xuli submit form
   const handleSubmitFormProfile = async (values) => {
     setButtonLoading(true);
-    // TODO:
     const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
     const latitude = `${values.latitude}`;
     const longitude = `${values.longitude}`;

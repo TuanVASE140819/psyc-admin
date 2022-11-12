@@ -6,9 +6,6 @@ import { history } from 'umi';
 
 const surveyType = (props) => {
   const { surveyType, onClick, onEdit, onDelete, onChange } = props;
-  const handleClick = () => {
-    history.push(`/survey/${surveyType.id}`);
-  };
   return (
     <ProCard style={{ height: 180 }}>
       <Card
@@ -31,7 +28,7 @@ const surveyType = (props) => {
           <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
           // edit
           <EditOutlined key="edit" style={{}} onClick={() => onEdit(surveyType)} />,
-          <div onClick={handleClick} key="ellipsis">
+          <div onClick={() => onClick(surveyType)} key="ellipsis">
             Chi tiết
           </div>,
         ]}

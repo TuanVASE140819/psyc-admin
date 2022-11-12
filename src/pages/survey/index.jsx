@@ -28,6 +28,7 @@ import ProSkeleton from '@ant-design/pro-skeleton';
 import SurveyTypeList from './component/SurveyTypeList';
 import { Content } from 'antd/lib/layout/layout';
 import { create } from 'lodash';
+import { history } from 'umi';
 
 const Zodiac = () => {
   const buttonSubmitter = [
@@ -220,6 +221,14 @@ const Zodiac = () => {
     }, 0);
   };
 
+  const onClickDelele = async (item) => {
+    // TODO
+  };
+
+  const onClickDetail = (item) => {
+    history.push(`/survey/${item.id}`);
+  };
+
   //xuli dong modal
   const handleCancelModal = () => {
     setShowModal(false);
@@ -254,35 +263,6 @@ const Zodiac = () => {
     } finally {
       setButtonLoading(false);
     }
-
-    // setButtonLoading(true);
-    // setStateEditor(values.zodiacMainContent);
-    // if (values.edit) {
-    //   const idZodiac = zodiacRecord.id;
-    //   const newValues = Object.assign({}, values);
-    //   const attr = 'edit';
-    //   const dataEdit = Object.keys(newValues).reduce((item, key) => {
-    //     if (key !== attr) {
-    //       item[key] = newValues[key];
-    //     }
-    //     return item;
-    //   }, {});
-    //   dataEdit.zodiacDescription = dataEdit.descreiption;
-    //   delete dataEdit.descreiption;
-    //   dataEdit.zodiacName = dataEdit.name;
-    //   delete dataEdit.name;
-    //   dataEdit.zodiacIcon = dataEdit.icon;
-    //   delete dataEdit.icon;
-    //   // handleCancelModal();
-    //   await updateSurveyType(idZodiac, dataEdit);
-    // } else {
-    //   console.log(values);
-    //   await createSurveyType(values);
-    //   handleResetForm();
-    //   setStateEditor(null);
-    // }
-    // tableZodiacRef?.current?.reload();
-    // setButtonLoading(false);
   };
 
   //xuli mo form edit zodiac
@@ -344,8 +324,9 @@ const Zodiac = () => {
           ) : (
             <SurveyTypeList
               dataList={dataList}
-              onDelete={() => console.log('delete')}
+              onDelete={onClickDelele}
               onEdit={onClickEdit}
+              onClick={onClickDetail}
             />
           )}
         </Content>

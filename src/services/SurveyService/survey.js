@@ -62,12 +62,28 @@ export const updateSurveyType = async (body) => {
 };
 
 ///api/Surveys/getallsurvey
-export const getSurveyList = (body) => {
-  return request.get('api/Surveys/getallsurvey');
+export const getSurveyList = async (body) => {
+  return await request.get('api/Surveys/getallsurvey');
 };
 
 // /api/Surveys/create
 
-export const createSurvey = (body) => {
-  return request.post('api/Surveys/create', { data: body });
+export const createSurvey = async (body) => {
+  return await request.post('api/Surveys/create', {
+    data: body,
+  });
+};
+
+export const updateSurvey = async (body) => {
+  return await request.put('/api/Surveys/update', { data: body }).then((res) => {
+    console.log('F');
+    return res;
+  });
+};
+
+export const deleteSurvey = async (id) => {
+  return await request.delete('/api/Surveys/inactive', { data: { id } }).then((res) => {
+    console.log('F');
+    return res;
+  });
 };

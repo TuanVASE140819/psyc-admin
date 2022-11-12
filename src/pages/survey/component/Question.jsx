@@ -7,12 +7,13 @@ import style from './zodiac.less';
 
 const Zodiac = (props) => {
   const { surveyType } = props;
-  const { survey } = props;
+  const { survey, onClick } = props;
   //list data zodiac
   const [dataList, setDataList] = useState([]);
   const handleClick = () => {
+    onClick(survey);
     // chuyen sang trang question
-    history.push(`/survey/1/${survey.id}`);
+    // history.push(`/survey/1/${survey.id}`);
   };
   // error ko biết lưu biến surveyType.id
   return (

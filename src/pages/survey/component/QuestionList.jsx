@@ -1,6 +1,7 @@
 import { Col, Modal, Row, Button } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import Question from './Question';
+import SurveyCard from './SurveyCard';
 
 const QuestionList = (props) => {
   const { dataList } = props;
@@ -15,7 +16,7 @@ const QuestionList = (props) => {
         }}
       >
         {dataList.map((item) => (
-          <Question survey={item} />
+          <SurveyCard surveyType={item} {...props} />
         ))}
       </Col>
     </>
