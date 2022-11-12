@@ -8,7 +8,12 @@ import {
   updateProfile,
   addProfile,
 } from '@/services/UserService/profile';
-import { getOptionByQuestionId } from '@/services/SurveyService/survey';
+import {
+  addQuestionOption,
+  deleteQuestionOption,
+  getOptionByQuestionId,
+  updateQuestionOption,
+} from '@/services/SurveyService/survey';
 import ModalForm from '@/components/ModalForm';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
@@ -125,79 +130,37 @@ const Profile = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldAddProfileName',
-      label: 'Tên người dùng',
+      label: 'Câu trả lời',
       width: 'lg',
-      placeholder: 'Nhập tên profile',
-      name: 'name',
+      name: 'optionText',
       requiredField: 'true',
-      ruleMessage: 'Nhập tên profile trước khi submit',
     },
     {
       fieldType: 'formSelect',
       key: 'selectGenderUser',
-      name: 'gender',
-      label: 'Giới tính',
-      defaultValue: 'Male',
+      name: 'type',
+      label: 'Chủ đề',
+      defaultValue: 'D',
       valueEnum: [
         {
-          valueName: 'Male',
-          valueDisplay: 'Nam',
+          valueName: 'D',
+          valueDisplay: 'Sự thống trị',
         },
         {
-          valueName: 'Female',
-          valueDisplay: 'Nữ',
+          valueName: 'C',
+          valueDisplay: 'Sự tuân thủ',
         },
         {
-          valueName: 'Other',
-          valueDisplay: 'Khác',
+          valueName: 'S',
+          valueDisplay: 'Sự kiên định',
+        },
+        {
+          valueName: 'I',
+          valueDisplay: 'Ảnh hưởng',
         },
       ],
-      placeholder: 'Chọn giới tính',
       requiredField: 'true',
-      ruleMessage: 'Chọn giới tính',
       allowClear: false,
-    },
-    {
-      fieldType: 'datePicker',
-      key: 'fieldEditBirthDate',
-      label: 'Ngày và giờ sinh',
-      width: 'lg',
-      placeholder: 'Chọn ngày và giờ sinh',
-      name: 'dob',
-      requiredField: 'true',
-      ruleMessage: 'Nhập ngày và giờ sinh',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddBirthPlace',
-      label: 'Nơi sinh',
-      width: 'lg',
-      placeholder: 'Nhập nơi sinh',
-      name: 'birthPlace',
-      requiredField: 'true',
-      ruleMessage: 'Nhập nơi sinh trước khi submit',
-    },
-    {
-      fieldType: 'position',
-      labelLatitude: 'Latitude',
-      widthLatitude: 'small',
-      nameLatitude: 'latitude',
-      labelLongtitude: 'Longitude',
-      widthLongtitude: 'small',
-      nameLongtitude: 'longitude',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Hình ảnh',
-      width: 'lg',
-      placeholder: 'Avatar',
-      name: 'imageUrl',
-      nameUpload: 'profilePhotoFirebase',
-      nameInputFile: 'profileFileToFirebase',
-      readOnly: 'true',
-      requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
     },
   ];
 
@@ -205,79 +168,37 @@ const Profile = (props) => {
     {
       fieldType: 'formText',
       key: 'fieldAddProfileName',
-      label: 'Tên người dùng',
+      label: 'Câu trả lời',
       width: 'lg',
-      placeholder: 'Nhập tên profile',
-      name: 'name',
+      name: 'optionText',
       requiredField: 'true',
-      ruleMessage: 'Nhập tên profile trước khi submit',
     },
     {
       fieldType: 'formSelect',
       key: 'selectGenderUser',
-      name: 'gender',
-      label: 'Giới tính',
-      defaultValue: 'Male',
+      name: 'type',
+      label: 'Chủ đề',
+      defaultValue: 'D',
       valueEnum: [
         {
-          valueName: 'Male',
-          valueDisplay: 'Nam',
+          valueName: 'D',
+          valueDisplay: 'Sự thống trị',
         },
         {
-          valueName: 'Female',
-          valueDisplay: 'Nữ',
+          valueName: 'C',
+          valueDisplay: 'Sự tuân thủ',
         },
         {
-          valueName: 'Other',
-          valueDisplay: 'Khác',
+          valueName: 'S',
+          valueDisplay: 'Sự kiên định',
+        },
+        {
+          valueName: 'I',
+          valueDisplay: 'Ảnh hưởng',
         },
       ],
-      placeholder: 'Chọn giới tính',
       requiredField: 'true',
-      ruleMessage: 'Chọn giới tính',
       allowClear: false,
-    },
-    {
-      fieldType: 'datePicker',
-      key: 'fieldEditBirthDate',
-      label: 'Ngày và giờ sinh',
-      width: 'lg',
-      placeholder: 'Chọn ngày và giờ sinh',
-      name: 'dob',
-      requiredField: 'true',
-      ruleMessage: 'Nhập ngày và giờ sinh',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddBirthPlace',
-      label: 'Nơi sinh',
-      width: 'lg',
-      placeholder: 'Nhập nơi sinh',
-      name: 'birthPlace',
-      requiredField: 'true',
-      ruleMessage: 'Nhập nơi sinh trước khi submit',
-    },
-    {
-      fieldType: 'position',
-      labelLatitude: 'Vĩ độ',
-      widthLatitude: 'small',
-      nameLatitude: 'latitude',
-      labelLongtitude: 'Kinh độ',
-      widthLongtitude: 'small',
-      nameLongtitude: 'longitude',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Avatar',
-      width: 'lg',
-      placeholder: 'Avatar',
-      name: 'imageUrl',
-      nameUpload: 'profilePhotoFirebase',
-      nameInputFile: 'profileFileToFirebase',
-      readOnly: 'true',
-      requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
     },
     {
       fieldType: 'checkEdit',
@@ -410,6 +331,9 @@ const Profile = (props) => {
     setFlagEditForm('');
     setProfileRecord(null);
     setImgLinkFirebase(null);
+    setTimeout(() => {
+      formProfileRef?.current?.resetFields();
+    }, 0);
   };
 
   //xuli dong modal
@@ -433,24 +357,26 @@ const Profile = (props) => {
 
   //xuli submit form
   const handleSubmitFormProfile = async (values) => {
+    message.loading('Đang tải');
     setButtonLoading(true);
-    // TODO:
-    const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
-    const latitude = `${values.latitude}`;
-    const longitude = `${values.longitude}`;
-    const data = { ...values, dob: tempDOB, latitude, longitude };
     try {
       if (values.edit) {
-        await updateProfile({ ...data, id: profileRecord.id });
+        await updateQuestionOption({
+          ...values,
+          questionId: user.id,
+          id: profileRecord.id,
+        });
       } else {
-        await addProfile({ ...data, customerId: user.id });
+        await addQuestionOption({ ...values, questionId: user.id });
         handleResetForm();
       }
       setShowModal(false);
       setTriggerDataTable(!triggerDataTable);
     } catch (error) {
+      console.log('error', error);
     } finally {
       setButtonLoading(false);
+      message.destroy();
     }
   };
 
@@ -460,12 +386,13 @@ const Profile = (props) => {
       console.log('open edit form');
       const profileId = record.id;
       setButtonEditLoading(true);
-      const profile = await getAnProfile(profileId);
-      setProfileRecord(profile);
+      setProfileRecord(record);
       setFlagEditForm('edit');
       setShowModal(true);
-      setImgLinkFirebase(profile.imageUrl);
-      formProfileRef?.current?.setFieldsValue(profile);
+      // setImgLinkFirebase(profile.imageUrl);
+      setTimeout(() => {
+        formProfileRef?.current?.setFieldsValue(record);
+      }, 0);
     } catch (error) {
     } finally {
       setButtonEditLoading(false);
@@ -473,8 +400,17 @@ const Profile = (props) => {
   };
 
   const handleDeleteProfile = async (record) => {
-    await deleteProfile(record.id);
+    try {
+      setButtonLoading(true);
+      message.loading('Đang tải');
+      await deleteQuestionOption(record.id);
+    } catch (error) {
+    } finally {
+      message.destroy();
+      setButtonLoading(false);
+    }
   };
+
   //xu li lien quan den map picker
   function handleChangeLocation(lat, lng) {
     setLocation({ lat: lat, lng: lng });
@@ -550,7 +486,7 @@ const Profile = (props) => {
                   icon={<PlusOutlined />}
                   onClick={() => handleModal()}
                 >
-                  Thêm hồ sơ
+                  Thêm câu trả lời
                 </Button>
               </div>,
             ]}
@@ -561,7 +497,7 @@ const Profile = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa ${profileRecord?.name}`}
+          titleModal={`Chỉnh sửa câu trả lời`}
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}
@@ -576,7 +512,7 @@ const Profile = (props) => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Thêm hồ sơ"
+          titleModal="Thêm câu trả lời"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}

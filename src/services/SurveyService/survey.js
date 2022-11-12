@@ -44,7 +44,7 @@ export const addQuestion = async (data) => {
 };
 
 export const deleteQuestion = async (id) => {
-  return await request.delete('/api/Questions/removefromsurvey', { data: { id } }).then((res) => {
+  return await request.delete('/api/Questions/removefromsurvey', { params: { id } }).then((res) => {
     console.log('C');
     return res;
   });
@@ -65,6 +65,24 @@ export const getOptionByQuestionId = async (questionId) => {
       console.log('D');
       return res;
     });
+};
+
+export const updateQuestionOption = async (data) => {
+  return await request.put('/api/OptionQuestions/update', { data }).then((res) => {
+    return res;
+  });
+};
+
+export const addQuestionOption = async (data) => {
+  return await request.post('/api/OptionQuestions/create', { data }).then((res) => {
+    return res;
+  });
+};
+
+export const deleteQuestionOption = async (id) => {
+  return await request.delete('/api/OptionQuestions', { params: { id } }).then((res) => {
+    return res;
+  });
 };
 
 // /api/SurveyTypes/create
@@ -103,7 +121,7 @@ export const updateSurvey = async (body) => {
 };
 
 export const deleteSurvey = async (id) => {
-  return await request.delete('/api/Surveys/inactive', { data: { id } }).then((res) => {
+  return await request.delete('/api/Surveys/inactive', { params: { id } }).then((res) => {
     console.log('F');
     return res;
   });
