@@ -94,14 +94,14 @@ const ZodiacHouse = () => {
       key: 'clearFieldFormZodiacHouse',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddZodiacHouse',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

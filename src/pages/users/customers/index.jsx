@@ -134,7 +134,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'avatarLink',
@@ -249,7 +249,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'imageUrl',

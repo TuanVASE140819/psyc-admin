@@ -106,6 +106,7 @@ const News = () => {
       title: 'Trạng thái',
       dataIndex: 'action',
       search: false,
+      // icon ẩn hiện
       render: (_, record) => {
         return (
           <div
@@ -119,18 +120,20 @@ const News = () => {
             <div
               style={{
                 width: '50%',
+                marginRight: '8px',
               }}
             >
               <Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                defaultChecked
+                checkedChildren={<div>Hiện</div>}
+                unCheckedChildren={<div>Ẩn</div>}
+                defaultChecked={record.status}
                 onChange={() => handleOkDeleteNews(record)}
               />
             </div>
           </div>
         );
       },
+
       width: '30%',
     },
   ];
@@ -140,14 +143,14 @@ const News = () => {
       key: 'clearFieldFormNews',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddNews',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

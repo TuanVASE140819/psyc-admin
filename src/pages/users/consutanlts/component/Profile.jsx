@@ -128,14 +128,14 @@ const Profile = (props) => {
       key: 'clearFormProfile',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddProfile',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

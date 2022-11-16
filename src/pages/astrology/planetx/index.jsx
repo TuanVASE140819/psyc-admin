@@ -113,14 +113,14 @@ const Planet = () => {
       key: 'clearFieldFormPlanet',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddPlanet',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

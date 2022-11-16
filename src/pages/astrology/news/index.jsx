@@ -119,14 +119,14 @@ const News = () => {
       key: 'clearFieldFormNews',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddNews',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

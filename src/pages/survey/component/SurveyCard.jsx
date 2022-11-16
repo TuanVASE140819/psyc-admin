@@ -11,16 +11,12 @@ const surveyType = (props) => {
       <Card
         style={{
           width: '100%',
-          border: '3px solid #1890ff',
-          // đường viền bên trong màu xanh
-          borderRadius: '20px',
-          // bo tròn góc
+          border: '1px solid #1890ff',
           boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
           // đổ bóng
           transition: '0.3s',
           // thời gian chuyển động
           cursor: 'pointer',
-          // ant-card-actions có border-top: 1px solid #e8e8e8;
 
           borderBlockColor: '#1890ff',
         }}

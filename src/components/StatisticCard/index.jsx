@@ -122,33 +122,30 @@ export default ({ d }) => {
               <StatisticCard
                 statistic={{
                   title: 'DOANH THU NGÀY',
+
                   value: d[0].incomeDaily,
-                  suffix: 'VND',
-                  description: <Statistic title="Ngày hôm qua" value="8.04%" trend="down" />,
-                }}
-              />
-              <StatisticCard
-                statistic={{
-                  title: 'DOANH THU THÁNG',
-                  value: 234,
-                  suffix: 'VND',
-                  description: <Statistic title="Tháng trước" value="8.04%" trend="up" />,
+                  description: (
+                    <Statistic
+                      title="Ngày hôm qua"
+                      value={d[0].incomeDailyYesterday}
+                      suffix="%"
+                      trend="down"
+                    />
+                  ),
                 }}
               />
             </ProCard>
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
-                  title: 'TỔNG RÚT(VNĐ)',
+                  title: 'TỔNG RÚT (VNĐ)',
                   value: d[0].totalWithdrawal,
-                  suffix: 'VND',
                 }}
               />
               <StatisticCard
                 statistic={{
-                  title: 'TỔNG NẠP(VNĐ)',
+                  title: 'TỔNG NẠP (VNĐ)',
                   value: d[0].totalDeposit,
-                  suffix: 'VND',
                 }}
               />
             </ProCard>

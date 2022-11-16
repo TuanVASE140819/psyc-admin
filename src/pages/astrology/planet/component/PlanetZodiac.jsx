@@ -25,14 +25,14 @@ const PlanetZodiac = (props) => {
       key: 'clearFieldFormPlanetZodiac',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddPlanetZodiac',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

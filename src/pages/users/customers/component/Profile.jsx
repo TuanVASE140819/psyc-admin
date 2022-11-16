@@ -213,7 +213,7 @@ const Profile = (props) => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Hình ảnh',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar',
       name: 'imageUrl',
@@ -293,7 +293,7 @@ const Profile = (props) => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar',
       name: 'imageUrl',

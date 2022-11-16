@@ -69,14 +69,14 @@ const Aspect = (props) => {
       key: 'clearFieldFormPlanetCompare',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddPlanetCompare',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];

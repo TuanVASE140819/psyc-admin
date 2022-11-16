@@ -30,16 +30,15 @@ const User = (props) => {
   const column = [
     {
       title: 'STT',
-      dataIndex: 'id',
-      hideInSearch: true,
-      hideInForm: true,
+      dataIndex: 'index',
+      valueType: 'index',
     },
     {
       title: 'Câu hỏi',
       dataIndex: 'description',
       copyable: true,
-      valueType: 'fullname',
-      sorter: (a, b) => a.fullname.length - b.fullname.length,
+      valueType: 'description',
+      sorter: (a, b) => a.description.length - b.description.length,
       filters: true,
       onFilter: true,
       formItemProps: {
