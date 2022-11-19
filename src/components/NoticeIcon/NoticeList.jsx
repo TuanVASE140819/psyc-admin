@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './NoticeList.less';
 import { seenNoti } from '@/services/ant-design-pro/api';
-
+const moment = require('moment');
 const NoticeList = ({
   list = [],
   onClick,
@@ -64,13 +64,59 @@ const NoticeList = ({
                   </div>
                 }
                 description={
-                  <div>
-                    <div className={styles.description}>{item.description}</div>
-                    <div className={styles.datetime}>{item.dateCreate}</div>
-                    <div className={styles.datetime}>
-                      {item.status === 'notseen' ? 'Chưa xem' : 'Đã xem'}
-                    </div>
+                  <div className={styles.description}>
+                    {item.status === 'seen' ? (
+                      <div style={{ color: 'gray' }}>
+                        {item.description.length > 50
+                          ? item.description.slice(0, 40) + '...'
+                          : item.description}
+                        <div className={{ color: 'gray' }}>
+                          Mã giao dịch: {item.description.slice(-8)}
+                        </div>
+                        <div className={{ color: 'gray' }}>
+                          {moment(item.dateCreate).locale('vi').fromNow()}
+                        </div>
+                        <div className={styles.datetime}>
+                          {item.status === 'notseen' ? 'Chưa xem' : 'Đã xem'}
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div style={{ color: 'black' }}>
+                          {item.description.length > 50
+                            ? item.description.slice(0, 40) + '...'
+                            : item.description}
+                        </div>
+                        <div className={{ color: 'black' }}>
+                          Mã giao dịch: {item.description.slice(-8)}
+                        </div>
+                        <div className={{ color: 'black' }}>
+                          {moment(item.dateCreate).locale('vi').fromNow()}
+                        </div>
+                        <div className={styles.datetime}>
+                          {item.status === 'notseen' ? 'Chưa xem' : 'Đã xem'}
+                        </div>
+                      </div>
+                    )}
                   </div>
+                  // <div>
+                  //   {/* cắt chuỗi mô tả không hiện thị Chở xử lý trở đi */}
+                  //   <div className={styles.description}>
+                  //     {item.description.length > 50
+                  //       ? item.description.slice(0, 40) + '...'
+                  //       : item.description}
+                  //   </div>
+
+                  //   <div className={styles.description}>
+                  //     Mã giao dịch: {item.description.slice(-8)}
+                  //   </div>
+                  //   <div className={styles.datetime}>
+                  //     {moment(item.dateCreate).locale('vi').fromNow()}
+                  //   </div>
+                  //   <div className={styles.datetime}>
+                  //     {item.status === 'notseen' ? 'Chưa xem' : 'Đã xem'}
+                  //   </div>
+                  // </div>
                 }
               />
             </List.Item>

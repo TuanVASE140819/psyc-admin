@@ -118,7 +118,7 @@ export default ({ d }) => {
       >
         <ProCard split="horizontal">
           <ProCard split="horizontal">
-            <ProCard split="vertical">
+            {/* <ProCard split="vertical">
               <StatisticCard
                 statistic={{
                   title: 'DOANH THU NGÀY',
@@ -134,18 +134,18 @@ export default ({ d }) => {
                   ),
                 }}
               />
-            </ProCard>
+            </ProCard> */}
             <ProCard split="vertical">
               <StatisticCard
                 statistic={{
                   title: 'TỔNG RÚT (VNĐ)',
-                  value: d[0].totalWithdrawal,
+                  value: d[0].totalWithdrawal * 1000,
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: 'TỔNG NẠP (VNĐ)',
-                  value: d[0].totalDeposit,
+                  value: d[0].totalDeposit * 1000,
                 }}
               />
             </ProCard>

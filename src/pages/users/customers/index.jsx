@@ -175,7 +175,7 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddAddressUser',
-      label: 'Dia chỉ',
+      label: 'Địa chỉ',
       width: 'lg',
       placeholder: 'Địa chỉ',
       name: 'address',
@@ -296,7 +296,7 @@ const User = () => {
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

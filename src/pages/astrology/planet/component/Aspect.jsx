@@ -617,7 +617,7 @@ const Aspect = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh Sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formAspectRef}

@@ -245,7 +245,7 @@ const House = () => {
   //xuli loading upload img firebase
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

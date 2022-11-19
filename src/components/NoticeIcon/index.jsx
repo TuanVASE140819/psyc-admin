@@ -8,42 +8,6 @@ import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import 'moment/locale/vi';
 
-const getNoticeData = (notices) => {
-  // list notification with status "seen"
-  if (!notices || notices.length === 0 || !Array.isArray(notices)) {
-    return {};
-  }
-
-  const newNotices = notices.map((notice) => {
-    const newNotice = { ...notice };
-
-    if (newNotice.dateCreate) {
-      // lang: 'vn-VN' UTC +7
-      newNotice.dateCreate = moment(notice.dateCreate).locale('vi').fromNow();
-    }
-
-    if (newNotice.id) {
-      newNotice.key = newNotice.id;
-    }
-    return newNotice;
-  });
-  return groupBy(newNotices, 'type');
-};
-
-const getUnreadData = (noticeData) => {
-  const unreadMsg = {};
-  Object.entries(noticeData).forEach(([key, value]) => {
-    if (!unreadMsg[key]) {
-      unreadMsg[key] = 0;
-    }
-    if (Array.isArray(value)) {
-      unreadMsg[key] = value.filter((item) => !item.read && item.status === 'notseen').length;
-    }
-  });
-  return unreadMsg;
-};
-//loop set timeout for notification
-
 const NoticeIconView = () => {
   // const timer = (ms) => new Promise((res) => setTimeout(res, ms));
   const { initialState } = useModel('@@initialState');

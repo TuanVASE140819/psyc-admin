@@ -34,9 +34,9 @@ export default function ABC({ data }) {
         />
         <StatisticCard
           statistic={{
-            title: 'DOANH THU (VNĐ)',
+            title: 'TỔNG TIỀN TỪ ĐẶT LỊCH (VNĐ)',
             // totalIncome nhân 1000 để đổi từ triệu sang đồng
-            value: data.totalIncome,
+            value: data.totalPriceFromBooking * 1000,
           }}
         />
       </StatisticCard.Group>

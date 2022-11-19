@@ -347,7 +347,7 @@ const Profile = (props) => {
   //xuli loading upload img firebase
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -573,7 +573,7 @@ const Profile = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}

@@ -345,7 +345,7 @@ const PlanetHouse = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formPlanetHouseRef}

@@ -66,7 +66,7 @@ const User = (props) => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Chi tiết
+                Chỉnh sửa
               </Button>
             </div>
           </div>
@@ -174,7 +174,7 @@ const User = (props) => {
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -296,7 +296,7 @@ const User = (props) => {
   const handleAddQuestion = async (values) => {
     try {
       setButtonLoading(true);
-      await addQuestion({ ...values, surveyId: zodiacId });
+      await addQuestion({ ...values, surveyId: surveyId });
       setShowModel(false);
       actionRef?.current?.reload();
       setButtonLoading(false);
