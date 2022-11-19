@@ -30,16 +30,15 @@ const User = (props) => {
   const column = [
     {
       title: 'STT',
-      dataIndex: 'id',
-      hideInSearch: true,
-      hideInForm: true,
+      dataIndex: 'index',
+      valueType: 'index',
     },
     {
       title: 'Câu hỏi',
       dataIndex: 'description',
       copyable: true,
-      valueType: 'fullname',
-      sorter: (a, b) => a.fullname.length - b.fullname.length,
+      valueType: 'description',
+      sorter: (a, b) => a.description.length - b.description.length,
       filters: true,
       onFilter: true,
       formItemProps: {
@@ -67,7 +66,7 @@ const User = (props) => {
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Chi tiết
+                Chỉnh sửa
               </Button>
             </div>
           </div>
@@ -175,7 +174,7 @@ const User = (props) => {
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -297,7 +296,7 @@ const User = (props) => {
   const handleAddQuestion = async (values) => {
     try {
       setButtonLoading(true);
-      await addQuestion({ ...values, surveyId: zodiacId });
+      await addQuestion({ ...values, surveyId: surveyId });
       setShowModel(false);
       actionRef?.current?.reload();
       setButtonLoading(false);

@@ -20,14 +20,14 @@ const ZodiacDetail = (props) => {
       key: 'clearFieldFormZodiac',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddZodiac',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];
@@ -130,7 +130,7 @@ const ZodiacDetail = (props) => {
   //xuli loading upload img firebase
   useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

@@ -134,7 +134,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'avatarLink',
@@ -175,7 +175,7 @@ const User = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddAddressUser',
-      label: 'Dia chỉ',
+      label: 'Địa chỉ',
       width: 'lg',
       placeholder: 'Địa chỉ',
       name: 'address',
@@ -249,7 +249,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'imageUrl',
@@ -296,7 +296,7 @@ const User = () => {
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

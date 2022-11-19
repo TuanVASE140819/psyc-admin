@@ -106,14 +106,14 @@ const User = () => {
       key: 'clearFieldFormUser',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddUser',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];
@@ -140,7 +140,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'avatarLink',
@@ -201,7 +201,7 @@ const User = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'Avatar',
+      label: 'Ảnh đại diện',
       width: 'lg',
       placeholder: 'Avatar Link',
       name: 'imageUrl',
@@ -242,7 +242,7 @@ const User = () => {
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }

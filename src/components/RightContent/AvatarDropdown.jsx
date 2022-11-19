@@ -84,7 +84,7 @@ const AvatarDropdown = ({ menu }) => {
           size="small"
           className={styles.avatar}
           src={
-            'https://firebasestorage.googleapis.com/v0/b/psychologicalcounseling-28efa.appspot.com/o/useravatar%2F1667980090641boss-512%20(1).webp?alt=media&token=6e4db08c-12f1-44b7-92fa-5c89b59190a9'
+            'https://firebasestorage.googleapis.com/v0/b/psycteamv1.appspot.com/o/useravatar%2F1668765098525th%20(3).jpg?alt=media&token=f04f8d82-c243-4072-8d87-45e955091e2d'
           }
           alt="avatar"
         />

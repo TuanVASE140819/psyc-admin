@@ -25,14 +25,14 @@ const PlanetZodiac = (props) => {
       key: 'clearFieldFormPlanetZodiac',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddPlanetZodiac',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];
@@ -322,7 +322,7 @@ const PlanetZodiac = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formPlanetZodiacRef}

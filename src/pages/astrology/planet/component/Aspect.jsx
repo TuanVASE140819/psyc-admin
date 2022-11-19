@@ -69,14 +69,14 @@ const Aspect = (props) => {
       key: 'clearFieldFormPlanetCompare',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddPlanetCompare',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];
@@ -617,7 +617,7 @@ const Aspect = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh Sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formAspectRef}

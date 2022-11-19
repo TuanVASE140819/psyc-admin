@@ -128,14 +128,14 @@ const Profile = (props) => {
       key: 'clearFormProfile',
       type: 'default',
       click: 'reset',
-      name: 'Reset',
+      name: 'Quay lại',
       loading: false,
     },
     {
       key: 'submitAddProfile',
       type: 'primary',
       click: 'submit',
-      name: 'Submit',
+      name: 'Lưu',
       loading: false,
     },
   ];
@@ -347,7 +347,7 @@ const Profile = (props) => {
   //xuli loading upload img firebase
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
-      message.loading('Uploading', 9999);
+      message.loading('Đang tải ...', 9999);
     } else {
       message.destroy();
     }
@@ -573,7 +573,7 @@ const Profile = (props) => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal="Editing"
+          titleModal="Chỉnh sửa"
           widthModal="900"
           handleCancelModel={handleCancelModal}
           formRef={formProfileRef}
