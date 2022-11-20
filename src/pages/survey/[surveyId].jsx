@@ -97,7 +97,6 @@ const User = (props) => {
                 size="middle"
                 icon={<DeleteOutlined />}
                 block={true}
-                //khi ấn vào nút xóa thì hiện lên modal xác nhận xóa
                 onClick={() => {
                   Modal.confirm({
                     title: 'Xác nhận xóa',
@@ -368,34 +367,46 @@ const User = (props) => {
           expandable={{
             expandedRowRender,
           }}
-          //getQuestionBySurveyId
-          request={async (params, sorter, filter) => {
-            const res = await getQuestionBySurveyId(surveyId);
-            if (res) {
-              setTotal(res.total);
-              return {
-                data: res.data,
-                success: true,
-                total: res.total,
-              };
-            }
+          // request={async (params, sorter, filter) => {
+
+          //   const res = await getQuestionBySurveyId(surveyId);
+          //   if (res) {
+          //     setTotal(res.total);
+          //     return {
+          //       data: res.data,
+          //       success: true,
+          //       total: res.total,
+          //     };
+          //   }
+          //   return {
+          //     data: [],
+          //     success: true,
+          //     total: 0,
+          //   };
+          // }}
+          request={async (params, sort, filter) => {
+            const data = [];
+            await getQuestionBySurveyId(surveyId).then((res) => {
+              res?.data?.map((item, index) => {
+                item.number = index + 1;
+                data[index] = item;
+              });
+              setTotal(res?.total);
+            });
+
             return {
-              data: [],
+              data: data,
               success: true,
-              total: 0,
             };
           }}
           onReset={true}
           actionRef={actionRef}
           pagination={{
-            current: page,
-            pageSize: pageSize,
+            //mặc định là 10
+            pageSize: 10,
+            showSizeChanger: true,
             total: total,
-            onchange: (page, pageSize) => {
-              console.log('on change', page, pageSize);
-              setPage(page);
-              setPageSize(pageSize);
-            },
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} câu hỏi`,
           }}
           search={{
             labelWidth: 'auto',

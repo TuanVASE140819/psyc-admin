@@ -31,29 +31,11 @@ const Profile = (props) => {
       title: 'Câu trả lời ',
       dataIndex: 'optionText',
       copyable: true,
-      // sorter: (a, b) => a.optionText.length - b.optionText.length,
-      // formItemProps: {
-      //   rules: [
-      //     {
-      //       require: true,
-      //       message: 'Enter House Name to search',
-      //     },
-      //   ],
-      // },
     },
     {
       title: 'Chủ đề',
       dataIndex: 'type',
       copyable: true,
-      // sorter: (a, b) => a.name.localeCompare(b.name),
-      // formItemProps: {
-      //   rules: [
-      //     {
-      //       require: true,
-      //       message: 'Enter House Name to search',
-      //     },
-      //   ],
-      // },
     },
     {
       title: 'Hành động',
@@ -255,12 +237,6 @@ const Profile = (props) => {
   //get list option of question
   React.useEffect(() => {
     (async () => {
-      const listProfile = [];
-      const params = {
-        userId: user?.id,
-        page: page,
-        pageSize: pageSize,
-      };
       const data = await getOptionByQuestionId(user?.id);
       setDataTable(data?.data);
       setTotal(data.length);

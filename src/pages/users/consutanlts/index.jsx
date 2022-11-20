@@ -400,13 +400,11 @@ const User = () => {
           onReset={true}
           actionRef={actionRef}
           pagination={{
-            current: page,
-            pageSize: pageSize,
+            //mặc định là 10
+            pageSize: 10,
+            showSizeChanger: true,
             total: total,
-            onchange: (page, pageSize) => {
-              setPage(page);
-              setPageSize(pageSize);
-            },
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} tư vấn viên`,
           }}
           search={{
             labelWidth: 'auto',
