@@ -187,7 +187,7 @@ export default () => {
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter);
         //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
-        https: return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
+        return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
           params: {
             ...params,
             date: params.dateCreate,
@@ -195,7 +195,7 @@ export default () => {
             pageNumber: params.current,
             total: params.totalpage,
           },
-          setTotal: params.totalpage,
+          setTotal: params.totalpag,
         });
       }}
       editable={{
@@ -233,14 +233,11 @@ export default () => {
         },
       }}
       pagination={{
-        current: page,
-        pageSize: pageSize,
+        //mặc định là 10
+        pageSize: 10,
+        showSizeChanger: true,
         total: total,
-        showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} kết quả`,
-        onChange: (page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        },
+        showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} khách hàng`,
       }}
       dateFormatter="string"
       headerTitle="Danh sách giao dịch nạp tiền"

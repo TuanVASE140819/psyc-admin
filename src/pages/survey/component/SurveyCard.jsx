@@ -24,9 +24,6 @@ const surveyType = (props) => {
           <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
           // edit
           <EditOutlined key="edit" style={{}} onClick={() => onEdit(surveyType)} />,
-          <div onClick={() => onClick(surveyType)} key="ellipsis">
-            Chi tiết
-          </div>,
         ]}
       >
         <Meta
@@ -38,6 +35,7 @@ const surveyType = (props) => {
             alignItems: 'center',
           }}
           title={'Tên loại khảo sát: ' + surveyType.name}
+          onClick={() => onClick(surveyType)}
         />
       </Card>
     </ProCard>
