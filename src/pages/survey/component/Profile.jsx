@@ -31,29 +31,29 @@ const Profile = (props) => {
       title: 'Câu trả lời ',
       dataIndex: 'optionText',
       copyable: true,
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter House Name to search',
-          },
-        ],
-      },
+      // sorter: (a, b) => a.optionText.length - b.optionText.length,
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       require: true,
+      //       message: 'Enter House Name to search',
+      //     },
+      //   ],
+      // },
     },
     {
       title: 'Chủ đề',
       dataIndex: 'type',
       copyable: true,
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter House Name to search',
-          },
-        ],
-      },
+      // sorter: (a, b) => a.name.localeCompare(b.name),
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       require: true,
+      //       message: 'Enter House Name to search',
+      //     },
+      //   ],
+      // },
     },
     {
       title: 'Hành động',
@@ -97,7 +97,22 @@ const Profile = (props) => {
                 size="middle"
                 block="true"
                 icon={<DeleteOutlined />}
-                onClick={() => handleDeleteProfile(record)}
+                //khi ấn vào nút xóa thì hiện lên modal xác nhận xóa
+                onClick={() => {
+                  Modal.confirm({
+                    title: 'Xác nhận xóa',
+                    content: 'Bạn có chắc chắn muốn xóa?',
+                    okText: 'Xóa',
+                    okType: 'danger',
+                    cancelText: 'Hủy',
+                    onOk() {
+                      handleDeleteProfile(record);
+                    },
+                    onCancel() {
+                      console.log('Cancel');
+                    },
+                  });
+                }}
               >
                 Xóa
               </Button>
@@ -372,11 +387,12 @@ const Profile = (props) => {
       }
       setShowModal(false);
       setTriggerDataTable(!triggerDataTable);
+      message.destroy();
     } catch (error) {
       console.log('error', error);
     } finally {
       setButtonLoading(false);
-      message.destroy();
+      message.success('Thêm thành công');
     }
   };
 
@@ -404,10 +420,12 @@ const Profile = (props) => {
       setButtonLoading(true);
       message.loading('Đang tải');
       await deleteQuestionOption(record.id);
+      setTriggerDataTable(!triggerDataTable);
+      message.destroy();
     } catch (error) {
     } finally {
-      message.destroy();
       setButtonLoading(false);
+      message.success('Xóa thành công');
     }
   };
 
@@ -438,6 +456,18 @@ const Profile = (props) => {
     setPage(page);
     setPageSize(pageSize);
     setTriggerDataTable(!triggerDataTable);
+  };
+
+  // modal xác nhận xóa
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModalDelete = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (

@@ -79,12 +79,13 @@ export const addQuestionOption = async (data) => {
   });
 };
 
+// https://psycteam.azurewebsites.net/api/OptionQuestions/65
+// xóa theo api này
 export const deleteQuestionOption = async (id) => {
-  return await request.delete('/api/OptionQuestions', { params: { id } }).then((res) => {
-    return res;
+  const res = await request(`/api/OptionQuestions/${id}`, {
+    method: 'DELETE',
   });
 };
-
 // /api/SurveyTypes/create
 export const createSurveyType = async (body) => {
   return await request.post('api/SurveyTypes/create', { data: body }).then((res) => {

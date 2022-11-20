@@ -25,7 +25,17 @@ const User = (props) => {
       params: { zodiacId, surveyId },
     },
   } = props;
-
+  // modal xác nhân xóa
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModalDelete = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   //config column
   const column = [
     {
@@ -87,7 +97,16 @@ const User = (props) => {
                 size="middle"
                 icon={<DeleteOutlined />}
                 block={true}
-                onClick={() => handelDeleteQuestion(record)}
+                //khi ấn vào nút xóa thì hiện lên modal xác nhận xóa
+                onClick={() => {
+                  Modal.confirm({
+                    title: 'Xác nhận xóa',
+                    content: 'Bạn có chắc chắn muốn xóa?',
+                    okText: 'Xóa',
+                    cancelText: 'Hủy',
+                    onOk: () => handelDeleteQuestion(record),
+                  });
+                }}
               >
                 Xóa
               </Button>
@@ -316,10 +335,17 @@ const User = (props) => {
   };
 
   const handelDeleteQuestion = async (record) => {
-    message.loading('Đang xóa...', 9999);
-    await deleteQuestion(record.id);
-    actionRef?.current?.reload();
-    message.destroy();
+    try {
+      message.loading('Đang xóa...', 9999);
+      await deleteQuestion(record.id);
+      actionRef?.current?.reload();
+      message.destroy();
+    } catch (error) {
+      message.fail('Xóa thất bại');
+    } finally {
+      message.destroy();
+      message.success('Xóa thành công');
+    }
   };
 
   const onClickAddQuestion = () => {
