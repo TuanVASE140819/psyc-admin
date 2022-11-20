@@ -150,7 +150,8 @@ export default ({ d }) => {
               />
             </ProCard>
           </ProCard>
-          <h1>Tỉ lệ rút nạp</h1>
+          <h1>Tỉ lệ rút/nạp</h1>
+          <h5>1 đơn vị = 1,000vnđ</h5>
           <Column
             {...config}
             style={{
