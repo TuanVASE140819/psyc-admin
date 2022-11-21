@@ -8,6 +8,7 @@ import {
   updateProfile,
   addProfile,
 } from '@/services/UserService/profile';
+
 import ModalForm from '@/components/ModalForm';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
@@ -116,7 +117,18 @@ const Profile = (props) => {
                 size="middle"
                 block="true"
                 icon={<DeleteOutlined />}
-                onClick={() => handleDeleteProfile(record)}
+                // onClick={() => handleDeleteProfile(record)}
+                //khi ấn vào nút xóa thì hiện lên modal xác nhận xóa
+                onClick={() => {
+                  Modal.confirm({
+                    title: 'Xác nhận xóa',
+                    content: 'Bạn có chắc chắn muốn xóa ' + record.name + ' không?',
+                    okText: 'Xóa',
+                    okType: 'danger',
+                    cancelText: 'Hủy',
+                    onOk: () => handleDeleteProfile(record),
+                  });
+                }}
               >
                 Xóa
               </Button>
@@ -203,10 +215,10 @@ const Profile = (props) => {
     },
     {
       fieldType: 'position',
-      labelLatitude: 'Latitude',
+      labelLatitude: 'Vĩ độ',
       widthLatitude: 'small',
       nameLatitude: 'latitude',
-      labelLongtitude: 'Longitude',
+      labelLongtitude: 'Kinh độ',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
     },
@@ -463,6 +475,7 @@ const Profile = (props) => {
     const longitude = `${values.longitude}`;
     const data = { ...values, dob: tempDOB, latitude, longitude };
     try {
+      message.loading('Đang tải...', 9999);
       if (values.edit) {
         await updateProfile({ ...data, id: profileRecord.id });
       } else {
@@ -471,15 +484,18 @@ const Profile = (props) => {
       }
       setShowModal(false);
       setTriggerDataTable(!triggerDataTable);
+      message.destroy();
     } catch (error) {
     } finally {
       setButtonLoading(false);
+      message.success('Thực hiện thành công!');
     }
   };
 
   //xuli mo form edit zodiac
   const handleEditProfileForm = async (record) => {
     try {
+      message.loading('Đang tải...', 9999);
       console.log('open edit form');
       const profileId = record.id;
       setButtonEditLoading(true);
@@ -489,14 +505,27 @@ const Profile = (props) => {
       setShowModal(true);
       setImgLinkFirebase(profile.imageUrl);
       formProfileRef?.current?.setFieldsValue(profile);
+      message.destroy();
     } catch (error) {
     } finally {
       setButtonEditLoading(false);
+      // message.success('Thực hiện thành công!');
     }
   };
 
   const handleDeleteProfile = async (record) => {
-    await deleteProfile(record.id);
+    try {
+      message.loading('Đang tải...', 9999);
+      const profileId = record.id;
+      setButtonEditLoading(true);
+      const profile = await deleteProfile(profileId);
+      formProfileRef?.current?.setFieldsValue(profile);
+      message.destroy();
+    } catch (error) {
+    } finally {
+      setTriggerDataTable(!triggerDataTable);
+      message.success('Thực hiện thành công!');
+    }
   };
   //xu li lien quan den map picker
   function handleChangeLocation(lat, lng) {

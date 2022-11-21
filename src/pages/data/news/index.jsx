@@ -69,7 +69,6 @@ const News = () => {
     //   width: '20%',
     // },
     {
-      title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -124,9 +123,12 @@ const News = () => {
               }}
             >
               <Switch
+                // checkedChildren={<div>Hiện</div>}
+                // unCheckedChildren={<div>Ẩn</div>}
+                // nếu status là active thì checkedChildren là hiện
                 checkedChildren={<div>Hiện</div>}
                 unCheckedChildren={<div>Ẩn</div>}
-                defaultChecked={record.status}
+                defaultChecked={record.status === 'active' ? true : false}
                 onChange={() => handleOkDeleteNews(record)}
               />
             </div>
@@ -390,9 +392,16 @@ const News = () => {
 
   //xuli delete news
   const handleOkDeleteNews = async (record) => {
-    const result = await deleteArticle(record.id);
-    if (result) {
+    try {
+      message.loading('Đang xử lí ...', 9999);
+      await deleteArticle(record.id);
       tableNewsRef?.current?.reload();
+      message.destroy();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy();
+      message.success('Thay đổi trạng thái thành công!');
     }
   };
 
