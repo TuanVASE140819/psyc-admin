@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Menu, message, Space, Tag } from 'antd';
+import { Button, Dropdown, Menu, message, Modal, Space, Tag } from 'antd';
 import { useRef } from 'react';
 import request from 'umi-request';
 
@@ -110,7 +110,7 @@ const columns = [
     },
   },
   {
-    title: 'Hành động',
+    // title: 'Hành động',
     valueType: 'option',
     render: (dom, entity) => {
       return (
@@ -133,11 +133,24 @@ const columns = [
             </Button>
             <Button
               onClick={() => {
-                rejectDeposit(entity.id);
-                setTimeout(() => {
-                  window.location.reload();
-                  message.success('Chấp nhận giao dịch thành công');
-                }, 4000);
+                // rejectDeposit(entity.id);
+                // setTimeout(() => {
+                //   window.location.reload();
+                //   message.success('Chấp nhận giao dịch thành công');
+                // }, 4000);
+                Modal.confirm({
+                  title: 'Từ chối giao dịch',
+                  content: 'Bạn có chắc chắn muốn từ chối giao dịch này?',
+                  okText: 'Từ chối',
+                  cancelText: 'Hủy',
+                  onOk: () => {
+                    rejectDeposit(entity.id);
+                    setTimeout(() => {
+                      window.location.reload();
+                      message.success('Từ chối giao dịch thành công');
+                    }, 4000);
+                  },
+                });
               }}
             >
               Từ chối
@@ -237,7 +250,7 @@ export default () => {
         pageSize: 10,
         showSizeChanger: true,
         total: total,
-        showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} khách hàng`,
+        showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} giao dịch`,
       }}
       dateFormatter="string"
       headerTitle="Danh sách giao dịch nạp tiền"
