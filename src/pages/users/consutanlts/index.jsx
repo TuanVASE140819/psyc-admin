@@ -1,10 +1,15 @@
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Button, message, Space, Tag, Rate } from 'antd';
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
-import { getConsutanlts, getAConsutanlt, editConsutanlt } from '@/services/UserService/consutanlts';
+import {
+  getConsutanlts,
+  getAConsutanlt,
+  editConsutanlt,
+  getSpecializations,
+} from '@/services/UserService/consutanlts';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -83,8 +88,20 @@ const User = () => {
       search: false,
       render: (_, record) => {
         return (
-          <div>
-            <div>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
               <Button
                 key="editConsutanlt"
                 type="primary"
@@ -94,6 +111,24 @@ const User = () => {
                 onClick={() => handleEditUserForm(record)}
               >
                 Chi tiết
+              </Button>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
+              <Button
+                key="editConsutanlt"
+                type="#1890ff"
+                size="middle"
+                // icon eye
+
+                block={true}
+                onClick={() => handleEditSpecialist(record)}
+              >
+                Chuyên môn
               </Button>
             </div>
           </div>
@@ -212,11 +247,41 @@ const User = () => {
       requiredField: 'true',
       ruleMessage: 'Tải ảnh lên trước khi submit',
     },
-    // {
-    //   fieldType: 'checkEdit',
-    //   name: 'edit',
-    //   value: 'edit',
-    // },
+  ];
+  const formFieldEditSpecialist = [
+    {
+      fieldType: 'ProFormSelect',
+      key: 'selectSpecialist',
+      name: 'specialist',
+      label: 'Chuyên môn',
+      options: [
+        //api get specialist
+        {
+          value: '1',
+          label: 'Sự Nghiệp',
+        },
+        {
+          value: '2',
+          label: 'Gia Ðình',
+        },
+        {
+          value: '3',
+          label: 'Tình yêu',
+        },
+        {
+          value: '4',
+          label: 'Bạn Bè',
+        },
+        {
+          value: '5',
+          label: 'Các loại Bệnh',
+        },
+        {
+          value: '6',
+          label: 'Chuyên môn khác',
+        },
+      ],
+    },
   ];
 
   const actionRef = React.useRef();
@@ -232,6 +297,9 @@ const User = () => {
   const [buttonSubmitterUser, setButtonSubmitterUser] = React.useState(buttonSubmitter);
   const [formFieldAddUser, setFormFieldAddUser] = React.useState(formFieldAdd);
   const [formFieldEditUser, setFormFieldEditUser] = React.useState(formFieldEdit);
+  const [formFieldEditSpecialist1, setFormFieldEditSpecialist] =
+    React.useState(formFieldEditSpecialist);
+
   const { initialState, setInitialState } = useModel('@@initialState');
 
   //paging
@@ -371,6 +439,19 @@ const User = () => {
     }
     setButtonEditLoading(false);
   };
+  const handleEditSpecialist = async (record) => {
+    const userId = record?.id;
+    setButtonEditLoading(true);
+    const user = await getSpecializations(userId);
+    if (user) {
+      setUserRecord(user);
+      setFlagEditForm('editSpecialist');
+      setShowModel(!showModal);
+      setImgLinkFirebase(user.imageUrl);
+      formUserRef?.current?.setFieldsValue(user);
+    }
+    setButtonEditLoading(false);
+  };
 
   const expandedRowRender = (record) => {
     return <Profile user={record} />;
@@ -431,7 +512,7 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Edit ${userRecord.fullName}`}
+          titleModal={`Chỉnh sửa ${userRecord.fullName}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
@@ -444,12 +525,12 @@ const User = () => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Add New User"
+          titleModal="Chỉnh sửa chuyên môn"
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
           handleSubmitForm={handleSubmitFormUser}
-          formField={formFieldAddUser}
+          formField={formFieldEditSpecialist1}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
           handleResetForm={handleResetForm}

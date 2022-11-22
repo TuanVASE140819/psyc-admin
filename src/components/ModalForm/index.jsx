@@ -10,6 +10,7 @@ import ProForm, {
   ProFormGroup,
   ProFormSelect,
   ProFormText,
+  ProFormCheckbox,
   ProFormTextArea,
   ProFormTimePicker,
 } from '@ant-design/pro-form';
@@ -577,6 +578,25 @@ const ModalForm = (props) => {
                     }}
                   >
                     <ProFormText name={item?.name} initialValue={item?.value} />
+                  </ProForm.Group>
+                )}
+
+                {item?.fieldType === 'ProFormSelect' && (
+                  <ProForm.Group>
+                    {/* ProFormCheckbox */}
+                    <ProFormCheckbox.Group
+                      name={item?.name}
+                      label={item?.label}
+                      options={item?.options?.map((item) => ({
+                        label: item.label,
+                        value: item.value,
+                      }))}
+
+                      // options={item?.valueEnum?.map((valueItem) => ({
+                      //   label: valueItem.valueDisplay,
+                      //   value: valueItem.valueName,
+                      // }))}
+                    />
                   </ProForm.Group>
                 )}
               </>
