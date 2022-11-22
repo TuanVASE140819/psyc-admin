@@ -1,115 +1,86 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Space, Tag } from 'antd';
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-// import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
 import {
-  getQuestionBySurveyId,
-  getQuestion,
-  updateQuestion,
-  addQuestion,
-  deleteQuestion,
-} from '@/services/SurveyService/survey';
+  getAnCustomer,
+  getCustomers,
+  editCustomer,
+  getSpecializationTypes,
+  editSpecializationTypes,
+  getASpecializationTypes,
+} from '@/services/UserService/customers';
+// import {getSpecializationTypes} from '@/services/SpecializationService
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
 import dayjs from 'dayjs';
 import MapPicker from 'react-google-map-picker';
 
-const User = (props) => {
-  const {
-    match: {
-      params: { zodiacId, surveyId },
-    },
-  } = props;
-  // modal xác nhân xóa
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModalDelete = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+const User = () => {
   //config column
   const column = [
     {
       title: 'STT',
-      dataIndex: 'index',
-      valueType: 'index',
+      dataIndex: 'number',
+      sorter: (a, b) => a.number - b.number,
+      search: false,
     },
     {
-      title: 'Câu hỏi',
-      dataIndex: 'description',
-      copyable: true,
-      valueType: 'description',
-      sorter: (a, b) => a.description.length - b.description.length,
-      filters: true,
-      onFilter: true,
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter username to search',
-          },
-        ],
-      },
+      title: 'Loại chuyên môn',
+      dataIndex: 'name',
+      sorter: (a, b) => a.name.length - b.name.length,
+      search: false,
     },
     {
-      title: '',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
         return (
-          <div>
-            <div>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
               <Button
-                key="editUser"
+                key="getASpecializationTypes"
                 type="primary"
                 size="middle"
                 icon={<EditOutlined />}
                 block={true}
                 onClick={() => handleEditUserForm(record)}
               >
-                Chỉnh sửa
+                Chi tiết
               </Button>
             </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: '',
-      dataIndex: 'actionDelete',
-      search: false,
-      render: (_, record) => {
-        return (
-          <div>
-            <div>
+            {/* <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
               <Button
-                danger
                 key="editUser"
                 size="middle"
-                icon={<DeleteOutlined />}
+                icon={<EditOutlined />}
                 block={true}
-                onClick={() => {
-                  Modal.confirm({
-                    title: 'Xác nhận xóa',
-                    content: 'Bạn có chắc chắn muốn xóa?',
-                    okText: 'Xóa',
-                    cancelText: 'Hủy',
-                    onOk: () => handelDeleteQuestion(record),
-                  });
-                }}
+                onClick={() => handleEditUserForm(record)}
               >
-                Xóa
+                Chi tiết
               </Button>
-            </div>
+            </div> */}
           </div>
         );
       },
@@ -136,29 +107,26 @@ const User = (props) => {
   const formFieldAdd = [
     {
       fieldType: 'formText',
-      key: 'fieldAddUsername',
-      label: 'Mô tả',
+      key: 'fieldEditUsername',
+      label: 'Loại chuyên môn',
       width: 'lg',
-      name: 'description',
-      value: 'description',
+      placeholder: 'Nhập tên người dùng',
+      name: 'name',
       requiredField: 'true',
+      ruleMessage: 'hãy nhập tên chuyên môn',
     },
   ];
 
   const formFieldEdit = [
     {
       fieldType: 'formText',
-      key: 'fieldAddUsername',
-      label: 'Mô tả',
+      key: 'fieldEditUsername',
+      label: 'Loại chuyên môn',
       width: 'lg',
-      name: 'description',
-      value: 'description',
+      placeholder: 'Nhập tên người dùng',
+      name: 'name',
       requiredField: 'true',
-    },
-    {
-      fieldType: 'checkEdit',
-      name: 'edit',
-      value: 'edit',
+      ruleMessage: 'hãy nhập tên chuyên môn',
     },
   ];
   const DefaultLocation = { lat: 10.8, lng: 106.8 };
@@ -303,82 +271,48 @@ const User = (props) => {
     setLoadingUploadingImgFirebase(false);
   };
 
-  const handleEditQuestion = async (values) => {
-    setButtonLoading(true);
-    await updateQuestion({ ...values, id: userRecord.id });
+  const handleSubmitFormUser = async (values) => {
+    await editSpecializationTypes({
+      id: userRecord.id,
+      name: values.name,
+    });
     setShowModel(false);
-    actionRef?.current?.reload();
-    setButtonLoading(false);
-  };
 
-  const handleAddQuestion = async (values) => {
-    try {
-      setButtonLoading(true);
-      await addQuestion({ ...values, surveyId: surveyId });
-      setShowModel(false);
-      actionRef?.current?.reload();
-      setButtonLoading(false);
-    } catch (error) {
-      console.log('error', error);
-    }
+    actionRef?.current?.reload();
   };
 
   const handleEditUserForm = async (record) => {
-    setUserRecord(record);
-    setFlagEditForm('edit');
-    setShowModel(!showModal);
-    // setImgLinkFirebase(user.imageUrl);
-    setTimeout(() => {
-      formUserRef?.current?.setFieldsValue(record);
-    }, 0);
-  };
-
-  const handelDeleteQuestion = async (record) => {
-    try {
-      message.loading('Đang xóa...', 9999);
-      await deleteQuestion(record.id);
-      actionRef?.current?.reload();
-      message.destroy();
-    } catch (error) {
-      message.fail('Xóa thất bại');
-    } finally {
-      message.destroy();
-      message.success('Xóa thành công');
+    const userId = record?.id;
+    setButtonEditLoading(true);
+    const user = await getASpecializationTypes(userId);
+    if (user) {
+      setUserRecord(user);
+      setFlagEditForm('edit');
+      setShowModel(!showModal);
+      setImgLinkFirebase(user.imageUrl);
+      formUserRef?.current?.setFieldsValue(user);
     }
+    setButtonEditLoading(false);
   };
 
-  const onClickAddQuestion = () => {
-    setFlagEditForm('add');
-    setShowModel(!showModal);
-  };
-
-  const expandedRowRender = (record) => {
-    return <Profile user={record} />;
-  };
+  // const expandedRowRender = (record) => {
+  //   return <Profile user={record} />;
+  // };
   return (
     <>
       <PageContainer>
-        <Button type="primary" style={{ marginBottom: 20 }} onClick={onClickAddQuestion}>
-          Thêm câu hỏi
-        </Button>
         <ProTable
           columns={column}
           rowKey={(record) => record.id}
-          expandable={{
-            expandedRowRender,
-          }}
+          // expandable={{
+          //   expandedRowRender,
+          // }}
           request={async (params, sort, filter) => {
             const data = [];
-            await getQuestionBySurveyId(surveyId).then((res) => {
-              res?.data?.map((item, index) => {
-                item.number = index + 1;
-                data[index] = item;
-              });
-              setTotal(res?.total);
-            });
-
+            const arr = await getSpecializationTypes(params.fullname ?? '');
+            setTotal(arr.length);
             return {
-              data: data,
+              data: arr.map((item, index) => ({ ...item, number: index + 1 })),
               success: true,
             };
           }}
@@ -389,7 +323,7 @@ const User = (props) => {
             pageSize: 10,
             showSizeChanger: true,
             total: total,
-            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} câu hỏi`,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} khách hàng`,
           }}
           search={{
             labelWidth: 'auto',
@@ -397,16 +331,27 @@ const User = (props) => {
             submittext: 'Submit',
             resetText: 'Quay lại',
           }}
+          toolBarRender={(action) => [
+            <Button
+              size="middle"
+              key="buttonAddNews"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => handleModal()}
+            >
+              Thêm loại sự nghiệp
+            </Button>,
+          ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa câu hỏi`}
+          titleModal={`Chỉnh sửa ${userRecord?.name}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
-          handleSubmitForm={handleEditQuestion}
+          handleSubmitForm={handleSubmitFormUser}
           formField={formFieldEditUser}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
@@ -416,11 +361,11 @@ const User = (props) => {
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Thêm câu hỏi"
+          titleModal="Thêm loại sự nghiệp"
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
-          handleSubmitForm={handleAddQuestion}
+          handleSubmitForm={handleSubmitFormUser}
           formField={formFieldAddUser}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}

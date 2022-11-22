@@ -121,6 +121,13 @@ export default defineConfig({
           component: './users/consutanlts',
         },
         {
+          path: '/users/consutanlts/specialization',
+          name: 'Loại chuyên môn',
+          hideInMenu: true,
+          access: 'admin',
+          component: './users/Specialization',
+        },
+        {
           component: './404',
         },
       ],

@@ -123,9 +123,6 @@ const News = () => {
               }}
             >
               <Switch
-                // checkedChildren={<div>Hiện</div>}
-                // unCheckedChildren={<div>Ẩn</div>}
-                // nếu status là active thì checkedChildren là hiện
                 checkedChildren={<div>Hiện</div>}
                 unCheckedChildren={<div>Ẩn</div>}
                 defaultChecked={record.status === 'active' ? true : false}

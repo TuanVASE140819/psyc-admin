@@ -8,6 +8,7 @@ import { getConsutanlts, getAConsutanlt, editConsutanlt } from '@/services/UserS
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
+import { history } from 'umi';
 
 const User = () => {
   //config column
@@ -412,6 +413,19 @@ const User = () => {
             submittext: 'Submit',
             resetText: 'Reset',
           }}
+          toolBarRender={(action) => [
+            <Button
+              size="middle"
+              key="buttonAddNews"
+              type="primary"
+              onClick={() => {
+                //chuyển qua trang chuyên môn
+                history.push('/users/consutanlts/specialization');
+              }}
+            >
+              Chuyên môn
+            </Button>,
+          ]}
         />
       </PageContainer>
       {flagEditForm === 'edit' ? (

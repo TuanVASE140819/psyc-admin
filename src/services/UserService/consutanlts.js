@@ -29,3 +29,19 @@ export const getAConsutanlt = async (userId) => {
       console.log('errorGetAConsutanlt', error);
     });
 };
+///api/Specializations/getbyconsultantid
+export const getSpecializations = async (userId) => {
+  return await request
+    .get(`api/Specializations/getbyconsultantid?id=${userId}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log('errorGetSpecializations', error);
+    });
+};
+
+///api/Specializations/createbylist
+export const createSpecializations = (body) => {
+  return request.post('/api/Specializations/createbylist', { data: body });
+};
