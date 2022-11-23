@@ -367,23 +367,6 @@ const User = (props) => {
           expandable={{
             expandedRowRender,
           }}
-          // request={async (params, sorter, filter) => {
-
-          //   const res = await getQuestionBySurveyId(surveyId);
-          //   if (res) {
-          //     setTotal(res.total);
-          //     return {
-          //       data: res.data,
-          //       success: true,
-          //       total: res.total,
-          //     };
-          //   }
-          //   return {
-          //     data: [],
-          //     success: true,
-          //     total: 0,
-          //   };
-          // }}
           request={async (params, sort, filter) => {
             const data = [];
             await getQuestionBySurveyId(surveyId).then((res) => {

@@ -82,7 +82,7 @@ const House = () => {
                 icon={<EditOutlined />}
                 onClick={() => handleEditHouseForm(record)}
               >
-                Edit
+                Chỉnh sửa
               </Button>
             </div>
           </div>

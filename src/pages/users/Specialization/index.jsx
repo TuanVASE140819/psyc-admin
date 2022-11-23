@@ -1,89 +1,41 @@
-import { EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, message, Space, Tag, Rate } from 'antd';
-import React from 'react';
+import { EditOutlined } from '@ant-design/icons';
+import { Button, message, Modal, Space, Tag } from 'antd';
+import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
+import { PlusOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
 import {
-  getConsutanlts,
-  getAConsutanlt,
-  editConsutanlt,
-  getSpecializations,
-} from '@/services/UserService/consutanlts';
+  getAnCustomer,
+  getCustomers,
+  editCustomer,
+  getSpecializationTypes,
+  editSpecializationTypes,
+  getASpecializationTypes,
+} from '@/services/UserService/customers';
+// import {getSpecializationTypes} from '@/services/SpecializationService
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
-import { history } from 'umi';
+import dayjs from 'dayjs';
+import MapPicker from 'react-google-map-picker';
 
 const User = () => {
   //config column
   const column = [
     {
-      title: 'No.',
+      title: 'STT',
       dataIndex: 'number',
-
       sorter: (a, b) => a.number - b.number,
       search: false,
     },
     {
-      title: 'Họ và tên',
-      dataIndex: 'fullName',
-      copyable: true,
-      valueType: 'fullname',
-      sorter: (a, b) => a.fullName.length - b.fullName.length,
-      filters: true,
-      onFilter: true,
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter username to search',
-          },
-        ],
-      },
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
+      title: 'Loại chuyên môn',
+      dataIndex: 'name',
+      sorter: (a, b) => a.name.length - b.name.length,
       search: false,
-      copyable: true,
-      valueType: 'phoneNumber',
-      sorter: (a, b) => a.email.length - b.email.length,
-      filters: true,
-      onFilter: true,
-      formItemProps: {
-        rules: [
-          {
-            require: true,
-            message: 'Enter phone number to search',
-          },
-        ],
-      },
     },
     {
-      title: 'Xếp hạng',
-      search: false,
-      dataIndex: 'rating',
-      valueType: 'select',
-      // use Rate
-      render: (_, record) => {
-        return <Rate allowHalf defaultValue={record.rating} />;
-      },
-    },
-    {
-      title: 'Trạng thái',
-      search: false,
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: {
-        null: { text: 'Đang chờ', status: 'Default' },
-        active: { text: 'Hoạt động', status: 'Success' },
-        inactive: { text: 'Ngừng hoạt động', status: 'Error' },
-      },
-      width: '20%',
-    },
-    {
-      title: 'Thao tác',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
@@ -103,7 +55,7 @@ const User = () => {
               }}
             >
               <Button
-                key="editConsutanlt"
+                key="getASpecializationTypes"
                 type="primary"
                 size="middle"
                 icon={<EditOutlined />}
@@ -113,24 +65,22 @@ const User = () => {
                 Chi tiết
               </Button>
             </div>
-            <div
+            {/* <div
               style={{
                 width: '50%',
                 marginRight: '8px',
               }}
             >
               <Button
-                key="editConsutanlt"
-                type="#1890ff"
+                key="editUser"
                 size="middle"
-                // icon eye
-
+                icon={<EditOutlined />}
                 block={true}
-                onClick={() => handleEditSpecialist(record)}
+                onClick={() => handleEditUserForm(record)}
               >
-                Chuyên môn
+                Chi tiết
               </Button>
-            </div>
+            </div> */}
           </div>
         );
       },
@@ -142,14 +92,14 @@ const User = () => {
       key: 'clearFieldFormUser',
       type: 'default',
       click: 'reset',
-      name: 'Quay lại',
+      name: 'Làm mới',
       loading: false,
     },
     {
       key: 'submitAddUser',
       type: 'primary',
       click: 'submit',
-      name: 'Lưu',
+      name: 'Thay đổi',
       loading: false,
     },
   ];
@@ -157,132 +107,30 @@ const User = () => {
   const formFieldAdd = [
     {
       fieldType: 'formText',
-      key: 'fieldAddUsername',
-      label: 'Họ và tên',
+      key: 'fieldEditUsername',
+      label: 'Loại chuyên môn',
       width: 'lg',
       placeholder: 'Nhập tên người dùng',
-      name: 'username',
+      name: 'name',
       requiredField: 'true',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddPhoneNumberUser',
-      label: 'Phone Number',
-      width: 'lg',
-      placeholder: 'Enter phone number',
-      name: 'phoneNumber',
-      requiredField: 'true',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Ảnh đại diện',
-      width: 'lg',
-      placeholder: 'Avatar Link',
-      name: 'avatarLink',
-      nameUpload: 'avatarUser',
-      nameInputFile: 'avatarFileToFirebase',
-      readOnly: 'true',
-      // requiredField: 'true',
-      ruleMessage: 'Upload image before submit',
+      ruleMessage: 'hãy nhập tên chuyên môn',
     },
   ];
 
   const formFieldEdit = [
     {
       fieldType: 'formText',
-      key: 'fieldAddUsername',
-      label: 'Họ và tên',
+      key: 'fieldEditUsername',
+      label: 'Loại chuyên môn',
       width: 'lg',
       placeholder: 'Nhập tên người dùng',
-      name: 'fullName',
-      value: 'fullname',
+      name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Nhập tên người dùng',
-    },
-    {
-      fieldType: 'formText',
-      key: 'fieldAddPhoneNumberUser',
-      label: 'Gmail',
-      width: 'lg',
-      placeholder: 'NHập gmail',
-      name: 'email',
-      readOnly: 'true',
-      disabled: 'true',
-      value: '',
-      requiredField: 'true',
-      ruleMessage: 'Nhập gmail',
-      hidden: true,
-    },
-    {
-      fieldType: 'formSelect',
-      key: 'selectStatusUser',
-      name: 'status',
-      label: 'Trạng thái',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'active',
-          valueDisplay: 'Hoạt động',
-        },
-        {
-          valueName: 'inactive',
-          valueDisplay: 'Khóa',
-        },
-      ],
-      placeholder: 'Chọn trạng thái',
-      requiredField: 'true',
-      ruleMessage: 'Chọn trạng thái',
-    },
-    {
-      fieldType: 'formInputFileImg',
-      key: 'fieldGetImgLink',
-      label: 'Ảnh đại diện',
-      width: 'lg',
-      placeholder: 'Avatar Link',
-      name: 'imageUrl',
-      nameUpload: 'avatarUser',
-      nameInputFile: 'avatarFileToFirebase',
-      readOnly: 'true',
-      requiredField: 'true',
-      ruleMessage: 'Tải ảnh lên trước khi submit',
+      ruleMessage: 'hãy nhập tên chuyên môn',
     },
   ];
-  const formFieldEditSpecialist = [
-    {
-      fieldType: 'ProFormSelect',
-      key: 'selectSpecialist',
-      name: 'specialist',
-      label: 'Chuyên môn',
-      options: [
-        //api get specialist
-        {
-          value: '1',
-          label: 'Sự Nghiệp',
-        },
-        {
-          value: '2',
-          label: 'Gia Ðình',
-        },
-        {
-          value: '3',
-          label: 'Tình yêu',
-        },
-        {
-          value: '4',
-          label: 'Bạn Bè',
-        },
-        {
-          value: '5',
-          label: 'Các loại Bệnh',
-        },
-        {
-          value: '6',
-          label: 'Chuyên môn khác',
-        },
-      ],
-    },
-  ];
+  const DefaultLocation = { lat: 10.8, lng: 106.8 };
+  const DefaultZoom = 10;
 
   const actionRef = React.useRef();
   const formUserRef = React.useRef();
@@ -297,9 +145,6 @@ const User = () => {
   const [buttonSubmitterUser, setButtonSubmitterUser] = React.useState(buttonSubmitter);
   const [formFieldAddUser, setFormFieldAddUser] = React.useState(formFieldAdd);
   const [formFieldEditUser, setFormFieldEditUser] = React.useState(formFieldEdit);
-  const [formFieldEditSpecialist1, setFormFieldEditSpecialist] =
-    React.useState(formFieldEditSpecialist);
-
   const { initialState, setInitialState } = useModel('@@initialState');
 
   //paging
@@ -308,6 +153,10 @@ const User = () => {
   const [total, setTotal] = React.useState(10);
   //button edit loading
   const [buttonEditLoading, setButtonEditLoading] = React.useState(false);
+  const [modalPicker, setModalPicker] = useState(false);
+  const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
+  const [location, setLocation] = useState(defaultLocation);
+  const [zoom, setZoom] = useState(DefaultZoom);
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
@@ -341,24 +190,30 @@ const User = () => {
     setButtonSubmitterUser(newButtonSubmitUser);
   }, [buttonLoading]);
 
-  // React.useEffect(() => {
-  //   if (userRecord) {
-  //     const newFormFieldEditUser = formFieldEditUser.map((item, index) => {
-  //       if (item.name === 'userName') {
-  //         item.value = userRecord.userName;
-  //       } else if (item?.name === 'phoneNumber') {
-  //         item.value = userRecord.phoneNumber;
-  //       }
-  //       return item;
-  //     });
-  //     setFormFieldEditUser(newFormFieldEditUser);
-  //     //Vì modal form khi hủy modal giá trị initial value vẫn ko đổi nên ta
-  //     //phải dùng setFieldvalue để set value cho các field
-  //     formUserRef?.current?.setFieldsValue(userRecord);
-  //   }
-  // }, [userRecord]);
+  React.useEffect(() => {
+    formUserRef?.current?.setFieldsValue({
+      ['latitude']: location.lat,
+      ['longitude']: location.lng,
+    });
+  }, [location]);
 
-  //customupload img
+  const handleOpenModalPicker = () => {
+    setModalPicker(true);
+  };
+
+  const handleCancelModalPicker = () => {
+    setModalPicker(false);
+  };
+
+  function handleChangeLocation(lat, lng) {
+    setLocation({ lat: lat, lng: lng });
+    message.success('Đã chọn vị trí');
+  }
+
+  function handleChangeZoom(newZoom) {
+    setZoom(newZoom);
+  }
+
   const customUpload = async ({ onError, onSuccess, file }) => {
     const isImage = file.type.indexOf('image/') === 0;
     if (!isImage) {
@@ -417,19 +272,19 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
-    console.log('values', values);
-
-    await editConsutanlt({ ...values, id: userRecord.id });
+    await editSpecializationTypes({
+      id: userRecord.id,
+      name: values.name,
+    });
     setShowModel(false);
 
     actionRef?.current?.reload();
-    // setButtonLoading(false);
   };
 
   const handleEditUserForm = async (record) => {
     const userId = record?.id;
     setButtonEditLoading(true);
-    const user = await getAConsutanlt(userId);
+    const user = await getASpecializationTypes(userId);
     if (user) {
       setUserRecord(user);
       setFlagEditForm('edit');
@@ -439,43 +294,25 @@ const User = () => {
     }
     setButtonEditLoading(false);
   };
-  const handleEditSpecialist = async (record) => {
-    const userId = record?.id;
-    setButtonEditLoading(true);
-    const user = await getSpecializations(userId);
-    if (user) {
-      setUserRecord(user);
-      setFlagEditForm('editSpecialist');
-      setShowModel(!showModal);
-      setImgLinkFirebase(user.imageUrl);
-      formUserRef?.current?.setFieldsValue(user);
-    }
-    setButtonEditLoading(false);
-  };
 
-  const expandedRowRender = (record) => {
-    return <Profile user={record} />;
-  };
+  // const expandedRowRender = (record) => {
+  //   return <Profile user={record} />;
+  // };
   return (
     <>
       <PageContainer>
         <ProTable
           columns={column}
           rowKey={(record) => record.id}
+          // expandable={{
+          //   expandedRowRender,
+          // }}
           request={async (params, sort, filter) => {
             const data = [];
-            await getConsutanlts(params.fullname ?? '').then((res) => {
-              console.log('res at table query', res);
-              res?.data?.map((item, index) => {
-                item.number = index + 1;
-                data[index] = item;
-              });
-              setTotal(res?.total);
-            });
-            // }
-
+            const arr = await getSpecializationTypes(params.fullname ?? '');
+            setTotal(arr.length);
             return {
-              data: data,
+              data: arr.map((item, index) => ({ ...item, number: index + 1 })),
               success: true,
             };
           }}
@@ -486,25 +323,23 @@ const User = () => {
             pageSize: 10,
             showSizeChanger: true,
             total: total,
-            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} tư vấn viên`,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} khách hàng`,
           }}
           search={{
             labelWidth: 'auto',
             searchText: 'Tìm kiếm',
             submittext: 'Submit',
-            resetText: 'Reset',
+            resetText: 'Quay lại',
           }}
           toolBarRender={(action) => [
             <Button
               size="middle"
               key="buttonAddNews"
               type="primary"
-              onClick={() => {
-                //chuyển qua trang chuyên môn
-                history.push('/users/consutanlts/specialization');
-              }}
+              icon={<PlusOutlined />}
+              onClick={() => handleModal()}
             >
-              Chuyên môn
+              Thêm loại sự nghiệp
             </Button>,
           ]}
         />
@@ -512,7 +347,7 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa ${userRecord.fullName}`}
+          titleModal={`Chỉnh sửa ${userRecord?.name}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
@@ -521,21 +356,46 @@ const User = () => {
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
           handleResetForm={handleResetForm}
+          handleOpenModalPicker={handleOpenModalPicker}
         />
       ) : (
         <ModalForm
           showModal={showModal}
-          titleModal="Chỉnh sửa chuyên môn"
+          titleModal="Thêm loại sự nghiệp"
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
           handleSubmitForm={handleSubmitFormUser}
-          formField={formFieldEditSpecialist1}
+          formField={formFieldAddUser}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}
           handleResetForm={handleResetForm}
+          handleOpenModalPicker={handleOpenModalPicker}
         />
       )}
+
+      <Modal
+        visible={modalPicker}
+        onCancel={() => handleCancelModalPicker()}
+        closable={false}
+        title={false}
+        width="1300px"
+        footer={[
+          <Button key="cancelModelView" type="default" onClick={() => handleCancelModalPicker()}>
+            Close
+          </Button>,
+        ]}
+      >
+        <MapPicker
+          defaultLocation={defaultLocation}
+          zoom={zoom}
+          mapTypeId="roadmap"
+          style={{ height: '700px' }}
+          onChangeLocation={handleChangeLocation}
+          onChangeZoom={handleChangeZoom}
+          apiKey="AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8"
+        />
+      </Modal>
     </>
   );
 };

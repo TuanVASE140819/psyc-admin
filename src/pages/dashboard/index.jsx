@@ -24,7 +24,7 @@ const Dashboard = () => {
           getReportDepositByYear(),
           getTopConsultantsByRate(),
         ]);
-        console.log('res h', res);
+
         setData(res);
       } catch (error) {}
     };

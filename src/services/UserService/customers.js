@@ -34,3 +34,18 @@ export const getAnCustomer = async (userId) => {
       console.log('errorGetAnUser', error);
     });
 };
+// https://psycteam.azurewebsites.net/api/SpecializationTypes/getallspecype?search=gg
+export const getSpecializationTypes = async (params) => {
+  return await request.get('/api/SpecializationTypes/getallspecype').then((res) => {
+    console.log('response getSpecializationTypes', res);
+    return res.data;
+  });
+};
+// https://psycteam.azurewebsites.net/api/SpecializationTypes/update/5
+export const editSpecializationTypes = (body) => {
+  return request.put('api/SpecializationTypes/update', { data: body });
+};
+//https://psycteam.azurewebsites.net/api/SpecializationTypes/4
+export const getASpecializationTypes = (id) => {
+  return request.get(`/api/SpecializationTypes/${id}`);
+};

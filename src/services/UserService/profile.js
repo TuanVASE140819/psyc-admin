@@ -45,3 +45,12 @@ export const updateProfile = async (body) => {
     data: body,
   });
 };
+///api/Specializations/getallspecial
+export const getSpecializationbyTypes = async (params) => {
+  return await request
+    .get(`/api/Specializations/getallspecial${params ? `?search=${params}` : ''}`)
+    .then((res) => {
+      console.log('response getSpecializationTypes', res);
+      return res.data;
+    });
+};
