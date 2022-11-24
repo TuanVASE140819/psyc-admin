@@ -36,11 +36,8 @@ const ShortZodiacDetail = (props) => {
             paddingBottom: '8px',
           }}
         >
-          {zodiac.id
-            ? `(${dayjs(zodiac?.dateStart).format('DD/MM')})-(${dayjs(zodiac?.endDate).format(
-                'DD/MM',
-              )})`
-            : ''}
+          {dayjs(`${zodiac?.monthStart}-${zodiac?.dayStart}`).format('DD/MM')} -{' '}
+          {dayjs(`${zodiac?.monthEnd}-${zodiac?.dayEnd}`).format('DD/MM')}
         </Title>
 
         <div
