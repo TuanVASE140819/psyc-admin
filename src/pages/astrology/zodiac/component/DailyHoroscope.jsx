@@ -7,16 +7,10 @@ import {
 import { Avatar, Button, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker } from 'antd';
+import { ProFormSelect } from '@ant-design/pro-components';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
-import {
-  ProFormUploadButton,
-  ProFormUploadDragger,
-  ProFormSegmented,
-  ProFormDigitRange,
-} from '@ant-design/pro-form';
-import { UploadOutlined } from '@ant-design/icons';
 import 'moment/locale/vi';
 import vi from 'date-fns/locale/vi';
 
@@ -139,6 +133,7 @@ const buttonSubmitterData = [
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState(moment().locale('vi'));
+
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
@@ -249,6 +244,26 @@ export default function DailyHoroscope({ zodiac }) {
         value={month}
         onChange={(date) => setMonth(date)} // change month
       />
+      {/* <ProFormSelect
+        style={{ width: 100 }}
+        value={month}
+        label="Tháng"
+        options={[
+          { label: 'Tháng 1', value: '2022-01' },
+          { label: 'Tháng 2', value: '2022-02' },
+          { label: 'Tháng 3', value: '2022-03' },
+          { label: 'Tháng 4', value: '2022-04' },
+          { label: 'Tháng 5', value: '2022-05' },
+          { label: 'Tháng 6', value: '2022-06' },
+          { label: 'Tháng 7', value: '2022-07' },
+          { label: 'Tháng 8', value: '2022-08' },
+          { label: 'Tháng 9', value: '2022-09' },
+          { label: 'Tháng 10', value: '2022-10' },
+          { label: 'Tháng 11', value: '2022-11' },
+          { label: 'Tháng 12', value: '2022-12' },
+        ]}
+        onChange={(date) => setMonth(date)}
+      /> */}
       <Divider />
       {loading ? (
         <Skeleton />
