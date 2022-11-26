@@ -49,3 +49,7 @@ export const editSpecializationTypes = (body) => {
 export const getASpecializationTypes = (id) => {
   return request.get(`/api/SpecializationTypes/${id}`);
 };
+//https://psycteam.azurewebsites.net/api/SpecializationTypes/create
+export const createSpecializationTypes = (body) => {
+  return request.post('api/SpecializationTypes/create', { data: body });
+};

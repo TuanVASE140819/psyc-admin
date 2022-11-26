@@ -491,8 +491,8 @@ const User = () => {
           search={{
             labelWidth: 'auto',
             searchText: 'Tìm kiếm',
-            submittext: 'Submit',
-            resetText: 'Reset',
+            submittext: 'Lưu',
+            resetText: 'Quay lại',
           }}
           toolBarRender={(action) => [
             <Button

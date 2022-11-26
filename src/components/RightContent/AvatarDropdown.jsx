@@ -49,7 +49,7 @@ const AvatarDropdown = ({ menu }) => {
   );
 
   const { currentUser } = initialState;
-  console.log('currentUser InSite', currentUser);
+  // console.log('currentUser InSite', currentUser);
 
   // if (!currentUser || !currentUser.username) {
   //   return loading;

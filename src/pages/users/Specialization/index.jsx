@@ -12,6 +12,7 @@ import {
   getSpecializationTypes,
   editSpecializationTypes,
   getASpecializationTypes,
+  createSpecializationTypes,
 } from '@/services/UserService/customers';
 // import {getSpecializationTypes} from '@/services/SpecializationService
 import { useModel } from 'umi';
@@ -272,11 +273,18 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
-    await editSpecializationTypes({
-      id: userRecord.id,
-      name: values.name,
-    });
-    setShowModel(false);
+    if (flagEditForm === 'edit') {
+      await editSpecializationTypes({
+        id: userRecord.id,
+        name: values.name,
+      });
+      setShowModel(false);
+    } else {
+      await createSpecializationTypes({
+        name: values.name,
+      });
+      setShowModel(false);
+    }
 
     actionRef?.current?.reload();
   };

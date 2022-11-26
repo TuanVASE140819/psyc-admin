@@ -11,6 +11,7 @@ const surveyType = (props) => {
       <Card
         style={{
           width: '100%',
+
           border: '1px solid #1890ff',
           boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
           // đổ bóng
@@ -21,7 +22,7 @@ const surveyType = (props) => {
           borderBlockColor: '#1890ff',
         }}
         actions={[
-          <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
+          // <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
           // edit
           <EditOutlined key="edit" style={{}} onClick={() => onEdit(surveyType)} />,
         ]}
@@ -29,7 +30,7 @@ const surveyType = (props) => {
         <Meta
           style={{
             // căn giữa
-
+            height: '150%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',

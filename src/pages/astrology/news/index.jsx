@@ -470,9 +470,9 @@ const News = () => {
           }}
           search={{
             labelWidth: 'auto',
-            searchText: 'Search',
-            submittext: 'Submit',
-            resetText: 'Reset',
+            searchText: 'Tìm kiếm',
+            submittext: 'Lưu',
+            resetText: 'Quay lại',
           }}
           toolBarRender={(action) => [
             <Button
