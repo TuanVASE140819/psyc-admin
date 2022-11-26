@@ -87,7 +87,7 @@ const columns = [
       }
 
       if (entity.status === 'fail') {
-        return <Tag color="error">Từ chối</Tag>;
+        return <Tag color="error">Quá hạn</Tag>;
       }
     },
   },
@@ -131,7 +131,7 @@ const columns = [
             >
               Chấp nhận
             </Button>
-            <Button
+            {/* <Button
               onClick={() => {
                 // rejectDeposit(entity.id);
                 // setTimeout(() => {
@@ -154,7 +154,7 @@ const columns = [
               }}
             >
               Từ chối
-            </Button>
+            </Button> */}
           </Space>
         )
       );

@@ -593,6 +593,7 @@ const Profile = (props) => {
               pageSize: pageSize,
               total: total,
               onChange: (page, pageSize) => onChangePaging(page, pageSize),
+              showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} hồ sơ`,
             }}
             search={false}
             toolBarRender={(action) => [

@@ -34,7 +34,7 @@ const House = () => {
         rules: [
           {
             require: true,
-            message: 'Enter House Name to search',
+            message: 'Tên nhà không được để trống',
           },
         ],
       },
@@ -113,12 +113,12 @@ const House = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddHouseName',
-      label: 'House Name',
+      label: 'Tên nhà',
       width: 'lg',
-      placeholder: 'Enter House Name',
+      placeholder: 'Nhập tên nhà',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input House Name before submit',
+      ruleMessage: 'Tên nhà không được để trống',
     },
     {
       fieldType: 'formText',
@@ -173,12 +173,12 @@ const House = () => {
     {
       fieldType: 'formText',
       key: 'fieldAddHouseName',
-      label: 'House Name',
+      label: 'Tên nhà',
       width: 'lg',
-      placeholder: 'Enter House Name',
+      placeholder: 'Nhập tên nhà',
       name: 'name',
       requiredField: 'true',
-      ruleMessage: 'Input House Name before submit',
+      ruleMessage: 'Tên nhà không được để trống',
     },
     {
       fieldType: 'formText',
@@ -193,7 +193,7 @@ const House = () => {
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
-      label: 'House Icon',
+      label: 'Biểu tượng nhà',
       width: 'lg',
       placeholder: 'Icon Link',
       name: 'imageUrl',
@@ -206,7 +206,7 @@ const House = () => {
     {
       fieldType: 'formTextArea',
       key: 'fieldAddHouseDescription',
-      label: 'Description',
+      label: 'Mô tả',
       width: 'lg',
       placeholder: 'Enter House description',
       name: 'description',
@@ -238,7 +238,7 @@ const House = () => {
   const [formFieldEditHouse, setFormFieldEditHouse] = React.useState(formFieldEdit);
   //paging
   const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(8);
+  const [pageSize, setPageSize] = React.useState(12);
   const [total, setTotal] = React.useState(20);
   //buttonEditLoading
   const [buttonEditLoading, setButtonEditLoading] = React.useState(false);
@@ -432,6 +432,7 @@ const House = () => {
             current: page,
             pageSize: pageSize,
             total: total,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} Nhà`,
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);

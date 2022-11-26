@@ -183,7 +183,7 @@ const User = () => {
     },
     {
       fieldType: 'position',
-      labelLatitude: 'Latitude',
+      labelLatitude: 'Vĩ độ',
       widthLatitude: 'small',
       nameLatitude: 'latitude',
       labelLongtitude: 'Kinh độ',
