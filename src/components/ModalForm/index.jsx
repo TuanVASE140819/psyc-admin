@@ -402,6 +402,7 @@ const ModalForm = (props) => {
                         },
                       ]}
                       disabled={item?.readOnly}
+                      hidden
                     />
 
                     <Upload
