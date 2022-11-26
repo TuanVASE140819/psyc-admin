@@ -189,6 +189,7 @@ const User = () => {
       labelLongtitude: 'Kinh độ',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
+      hidden: true,
     },
     {
       fieldType: 'formSelect',
@@ -216,14 +217,14 @@ const User = () => {
       allowClear: false,
     },
     {
-      fieldType: 'datePicker',
+      fieldType: 'datePicker1',
       key: 'fieldEditBirthDate',
-      label: 'Ngày và giờ sinh',
+      label: 'Ngày sinh',
       width: 'lg',
-      placeholder: 'Chọn ngày và giờ sinh',
+      placeholder: 'Chọn ngày sinh',
       name: 'dob',
       requiredField: 'true',
-      ruleMessage: 'Nhập ngày và giờ sinh',
+      ruleMessage: 'Nhập ngày',
     },
     {
       fieldType: 'formSelect',

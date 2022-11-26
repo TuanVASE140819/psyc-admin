@@ -198,6 +198,7 @@ const Profile = (props) => {
       labelLongtitude: 'Longitude',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
+      hidden: true,
     },
     {
       fieldType: 'formInputFileImg',
@@ -272,6 +273,7 @@ const Profile = (props) => {
       labelLongtitude: 'Longitude',
       widthLongtitude: 'small',
       nameLongtitude: 'longitude',
+      hidden: true,
     },
     {
       fieldType: 'formInputFileImg',

@@ -267,6 +267,23 @@ const ModalForm = (props) => {
                     />
                   </ProForm.Group>
                 )}
+                {item?.fieldType === 'datePicker1' && (
+                  <ProForm.Group>
+                    <ProFormDatePicker
+                      key={item?.key}
+                      label={item?.label}
+                      width={item?.width}
+                      placeholder={item?.placeholder}
+                      name={item?.name}
+                      rules={[
+                        {
+                          required: item?.requiredField,
+                          message: item?.ruleMessage,
+                        },
+                      ]}
+                    />
+                  </ProForm.Group>
+                )}
                 {item?.fieldType === 'timePicker' && (
                   <ProForm.Group>
                     <ProFormTimePicker
@@ -287,7 +304,7 @@ const ModalForm = (props) => {
                 {item?.fieldType === 'position' && (
                   <ProForm.Group
                     style={{
-                      display: 'flex',
+                      display: item.hidden ? 'none' : 'flex',
                       flexWrap: 'nowrap',
                       alignItems: 'center',
                     }}
