@@ -4,7 +4,7 @@ import {
   updateDailyHoroscope,
   uploadFileExcel,
 } from '@/services/ant-design-pro/dailyHoroscope';
-import { Avatar, Button, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
+import { Avatar, Button, Card, Col, Divider, message, Row, Select, Skeleton, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker } from 'antd';
 import { ProFormSelect } from '@ant-design/pro-components';
@@ -13,6 +13,7 @@ import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
 import 'moment/locale/vi';
 import vi from 'date-fns/locale/vi';
+import dayjs from 'dayjs';
 
 const formEditFields = [
   {
@@ -132,7 +133,7 @@ const buttonSubmitterData = [
 
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
-  const [month, setMonth] = useState(moment().locale('vi'));
+  const [month, setMonth] = useState(new Date().getMonth());
 
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -148,7 +149,7 @@ export default function DailyHoroscope({ zodiac }) {
       try {
         const res = await getDailyHoroscopes({
           id: zodiac.id,
-          date: month.format('YYYY-MM'),
+          date: dayjs(new Date()).set('month', month).format('YYYY-MM'),
           locale: 'vi',
         });
         setData(res);
@@ -237,33 +238,15 @@ export default function DailyHoroscope({ zodiac }) {
 
   return (
     <>
-      <DatePicker
-        // change laguage month from english to vietnamese
-        locale={vi}
-        picker="month"
+      <Select
+        style={{ width: 120 }}
+        onChange={setMonth}
+        options={Array.from({ length: 12 }, (v, i) => ({
+          value: i,
+          label: `Tháng ${i + 1}`,
+        }))}
         value={month}
-        onChange={(date) => setMonth(date)} // change month
       />
-      {/* <ProFormSelect
-        style={{ width: 100 }}
-        value={month}
-        label="Tháng"
-        options={[
-          { label: 'Tháng 1', value: '2022-01' },
-          { label: 'Tháng 2', value: '2022-02' },
-          { label: 'Tháng 3', value: '2022-03' },
-          { label: 'Tháng 4', value: '2022-04' },
-          { label: 'Tháng 5', value: '2022-05' },
-          { label: 'Tháng 6', value: '2022-06' },
-          { label: 'Tháng 7', value: '2022-07' },
-          { label: 'Tháng 8', value: '2022-08' },
-          { label: 'Tháng 9', value: '2022-09' },
-          { label: 'Tháng 10', value: '2022-10' },
-          { label: 'Tháng 11', value: '2022-11' },
-          { label: 'Tháng 12', value: '2022-12' },
-        ]}
-        onChange={(date) => setMonth(date)}
-      /> */}
       <Divider />
       {loading ? (
         <Skeleton />
