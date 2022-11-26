@@ -1,6 +1,6 @@
 import { EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Button, message, Space, Tag, Rate } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ModalForm from '@/components/ModalForm';
@@ -8,7 +8,9 @@ import {
   getConsutanlts,
   getAConsutanlt,
   editConsutanlt,
+  getSpecializationsByUserId,
   getSpecializations,
+  editConsutanltSpecialization,
 } from '@/services/UserService/consutanlts';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
@@ -297,8 +299,7 @@ const User = () => {
   const [buttonSubmitterUser, setButtonSubmitterUser] = React.useState(buttonSubmitter);
   const [formFieldAddUser, setFormFieldAddUser] = React.useState(formFieldAdd);
   const [formFieldEditUser, setFormFieldEditUser] = React.useState(formFieldEdit);
-  const [formFieldEditSpecialist1, setFormFieldEditSpecialist] =
-    React.useState(formFieldEditSpecialist);
+  const [formFieldEditSpecialist1, setFormFieldEditSpecialist] = React.useState([]);
 
   const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -308,6 +309,28 @@ const User = () => {
   const [total, setTotal] = React.useState(10);
   //button edit loading
   const [buttonEditLoading, setButtonEditLoading] = React.useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getSpecializations();
+        if (Array.isArray(response)) {
+          setFormFieldEditSpecialist([
+            {
+              fieldType: 'ProFormSelect',
+              key: 'selectSpecialist',
+              name: 'specialist',
+              label: 'Chuyên môn',
+              options: response.map((item) => ({
+                value: item.id,
+                label: item.name,
+              })),
+            },
+          ]);
+        }
+      } catch (error) {}
+    })();
+  }, []);
 
   React.useEffect(() => {
     if (loadingUploadImgFirebase) {
@@ -417,12 +440,23 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
-    console.log('values', values);
-
     await editConsutanlt({ ...values, id: userRecord.id });
     setShowModel(false);
 
     actionRef?.current?.reload();
+    // setButtonLoading(false);
+  };
+
+  const handleSubmitFormUser1 = async (values) => {
+    try {
+      await editConsutanltSpecialization({
+        consultantId: userRecord.id,
+        specId: values.specialist,
+      });
+      setShowModel(false);
+      actionRef?.current?.reload();
+    } catch (error) {}
+
     // setButtonLoading(false);
   };
 
@@ -442,13 +476,14 @@ const User = () => {
   const handleEditSpecialist = async (record) => {
     const userId = record?.id;
     setButtonEditLoading(true);
-    const user = await getSpecializations(userId);
+    const user = await getSpecializationsByUserId(userId);
     if (user) {
-      setUserRecord(user);
+      setUserRecord({ id: userId });
       setFlagEditForm('editSpecialist');
       setShowModel(!showModal);
-      setImgLinkFirebase(user.imageUrl);
-      formUserRef?.current?.setFieldsValue(user);
+      formUserRef?.current?.setFieldsValue({
+        specialist: user.map((item) => item.specializationTypeId),
+      });
     }
     setButtonEditLoading(false);
   };
@@ -529,7 +564,7 @@ const User = () => {
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}
-          handleSubmitForm={handleSubmitFormUser}
+          handleSubmitForm={handleSubmitFormUser1}
           formField={formFieldEditSpecialist1}
           customUpload={customUpload}
           imgLinkFirebase={imgLinkFirebase}

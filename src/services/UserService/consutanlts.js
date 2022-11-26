@@ -15,8 +15,14 @@ export const getConsutanlts = async (params) => {
     });
 };
 
-export const editConsutanlt = (body) => {
-  return request.put('/api/Consultants/update', { data: body });
+export const editConsutanlt = async (body) => {
+  return await request.put('/api/Consultants/update', { data: body });
+};
+
+export const editConsutanltSpecialization = async (data) => {
+  return await request.post('/api/Specializations/updatebylist', {
+    data,
+  });
 };
 
 export const getAConsutanlt = async (userId) => {
@@ -30,9 +36,20 @@ export const getAConsutanlt = async (userId) => {
     });
 };
 ///api/Specializations/getbyconsultantid
-export const getSpecializations = async (userId) => {
+export const getSpecializationsByUserId = async (userId) => {
   return await request
     .get(`api/Specializations/getbyconsultantid?id=${userId}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log('errorGetSpecializations', error);
+    });
+};
+
+export const getSpecializations = async () => {
+  return await request
+    .get('/api/SpecializationTypes/getallspecype')
     .then((res) => {
       return res.data;
     })
