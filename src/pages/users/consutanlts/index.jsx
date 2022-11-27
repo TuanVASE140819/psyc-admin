@@ -320,7 +320,8 @@ const User = () => {
               fieldType: 'ProFormSelect',
               key: 'selectSpecialist',
               name: 'specialist',
-              label: 'Chuyên môn',
+              // label: 'Chuyên môn',
+
               options: response.map((item) => ({
                 value: item.id,
                 label: item.name,
