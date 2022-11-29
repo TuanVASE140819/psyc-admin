@@ -2,7 +2,7 @@ import request from '@/utils/requestServer';
 
 export const getConsutanlts = async (params) => {
   return await request
-    .get('/api/Consultants/Getallconsultant', {
+    .get('/api/Consultants/Getallconsultantbyadmin', {
       params: params,
     })
     .then((response) => {
@@ -17,6 +17,10 @@ export const getConsutanlts = async (params) => {
 
 export const editConsutanlt = async (body) => {
   return await request.put('/api/Consultants/update', { data: body });
+};
+export const editConsutanltStatus = async (userId) => {
+  // https://psycteam.azurewebsites.net/api/Consultants/1
+  return await request.delete(`/api/Consultants/${userId}`);
 };
 
 export const editConsutanltSpecialization = async (data) => {

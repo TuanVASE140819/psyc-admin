@@ -68,6 +68,7 @@ const User = () => {
       },
       width: '20%',
     },
+
     {
       title: 'Hành động',
       dataIndex: 'action',
@@ -226,27 +227,27 @@ const User = () => {
       requiredField: 'true',
       ruleMessage: 'Nhập ngày',
     },
-    {
-      fieldType: 'formSelect',
-      key: 'selectStatusUser',
-      name: 'status',
-      label: 'Trạng thái',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'active',
-          valueDisplay: 'Hoạt động',
-        },
-        {
-          valueName: 'inactive',
-          valueDisplay: 'Khóa',
-        },
-      ],
-      placeholder: 'Please select status',
-      requiredField: 'true',
-      ruleMessage: 'Please select user status',
-      allowClear: false,
-    },
+    // {
+    //   fieldType: 'formSelect',
+    //   key: 'selectStatusUser',
+    //   name: 'status',
+    //   label: 'Trạng thái',
+    //   defaultValue: 1,
+    //   valueEnum: [
+    //     {
+    //       valueName: 'active',
+    //       valueDisplay: 'Hoạt động',
+    //     },
+    //     {
+    //       valueName: 'inactive',
+    //       valueDisplay: 'Khóa',
+    //     },
+    //   ],
+    //   placeholder: 'Please select status',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Please select user status',
+    //   allowClear: false,
+    // },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -410,6 +411,7 @@ const User = () => {
 
   const handleSubmitFormUser = async (values) => {
     const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
+    setButtonEditLoading(true);
     await editCustomer({
       ...values,
       id: userRecord.id,
@@ -417,9 +419,11 @@ const User = () => {
       latitude: values.latitude.toString(),
       longitude: values.longitude.toString(),
     });
+    setButtonEditLoading(false);
     setShowModel(false);
 
     actionRef?.current?.reload();
+    message.success('Cập nhật thành công !');
   };
 
   const handleEditUserForm = async (record) => {
@@ -435,7 +439,6 @@ const User = () => {
     }
     setButtonEditLoading(false);
   };
-
   const expandedRowRender = (record) => {
     return <Profile user={record} />;
   };
