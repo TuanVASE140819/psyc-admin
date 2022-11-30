@@ -54,7 +54,7 @@ const Profile = (props) => {
       title: 'Ngày sinh',
       dataIndex: 'birthDate',
       render: (_, record) => {
-        const dob = dayjs(record.dob).format('DD/MM/YYYY HH:mm:ss');
+        const dob = dayjs(record.dob).format('DD/MM/YYYY');
         return (
           <Space>
             <Tag color="geekblue">{dob}</Tag>
@@ -102,9 +102,7 @@ const Profile = (props) => {
                 block={true}
                 icon={<EditOutlined />}
                 onClick={() => handleEditProfileForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
             </div>
             <div
               style={{

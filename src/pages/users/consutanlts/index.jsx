@@ -533,14 +533,21 @@ const User = () => {
     setButtonEditLoading(false);
   };
   const handleEditStatus = async (record) => {
-    // editConsutanltStatus
-    const userId = record?.id;
-    setButtonEditLoading(true);
-    const user = await editConsutanltStatus(userId);
-    if (user) {
-      actionRef?.current?.reload();
+    try {
+      message.loading('Đang xử lí ...', 9999);
+      const userId = record?.id;
+      const user = await editConsutanltStatus(userId);
+      if (user) {
+        actionRef?.current?.reload();
+        message.destroy();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy();
+      setButtonEditLoading(false);
+      message.success('Thay đổi trạng thái thành công!');
     }
-    setButtonEditLoading(false);
   };
 
   const expandedRowRender = (record) => {

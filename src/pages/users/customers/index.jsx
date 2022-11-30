@@ -3,9 +3,14 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
+import {
+  getAnCustomer,
+  getCustomers,
+  editCustomer,
+  banUnbanCustomer,
+} from '@/services/UserService/customers';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -75,8 +80,20 @@ const User = () => {
       search: false,
       render: (_, record) => {
         return (
-          <div>
-            <div>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
               <Button
                 key="editUser"
                 type="primary"
@@ -84,9 +101,34 @@ const User = () => {
                 icon={<EditOutlined />}
                 block={true}
                 onClick={() => handleEditUserForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
+              {record.status === 'active' ? (
+                <Button
+                  key="editConsutanlt"
+                  type="danger"
+                  size="middle"
+                  icon={<EyeInvisibleOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              ) : (
+                <Button
+                  key="editConsutanlt"
+                  // type màu xanh
+                  type="primary"
+                  size="middle"
+                  icon={<EyeOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              )}
             </div>
           </div>
         );
@@ -439,6 +481,25 @@ const User = () => {
     }
     setButtonEditLoading(false);
   };
+
+  const handleEditStatus = async (record) => {
+    try {
+      message.loading('Đang xử lí ...', 9999);
+      const userId = record?.id;
+      const user = await banUnbanCustomer(userId);
+      if (user) {
+        actionRef?.current?.reload();
+        message.destroy();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy();
+      setButtonEditLoading(false);
+      message.success('Thay đổi trạng thái thành công!');
+    }
+  };
+
   const expandedRowRender = (record) => {
     return <Profile user={record} />;
   };

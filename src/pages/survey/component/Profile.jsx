@@ -64,9 +64,7 @@ const Profile = (props) => {
                 block={true}
                 icon={<EditOutlined />}
                 onClick={() => handleEditProfileForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
             </div>
             <div
               style={{

@@ -53,3 +53,8 @@ export const getASpecializationTypes = (id) => {
 export const createSpecializationTypes = (body) => {
   return request.post('api/SpecializationTypes/create', { data: body });
 };
+
+//https://psycteam.azurewebsites.net/api/Customers/BanUnban?id=2
+export const banUnbanCustomer = (id) => {
+  return request.delete(`/api/Customers/${id}`);
+};
