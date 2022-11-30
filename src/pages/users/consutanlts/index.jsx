@@ -1,4 +1,4 @@
-import { EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { EditOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { Button, message, Space, Tag, Rate } from 'antd';
 import React, { useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -11,6 +11,7 @@ import {
   getSpecializationsByUserId,
   getSpecializations,
   editConsutanltSpecialization,
+  editConsutanltStatus,
 } from '@/services/UserService/consutanlts';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
@@ -85,6 +86,21 @@ const User = () => {
       width: '20%',
     },
     {
+      title: 'Điểm đánh giá tệ',
+      search: false,
+      dataIndex: 'flag',
+      valueType: 'select',
+      valueEnum: {
+        0: { text: '0', status: 'Success' },
+        1: { text: '1', status: 'Warning' },
+        2: { text: '2', status: 'Warning' },
+        3: { text: '3', status: 'Error' },
+        4: { text: '4', status: 'Error' },
+        5: { text: '5', status: 'Error' },
+      },
+      width: '20%',
+    },
+    {
       title: 'Thao tác',
       dataIndex: 'action',
       search: false,
@@ -111,9 +127,35 @@ const User = () => {
                 icon={<EditOutlined />}
                 block={true}
                 onClick={() => handleEditUserForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
+            </div>
+
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
+              {record.status === 'active' ? (
+                <Button
+                  key="editConsutanlt"
+                  type="danger"
+                  size="middle"
+                  icon={<EyeInvisibleOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              ) : (
+                <Button
+                  key="editConsutanlt"
+                  // type màu xanh
+                  type="primary"
+                  size="middle"
+                  icon={<EyeOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              )}
             </div>
             <div
               style={{
@@ -216,26 +258,26 @@ const User = () => {
       ruleMessage: 'Nhập gmail',
       hidden: true,
     },
-    {
-      fieldType: 'formSelect',
-      key: 'selectStatusUser',
-      name: 'status',
-      label: 'Trạng thái',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'active',
-          valueDisplay: 'Hoạt động',
-        },
-        {
-          valueName: 'inactive',
-          valueDisplay: 'Khóa',
-        },
-      ],
-      placeholder: 'Chọn trạng thái',
-      requiredField: 'true',
-      ruleMessage: 'Chọn trạng thái',
-    },
+    // {
+    //   fieldType: 'formSelect',
+    //   key: 'selectStatusUser',
+    //   name: 'status',
+    //   label: 'Trạng thái',
+    //   defaultValue: 1,
+    //   valueEnum: [
+    //     {
+    //       valueName: 'active',
+    //       valueDisplay: 'Hoạt động',
+    //     },
+    //     {
+    //       valueName: 'inactive',
+    //       valueDisplay: 'Khóa',
+    //     },
+    //   ],
+    //   placeholder: 'Chọn trạng thái',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Chọn trạng thái',
+    // },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -320,7 +362,8 @@ const User = () => {
               fieldType: 'ProFormSelect',
               key: 'selectSpecialist',
               name: 'specialist',
-              label: 'Chuyên môn',
+              // label: 'Chuyên môn',
+
               options: response.map((item) => ({
                 value: item.id,
                 label: item.name,
@@ -440,10 +483,12 @@ const User = () => {
   };
 
   const handleSubmitFormUser = async (values) => {
+    setButtonEditLoading(true);
     await editConsutanlt({ ...values, id: userRecord.id });
+    setButtonEditLoading(false);
     setShowModel(false);
-
     actionRef?.current?.reload();
+    message.success('Cập nhật thành công!');
     // setButtonLoading(false);
   };
 
@@ -473,19 +518,36 @@ const User = () => {
     }
     setButtonEditLoading(false);
   };
+
   const handleEditSpecialist = async (record) => {
     const userId = record?.id;
     setButtonEditLoading(true);
     const user = await getSpecializationsByUserId(userId);
     if (user) {
       setUserRecord({ id: userId });
-      setFlagEditForm('editSpecialist');
       setShowModel(!showModal);
       formUserRef?.current?.setFieldsValue({
         specialist: user.map((item) => item.specializationTypeId),
       });
     }
     setButtonEditLoading(false);
+  };
+  const handleEditStatus = async (record) => {
+    try {
+      message.loading('Đang xử lí ...', 9999);
+      const userId = record?.id;
+      const user = await editConsutanltStatus(userId);
+      if (user) {
+        actionRef?.current?.reload();
+        message.destroy();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy();
+      setButtonEditLoading(false);
+      message.success('Thay đổi trạng thái thành công!');
+    }
   };
 
   const expandedRowRender = (record) => {
@@ -547,7 +609,7 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa ${userRecord.fullName}`}
+          titleModal={`Chỉnh sửa ${userRecord.fullname}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}

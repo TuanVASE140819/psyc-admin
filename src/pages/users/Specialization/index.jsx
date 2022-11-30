@@ -62,9 +62,7 @@ const User = () => {
                 icon={<EditOutlined />}
                 block={true}
                 onClick={() => handleEditUserForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
             </div>
             {/* <div
               style={{

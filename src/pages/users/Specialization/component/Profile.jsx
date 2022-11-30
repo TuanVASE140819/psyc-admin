@@ -130,9 +130,7 @@ const Profile = (props) => {
                     onOk: () => handleDeleteProfile(record),
                   });
                 }}
-              >
-                Xóa
-              </Button>
+              ></Button>
             </div>
           </div>
         );

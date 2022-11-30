@@ -3,9 +3,14 @@ import { Button, message, Modal, Space, Tag } from 'antd';
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import ModalForm from '@/components/ModalForm';
-import { getAnCustomer, getCustomers, editCustomer } from '@/services/UserService/customers';
+import {
+  getAnCustomer,
+  getCustomers,
+  editCustomer,
+  banUnbanCustomer,
+} from '@/services/UserService/customers';
 import { useModel } from 'umi';
 import { uploadFile } from '@/utils/uploadFile';
 import Profile from './component/Profile';
@@ -68,14 +73,27 @@ const User = () => {
       },
       width: '20%',
     },
+
     {
       title: 'Hành động',
       dataIndex: 'action',
       search: false,
       render: (_, record) => {
         return (
-          <div>
-            <div>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
               <Button
                 key="editUser"
                 type="primary"
@@ -83,9 +101,34 @@ const User = () => {
                 icon={<EditOutlined />}
                 block={true}
                 onClick={() => handleEditUserForm(record)}
-              >
-                Chi tiết
-              </Button>
+              ></Button>
+            </div>
+            <div
+              style={{
+                width: '50%',
+                marginRight: '8px',
+              }}
+            >
+              {record.status === 'active' ? (
+                <Button
+                  key="editConsutanlt"
+                  type="danger"
+                  size="middle"
+                  icon={<EyeInvisibleOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              ) : (
+                <Button
+                  key="editConsutanlt"
+                  // type màu xanh
+                  type="primary"
+                  size="middle"
+                  icon={<EyeOutlined />}
+                  block={true}
+                  onClick={() => handleEditStatus(record)}
+                ></Button>
+              )}
             </div>
           </div>
         );
@@ -226,27 +269,27 @@ const User = () => {
       requiredField: 'true',
       ruleMessage: 'Nhập ngày',
     },
-    {
-      fieldType: 'formSelect',
-      key: 'selectStatusUser',
-      name: 'status',
-      label: 'Trạng thái',
-      defaultValue: 1,
-      valueEnum: [
-        {
-          valueName: 'active',
-          valueDisplay: 'Hoạt động',
-        },
-        {
-          valueName: 'inactive',
-          valueDisplay: 'Khóa',
-        },
-      ],
-      placeholder: 'Please select status',
-      requiredField: 'true',
-      ruleMessage: 'Please select user status',
-      allowClear: false,
-    },
+    // {
+    //   fieldType: 'formSelect',
+    //   key: 'selectStatusUser',
+    //   name: 'status',
+    //   label: 'Trạng thái',
+    //   defaultValue: 1,
+    //   valueEnum: [
+    //     {
+    //       valueName: 'active',
+    //       valueDisplay: 'Hoạt động',
+    //     },
+    //     {
+    //       valueName: 'inactive',
+    //       valueDisplay: 'Khóa',
+    //     },
+    //   ],
+    //   placeholder: 'Please select status',
+    //   requiredField: 'true',
+    //   ruleMessage: 'Please select user status',
+    //   allowClear: false,
+    // },
     {
       fieldType: 'formInputFileImg',
       key: 'fieldGetImgLink',
@@ -410,6 +453,7 @@ const User = () => {
 
   const handleSubmitFormUser = async (values) => {
     const tempDOB = dayjs(values.dob).format('YYYY-MM-DDTHH:mm:ss');
+    setButtonEditLoading(true);
     await editCustomer({
       ...values,
       id: userRecord.id,
@@ -417,9 +461,11 @@ const User = () => {
       latitude: values.latitude.toString(),
       longitude: values.longitude.toString(),
     });
+    setButtonEditLoading(false);
     setShowModel(false);
 
     actionRef?.current?.reload();
+    message.success('Cập nhật thành công !');
   };
 
   const handleEditUserForm = async (record) => {
@@ -434,6 +480,24 @@ const User = () => {
       formUserRef?.current?.setFieldsValue(user);
     }
     setButtonEditLoading(false);
+  };
+
+  const handleEditStatus = async (record) => {
+    try {
+      message.loading('Đang xử lí ...', 9999);
+      const userId = record?.id;
+      const user = await banUnbanCustomer(userId);
+      if (user) {
+        actionRef?.current?.reload();
+        message.destroy();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy();
+      setButtonEditLoading(false);
+      message.success('Thay đổi trạng thái thành công!');
+    }
   };
 
   const expandedRowRender = (record) => {
