@@ -269,6 +269,7 @@ export default () => {
             {
               params: {
                 ...params,
+                search: params.consultantName,
                 date: params.dateCreate,
                 pageSize: params.pageSize,
                 pageNumber: params.current,

@@ -19,7 +19,9 @@ const NoticeIconView = () => {
   useEffect(() => {
     const getNotifyList = async () => {
       try {
-        const { data } = await getNotices();
+        // const { data } = await getNotices();
+        // hiện thị 12 thông báo mới nhất
+        const { data } = await getNotices({ limit: 20 });
         setNotifyList(data);
       } catch (error) {}
     };

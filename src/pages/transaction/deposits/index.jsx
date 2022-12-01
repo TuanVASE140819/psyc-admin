@@ -208,7 +208,7 @@ export default () => {
             pageNumber: params.current,
             total: params.totalpage,
           },
-          setTotal: params.totalpag,
+          setTotal: params.totalpage,
         });
       }}
       editable={{
