@@ -58,7 +58,7 @@ const NoticeIconView = () => {
   const clearReadState = (title, key) => {
     //  seen all notification
     seenAllNoti(currentUser.id).then((res) => {
-      if (res.status === 200) {
+      if (res.status === 201) {
         message.success('Đã đánh dấu tất cả là đã đọc');
       }
     });
@@ -83,9 +83,14 @@ const NoticeIconView = () => {
         }}
         onClear={(title, key) => clearReadState(title, key)}
         loading={false}
-        clearText="Clear"
         viewMoreText="Xem thêm"
-        onViewMore={() => message.info('Click on view more')}
+        onViewMore={
+          () => {
+            // chuyển hướng đến trang thông báo
+            window.location.href = '/notification';
+          }
+          // onClickDetail
+        }
         clearClose
       >
         <NoticeIcon.Tab
@@ -93,7 +98,7 @@ const NoticeIconView = () => {
           color="#108ee9"
           count={depositUnread}
           list={depositList}
-          title="Nạp tiền"
+          title="Đã xem hết"
           emptyText="您已读完所有消息"
           showViewMore
         />

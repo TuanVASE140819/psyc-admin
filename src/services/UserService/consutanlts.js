@@ -19,7 +19,7 @@ export const editConsutanlt = async (body) => {
   return await request.put('/api/Consultants/update', { data: body });
 };
 export const editConsutanltStatus = async (userId) => {
-  // https://psycteam.azurewebsites.net/api/Consultants/1
+  // https://psycteamv2.azurewebsites.net/api/Consultants/1
   return await request.delete(`/api/Consultants/${userId}`);
 };
 

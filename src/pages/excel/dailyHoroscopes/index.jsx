@@ -270,7 +270,7 @@ export default () => {
             label="Tải lên file excel"
             title="Tải lên file excel"
             name="file"
-            action="https://psycteam.azurewebsites.net/api/DailyHoroscopes/CreateExcel"
+            action="https://psycteamv2.azurewebsites.net/api/DailyHoroscopes/CreateExcel"
             maxCount={1}
             fieldProps={{
               accept: '.xlsx, .xls',

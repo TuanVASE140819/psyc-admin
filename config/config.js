@@ -67,6 +67,14 @@ export default defineConfig({
       component: './dashboard',
     },
     {
+      path: '/notification',
+      name: 'Thông Báo',
+      icon: 'bell',
+      access: 'admin',
+      hideInMenu: true,
+      component: './notipage',
+    },
+    {
       path: '/survey',
       name: 'Loại khảo sát',
       icon: 'form',
