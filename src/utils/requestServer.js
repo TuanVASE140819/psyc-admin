@@ -30,7 +30,7 @@ const errorHandler = (error) => {
 };
 
 const request = extend({
-  prefix: 'https://psycteam.azurewebsites.net/',
+  prefix: 'https://psycteamv2.azurewebsites.net/',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',

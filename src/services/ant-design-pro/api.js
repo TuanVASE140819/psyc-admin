@@ -2,20 +2,20 @@ import { request } from 'umi';
 import token from '@/utils/token';
 
 export async function getNotices(options) {
-  return request('https://psycteam.azurewebsites.net/api/Notifications/getnotificationbyadmin', {
+  return request('https://psycteamv2.azurewebsites.net/api/Notifications/getnotificationbyadmin', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
 export async function seenNoti(id, options) {
-  return await request(`https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
+  return await request(`https://psycteamv2.azurewebsites.net/api/Notifications/seennoti?id=${id}`, {
     method: 'PUT',
     ...(options || {}),
   });
 }
 export async function seenAllNoti(options) {
-  return request('https://psycteam.azurewebsites.net/api/Notifications/seenallnotibyadmin', {
+  return request('https://psycteamv2.azurewebsites.net/api/Notifications/seenallnotibyadmin', {
     method: 'PUT',
     ...(options || {}),
   });

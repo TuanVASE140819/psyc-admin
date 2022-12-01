@@ -4,10 +4,10 @@ import { Button, Dropdown, Input, Menu, message, Modal, Space, Tag } from 'antd'
 import { useRef, useState } from 'react';
 import request from 'umi-request';
 
-// https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=1
+// https://psycteamv2.azurewebsites.net/api/Deposits/acceptdeposit?id=1
 const acceptDeposit = async (id) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Withdrawals/acceptwithdraw?id=${id}`,
+    `https://psycteamv2.azurewebsites.net/api/Withdrawals/acceptwithdraw?id=${id}`,
     {
       method: 'PUT',
     },
@@ -15,10 +15,10 @@ const acceptDeposit = async (id) => {
   return res;
 };
 
-//https://psycteam.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=1&description=nono
+//https://psycteamv2.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=1&description=nono
 const rejectDeposit = async (id, description) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=${id}&description=${description}`,
+    `https://psycteamv2.azurewebsites.net/api/Withdrawals/rejectwithdraw?id=${id}&description=${description}`,
     {
       method: 'PUT',
     },
@@ -265,10 +265,11 @@ export default () => {
           console.log(sort, filter);
           //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
           https: return request(
-            'https://psycteam.azurewebsites.net/api/Withdrawals/Getallwithdraw',
+            'https://psycteamv2.azurewebsites.net/api/Withdrawals/Getallwithdraw',
             {
               params: {
                 ...params,
+                search: params.consultantName,
                 date: params.dateCreate,
                 pageSize: params.pageSize,
                 pageNumber: params.current,

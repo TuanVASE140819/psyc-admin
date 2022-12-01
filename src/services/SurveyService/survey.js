@@ -15,7 +15,7 @@ export const getASurveyType = async (zodiacId) => {
   });
 };
 
-///https://psycteam.azurewebsites.net/api/Surveys/getsurveybysurveytypeidbyadmin?surveytypeid=1
+///https://psycteamv2.azurewebsites.net/api/Surveys/getsurveybysurveytypeidbyadmin?surveytypeid=1
 
 export const getSurveyBySurveyTypeId = async (surveyTypeId) => {
   return await request
@@ -57,7 +57,7 @@ export const updateQuestion = async (data) => {
   });
 };
 
-//https://psycteam.azurewebsites.net/api/OptionQuestions/getoptionbyquestionid?questionid=1
+//https://psycteamv2.azurewebsites.net/api/OptionQuestions/getoptionbyquestionid?questionid=1
 export const getOptionByQuestionId = async (questionId) => {
   return await request
     .get(`api/OptionQuestions/getoptionbyquestionid?questionid=${questionId}`)
@@ -79,7 +79,7 @@ export const addQuestionOption = async (data) => {
   });
 };
 
-// https://psycteam.azurewebsites.net/api/OptionQuestions/65
+// https://psycteamv2.azurewebsites.net/api/OptionQuestions/65
 // xóa theo api này
 export const deleteQuestionOption = async (id) => {
   const res = await request(`/api/OptionQuestions/${id}`, {

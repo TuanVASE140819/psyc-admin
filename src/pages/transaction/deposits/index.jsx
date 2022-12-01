@@ -162,10 +162,10 @@ const columns = [
   },
 ];
 
-// https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=1
+// https://psycteamv2.azurewebsites.net/api/Deposits/acceptdeposit?id=1
 const acceptDeposit = async (id) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Deposits/acceptdeposit?id=${id}`,
+    `https://psycteamv2.azurewebsites.net/api/Deposits/acceptdeposit?id=${id}`,
     {
       method: 'PUT',
     },
@@ -173,10 +173,10 @@ const acceptDeposit = async (id) => {
   return res;
 };
 
-//https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=1
+//https://psycteamv2.azurewebsites.net/api/Deposits/rejectdeposit?id=1
 const rejectDeposit = async (id) => {
   const res = await request(
-    `https://psycteam.azurewebsites.net/api/Deposits/rejectdeposit?id=${id}`,
+    `https://psycteamv2.azurewebsites.net/api/Deposits/rejectdeposit?id=${id}`,
     {
       method: 'PUT',
     },
@@ -200,7 +200,7 @@ export default () => {
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter);
         //psycteam.azurewebsites.net/api/Deposits/Getalldeposit?date=2002&walletid=1&pagesize=20&pagenumber=1
-        return request('https://psycteam.azurewebsites.net/api/Deposits/Getalldeposit', {
+        return request('https://psycteamv2.azurewebsites.net/api/Deposits/Getalldeposit', {
           params: {
             ...params,
             date: params.dateCreate,
@@ -208,7 +208,7 @@ export default () => {
             pageNumber: params.current,
             total: params.totalpage,
           },
-          setTotal: params.totalpag,
+          setTotal: params.totalpage,
         });
       }}
       editable={{
