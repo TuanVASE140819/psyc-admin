@@ -179,8 +179,8 @@ export default ({ d }) => {
                       <Rate value={record.rating} />
                       <div>{record.email}</div>
                       <div>{record.phone}</div>
-                      {/* <div>Hạng: {record.experience}</div> */}
-                      <div>{record.experience && `Hạng: ${record.experience}`}</div>
+                      {/* <div>Cấp độ: {record.experience}</div> */}
+                      <div>{record.experience && `Cấp độ: ${record.experience}`}</div>
                     </div>
                   );
                 },

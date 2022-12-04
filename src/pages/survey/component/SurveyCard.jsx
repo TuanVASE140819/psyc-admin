@@ -1,8 +1,9 @@
 import { PageContainer, ProCard } from '@ant-design/pro-components';
-import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeFilled, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Avatar, Card, Col, Skeleton } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { history } from 'umi';
+import { deleteSurvey } from '@/services/SurveyService/survey';
 
 const surveyType = (props) => {
   const { surveyType, onClick, onEdit, onDelete, onChange } = props;
@@ -22,9 +23,36 @@ const surveyType = (props) => {
           borderBlockColor: '#1890ff',
         }}
         actions={[
-          // <DeleteOutlined key="setting" onClick={() => onDelete(surveyType)} />,
           // edit
           <EditOutlined key="edit" style={{}} onClick={() => onEdit(surveyType)} />,
+          surveyType.status === 'inactive' ? (
+            <EyeOutlined
+              key="eye"
+              style={{ color: '#1890ff' }}
+              // deleteSurvey
+              onClick={() => {
+                deleteSurvey(surveyType.id).then((res) => {
+                  if (res.status === 200) {
+                    onChange();
+                  }
+                });
+              }}
+            />
+          ) : (
+            <EyeOutlined
+              key="eye"
+              style={{ color: '#1890ff' }}
+              onClick={() => {
+                deleteSurvey(surveyType.id).then((res) => {
+                  if (res.status === 200) {
+                    onChange();
+                  }
+                });
+              }}
+            />
+          ),
+          // nếu status = inactive thì eyeFilled
+          // nếu status = active thì eyeOutlined
         ]}
       >
         <Meta

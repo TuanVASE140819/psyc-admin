@@ -103,7 +103,7 @@ export const updateSurveyType = async (body) => {
 
 ///api/Surveys/getallsurvey
 export const getSurveyList = async (body) => {
-  return await request.get('api/Surveys/getallsurvey');
+  return await request.get('/api/Surveys/getallsurveybyadmin');
 };
 
 // /api/Surveys/create
@@ -122,7 +122,7 @@ export const updateSurvey = async (body) => {
 };
 
 export const deleteSurvey = async (id) => {
-  return await request.delete('/api/Surveys/inactive', { params: { id } }).then((res) => {
+  return await request.put('/api/Surveys/inactive', { params: { id } }).then((res) => {
     console.log('F');
     return res;
   });

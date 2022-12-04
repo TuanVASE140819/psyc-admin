@@ -11,9 +11,9 @@ import {
   getTopConsultantsByRate,
   getTotalDashboard,
 } from '@/services/Report';
-
 const Dashboard = () => {
   const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -37,24 +37,64 @@ const Dashboard = () => {
   }
 
   return (
-    <PageContainer>
-      <Content>
-        <Row gutter={16}>
-          <Col span={24}>
-            <Divider data={data[0]} />
-          </Col>
-        </Row>
-        <Row
-          gutter={16}
-          style={{
-            marginTop: 24,
-            width: '100%',
-          }}
-        >
-          <StatisticCard d={data} />
-        </Row>
-      </Content>
-    </PageContainer>
+    <>
+      {
+        //loading 3 giây
+        (setTimeout(() => {
+          setLoading(true);
+        }, 3000),
+        loading ? (
+          <PageContainer>
+            <Content>
+              <Row gutter={16}>
+                <Col span={24}>
+                  <Divider data={data[0]} />
+                </Col>
+              </Row>
+              <Row
+                gutter={16}
+                style={{
+                  marginTop: 24,
+                  width: '100%',
+                }}
+              >
+                <StatisticCard d={data} />
+              </Row>
+            </Content>
+          </PageContainer>
+        ) : (
+          <ProSkeleton
+            type="descriptions"
+            loading={loading}
+            active
+            title
+            paragraph={{ rows: 4 }}
+            avatar
+            row={4}
+            delay={4000}
+          >
+            <PageContainer>
+              <Content>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <Divider data={data[0]} />
+                  </Col>
+                  <Col span={24}>
+                    <StatisticCard data={data[1]} />
+                  </Col>
+                  <Col span={24}>
+                    <StatisticCard data={data[2]} />
+                  </Col>
+                  <Col span={24}>
+                    <StatisticCard data={data[3]} />
+                  </Col>
+                </Row>
+              </Content>
+            </PageContainer>
+          </ProSkeleton>
+        ))
+      }
+    </>
   );
 };
 

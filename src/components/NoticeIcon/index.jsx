@@ -83,6 +83,7 @@ const NoticeIconView = () => {
         }}
         onClear={(title, key) => clearReadState(title, key)}
         loading={false}
+        clearText="Xem hết -"
         viewMoreText="Xem thêm"
         onViewMore={
           () => {
@@ -98,7 +99,7 @@ const NoticeIconView = () => {
           color="#108ee9"
           count={depositUnread}
           list={depositList}
-          title="Đã xem hết"
+          title="Nạp tiền"
           emptyText="您已读完所有消息"
           showViewMore
         />
