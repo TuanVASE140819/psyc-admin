@@ -609,7 +609,7 @@ const User = () => {
       {flagEditForm === 'edit' ? (
         <ModalForm
           showModal={showModal}
-          titleModal={`Chỉnh sửa ${userRecord.fullname}`}
+          titleModal={`Chỉnh sửa :${userRecord?.fullName}`}
           handleCancelModel={handleCancelModel}
           formRef={formUserRef}
           buttonSubmitter={buttonSubmitterUser}

@@ -184,24 +184,6 @@ export default () => {
       },
     },
     {
-      title: 'Ví',
-      width: 80,
-      search: false,
-      dataIndex: 'walletId',
-      valueType: 'text',
-      sorter: (a, b) => a.walletId - b.walletId,
-      ellipsis: true,
-      tip: 'Ví',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 'Ví là bắt buộc',
-          },
-        ],
-      },
-    },
-    {
       title: 'Ghi chú',
       dataIndex: 'description',
       valueType: 'text',

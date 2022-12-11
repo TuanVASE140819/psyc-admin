@@ -67,12 +67,7 @@ const NoticeList = ({
                   <div className={styles.description}>
                     {item.status === 'seen' ? (
                       <div style={{ color: 'gray' }}>
-                        {item.description.length > 50
-                          ? item.description.slice(0, 40) + '...'
-                          : item.description}
-                        <div className={{ color: 'gray' }}>
-                          Mã giao dịch: {item.description.slice(-8)}
-                        </div>
+                        {item.description}
                         <div className={{ color: 'gray' }}>
                           {moment(item.dateCreate).locale('vi').fromNow()}
                         </div>
@@ -82,14 +77,7 @@ const NoticeList = ({
                       </div>
                     ) : (
                       <div>
-                        <div style={{ color: 'black' }}>
-                          {item.description.length > 50
-                            ? item.description.slice(0, 40) + '...'
-                            : item.description}
-                        </div>
-                        <div className={{ color: 'black' }}>
-                          Mã giao dịch: {item.description.slice(-8)}
-                        </div>
+                        <div style={{ color: 'black' }}>{item.description}</div>
                         <div className={{ color: 'black' }}>
                           {moment(item.dateCreate).locale('vi').fromNow()}
                         </div>

@@ -335,7 +335,7 @@ const User = (props) => {
 
   const handelDeleteQuestion = async (record) => {
     try {
-      message.loading('Đang xóa...', 9999);
+      message.loading('Đang xử lí ...', 9999);
       await deleteQuestion(record.id);
       actionRef?.current?.reload();
       message.destroy();
