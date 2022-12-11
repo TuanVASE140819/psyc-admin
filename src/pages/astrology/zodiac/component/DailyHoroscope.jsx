@@ -4,16 +4,21 @@ import {
   updateDailyHoroscope,
   uploadFileExcel,
 } from '@/services/ant-design-pro/dailyHoroscope';
-import { Avatar, Button, Card, Col, Divider, message, Row, Select, Skeleton, Space } from 'antd';
+import { Avatar, Button, Card, Col, Divider, message, Row, Skeleton, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker } from 'antd';
-import { ProFormSelect } from '@ant-design/pro-components';
 import moment from 'moment';
 import ModalForm from '@/components/ModalForm';
 import { uploadFile } from '@/utils/uploadFile';
+import {
+  ProFormUploadButton,
+  ProFormUploadDragger,
+  ProFormSegmented,
+  ProFormDigitRange,
+} from '@ant-design/pro-form';
+import { UploadOutlined } from '@ant-design/icons';
 import 'moment/locale/vi';
 import vi from 'date-fns/locale/vi';
-import dayjs from 'dayjs';
 
 const formEditFields = [
   {
@@ -119,22 +124,21 @@ const buttonSubmitterData = [
     key: 'clearFieldFormHouse',
     type: 'default',
     click: 'reset',
-    name: 'Quay lại',
+    name: 'Reset',
     loading: false,
   },
   {
     key: 'submitAddHouse',
     type: 'primary',
     click: 'submit',
-    name: 'Lưu',
+    name: 'Submit',
     loading: false,
   },
 ];
 
 export default function DailyHoroscope({ zodiac }) {
   const [data, setData] = useState([]);
-  const [month, setMonth] = useState(new Date().getMonth());
-
+  const [month, setMonth] = useState(moment().locale('vi'));
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
@@ -149,7 +153,7 @@ export default function DailyHoroscope({ zodiac }) {
       try {
         const res = await getDailyHoroscopes({
           id: zodiac.id,
-          date: dayjs(new Date()).set('month', month).format('YYYY-MM'),
+          date: month.format('YYYY-MM'),
           locale: 'vi',
         });
         setData(res);
@@ -238,16 +242,44 @@ export default function DailyHoroscope({ zodiac }) {
 
   return (
     <>
-      <Select
-        style={{ width: 120 }}
-        onChange={setMonth}
-        options={Array.from({ length: 12 }, (v, i) => ({
-          value: i,
-          label: `Tháng ${i + 1}`,
-        }))}
+      <DatePicker
+        // change laguage month from english to vietnamese
+        locale={vi}
+        picker="month"
         value={month}
+        onChange={(date) => setMonth(date)} // change month
       />
       <Divider />
+      Upload exel filel (Hãy chắc chắn dữ liệu trong file excel đã được duyệt qua)
+      <ProFormUploadButton
+        label="Tải lên file excel"
+        title="Tải lên file excel"
+        name="file"
+        action="https://psycteam.azurewebsites.net/api/DailyHoroscopes/CreateExcel"
+        maxCount={1}
+        fieldProps={{
+          accept: '.xlsx, .xls',
+        }}
+        beforeUpload={async (file) => {
+          const isExcel =
+            file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          if (!isExcel) {
+            message.error('Bạn chỉ có thể tải lên tệp EXCEL!');
+          }
+          const isLt4M = file.size / 1024 / 1024 < 4;
+          if (!isLt4M) {
+            message.error('File phải nhỏ hơn 4MB!');
+          }
+          message.loading({ content: 'Đang tải lên ...', key: 'loading' });
+          return isExcel && isLt4M;
+        }}
+        onSuccess={(res) => {
+          if (res) {
+            message.success('Tải lên file excel thành công!');
+          }
+          console.log(res);
+        }}
+      />
       {loading ? (
         <Skeleton />
       ) : (

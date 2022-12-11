@@ -170,6 +170,7 @@ const Zodiac = (props) => {
           const surveyType = {};
           surveyType.id = item.id;
           surveyType.name = item.name;
+          surveyType.status = item.status;
           listSurveyTypeDataSrc.push(surveyType);
         });
         setDataList(listSurveyTypeDataSrc);
@@ -247,7 +248,7 @@ const Zodiac = (props) => {
 
   const onClickDelete = async (item) => {
     try {
-      message.loading('Đang xóa ...', 9999);
+      message.loading('Đang xử lí ...', 9999);
       await deleteSurvey(item.id);
       message.success('Xóa thành công!');
       getList();

@@ -222,7 +222,15 @@ const Zodiac = () => {
   };
 
   const onClickDelele = async (item) => {
-    // TODO
+    try {
+      const res = await deleteSurveyType(item.id);
+      if (res?.data) {
+        message.success('Thay đổi trạng thái thành công!');
+        getList();
+      }
+    } catch (error) {
+      message.error('Chưa thể ẩn danh mục này!');
+    }
   };
 
   const onClickDetail = (item) => {
