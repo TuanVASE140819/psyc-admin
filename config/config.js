@@ -61,7 +61,7 @@ export default defineConfig({
     },
     {
       path: '/dashboard',
-      name: 'Bảng Điều Khiển',
+      name: 'Trang chủ',
       icon: 'dashboard',
       access: 'admin',
       component: './dashboard',

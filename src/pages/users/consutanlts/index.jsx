@@ -68,10 +68,18 @@ const User = () => {
       search: false,
       dataIndex: 'rating',
       valueType: 'select',
-      // use Rate
+      width: '15%',
       render: (_, record) => {
-        return <Rate allowHalf defaultValue={record.rating} />;
+        return (
+          <Rate
+            // chỉ đọc
+            disabled
+            allowHalf
+            defaultValue={record.rating}
+          />
+        );
       },
+      width: '20%',
     },
     {
       title: 'Trạng thái',
@@ -83,27 +91,44 @@ const User = () => {
         active: { text: 'Hoạt động', status: 'Success' },
         inactive: { text: 'Ngừng hoạt động', status: 'Error' },
       },
-      width: '20%',
     },
     {
-      title: 'Điểm đánh giá tệ',
+      title: 'Điểm quá hạn',
       search: false,
       dataIndex: 'flag',
       valueType: 'select',
+      // căn giữa
+      align: 'center',
       valueEnum: {
         0: { text: '0', status: 'Success' },
         1: { text: '1', status: 'Warning' },
         2: { text: '2', status: 'Warning' },
         3: { text: '3', status: 'Error' },
         4: { text: '4', status: 'Error' },
-        5: { text: '5', status: 'Error' },
+        6: { text: '5', status: 'Error' },
+        7: { text: '6', status: 'Error' },
+        8: { text: '7', status: 'Error' },
+        9: { text: '8', status: 'Error' },
+        10: { text: '9', status: 'Error' },
+        11: { text: '10', status: 'Error' },
+        12: { text: '11', status: 'Error' },
+        16: { text: '16', status: 'Error' },
+        17: { text: '16', status: 'Error' },
+        18: { text: '16', status: 'Error' },
+        19: { text: '16', status: 'Error' },
+        20: { text: '16', status: 'Error' },
+        21: { text: '16', status: 'Error' },
+        22: { text: '16', status: 'Error' },
+        23: { text: '16', status: 'Error' },
+        23: { text: '16', status: 'Error' },
       },
-      width: '20%',
+      width: '13%',
     },
     {
       title: 'Thao tác',
       dataIndex: 'action',
       search: false,
+      with: '20%',
       render: (_, record) => {
         return (
           <div
@@ -165,7 +190,7 @@ const User = () => {
             >
               <Button
                 key="editConsutanlt"
-                type="#1890ff"
+                type="#722ED1"
                 size="middle"
                 // icon eye
 

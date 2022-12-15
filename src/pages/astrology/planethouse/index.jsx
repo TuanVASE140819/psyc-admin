@@ -447,7 +447,7 @@ const Planet = () => {
                     onClick={() => handleClickCard(item)}
                     bordered={true}
                     style={{
-                      border: '1px solid #1890FF',
+                      border: '1px solid #722ED1',
                     }}
                   >
                     <Meta avatar={<Avatar src={item.avatar} />} title={item.title} />
