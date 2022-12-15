@@ -1,10 +1,8 @@
 import request from '@/utils/requestServer';
-
+// /api/Consultants/Getallconsultantbyadmin?search=tt
 export const getConsutanlts = async (params) => {
   return await request
-    .get('/api/Consultants/Getallconsultantbyadmin', {
-      params: params,
-    })
+    .get(`/api/Consultants/Getallconsultantbyadmin${params ? `?search=${params}` : ''} `)
     .then((response) => {
       console.log('response getConsutanlts', response);
 
@@ -14,7 +12,6 @@ export const getConsutanlts = async (params) => {
       console.log('errorGetConsutanlts', error);
     });
 };
-
 export const editConsutanlt = async (body) => {
   return await request.put('/api/Consultants/update', { data: body });
 };

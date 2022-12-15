@@ -588,7 +588,7 @@ const User = () => {
           rowKey={(record) => record.id}
           request={async (params, sort, filter) => {
             const data = [];
-            await getConsutanlts(params.fullname ?? '').then((res) => {
+            await getConsutanlts(params.fullName ?? '').then((res) => {
               console.log('res at table query', res);
               res?.data?.map((item, index) => {
                 item.number = index + 1;
