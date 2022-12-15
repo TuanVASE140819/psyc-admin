@@ -34,7 +34,7 @@ const Profile = (props) => {
         rules: [
           {
             require: true,
-            message: 'Enter House Name to search',
+            message: 'Nhập tên người dùng',
           },
         ],
       },
@@ -69,7 +69,7 @@ const Profile = (props) => {
         rules: [
           {
             require: true,
-            message: 'Enter Birth Place to search',
+            message: 'Nhập nơi sinh',
           },
         ],
       },
