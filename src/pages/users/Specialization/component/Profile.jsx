@@ -35,7 +35,7 @@ const Profile = (props) => {
         rules: [
           {
             require: true,
-            message: 'Enter House Name to search',
+            message: 'Nhập tên người dùng',
           },
         ],
       },

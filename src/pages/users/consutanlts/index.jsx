@@ -24,7 +24,7 @@ const User = () => {
     {
       title: 'No.',
       dataIndex: 'number',
-
+      width: '3%',
       sorter: (a, b) => a.number - b.number,
       search: false,
     },
@@ -36,11 +36,12 @@ const User = () => {
       sorter: (a, b) => a.fullName.length - b.fullName.length,
       filters: true,
       onFilter: true,
+      with: '15%',
       formItemProps: {
         rules: [
           {
             require: true,
-            message: 'Enter username to search',
+            message: 'nhập tên để tìm kiếm',
           },
         ],
       },
@@ -54,6 +55,7 @@ const User = () => {
       sorter: (a, b) => a.email.length - b.email.length,
       filters: true,
       onFilter: true,
+      width: '15%',
       formItemProps: {
         rules: [
           {
@@ -79,13 +81,13 @@ const User = () => {
           />
         );
       },
-      width: '20%',
     },
     {
       title: 'Trạng thái',
       search: false,
       dataIndex: 'status',
       valueType: 'select',
+      width: '10%',
       valueEnum: {
         null: { text: 'Đang chờ', status: 'Default' },
         active: { text: 'Hoạt động', status: 'Success' },
@@ -97,7 +99,7 @@ const User = () => {
       search: false,
       dataIndex: 'flag',
       valueType: 'select',
-      // căn giữa
+      width: '10%',
       align: 'center',
       valueEnum: {
         0: { text: '0', status: 'Success' },
@@ -128,7 +130,7 @@ const User = () => {
       title: 'Thao tác',
       dataIndex: 'action',
       search: false,
-      with: '20%',
+      with: '30%',
       render: (_, record) => {
         return (
           <div
@@ -238,7 +240,7 @@ const User = () => {
       key: 'fieldAddPhoneNumberUser',
       label: 'Phone Number',
       width: 'lg',
-      placeholder: 'Enter phone number',
+      placeholder: 'Nhập số điện thoại',
       name: 'phoneNumber',
       requiredField: 'true',
     },

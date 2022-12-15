@@ -38,7 +38,7 @@ const User = () => {
         rules: [
           {
             require: true,
-            message: 'Enter username to search',
+            message: 'Nhập tên người dùng để tìm kiếm',
           },
         ],
       },
@@ -169,7 +169,7 @@ const User = () => {
       key: 'fieldAddPhoneNumberUser',
       label: 'Phone Number',
       width: 'lg',
-      placeholder: 'Enter phone number',
+      placeholder: 'Nhập số điện thoại',
       name: 'phoneNumber',
       requiredField: 'true',
       ruleMessage: 'Input phone number before submit',
