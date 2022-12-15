@@ -559,7 +559,7 @@ const Aspect = (props) => {
           style={{
             marginBottom: 8,
             marginLeft: 4,
-            color: '#1890FF',
+            color: '#722ED1',
           }}
         >
           Aspect Name

@@ -25,7 +25,7 @@ const Planet = (props) => {
           onClick={() => handleClickCardChild(planet)}
           bordered={true}
           style={{
-            border: '1px solid #1890FF',
+            border: '1px solid #722ED1',
             boxShadow: '-1px 0px 12px -2px rgba(0,0,0,0.25)',
           }}
         >

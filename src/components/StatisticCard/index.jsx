@@ -176,7 +176,7 @@ export default ({ d }) => {
                 render: (_, record) => {
                   return (
                     <div>
-                      <Rate value={record.rating} />
+                      <Rate disabled value={record.rating} />
                       <div>{record.email}</div>
                       <div>{record.phone}</div>
                       {/* <div>Cấp độ: {record.experience}</div> */}

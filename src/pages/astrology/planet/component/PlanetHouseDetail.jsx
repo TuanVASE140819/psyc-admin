@@ -73,7 +73,7 @@ const PlanetHouseDetail = (props) => {
         dangerouslySetInnerHTML={{ __html: safeContent }}
         style={{
           boxShadow: '-1px 0px 12px -2px rgba(0,0,0,0.25)',
-          border: '1px solid #1890FF',
+          border: '1px solid #722ED1',
           padding: '8px',
         }}
       />

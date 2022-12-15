@@ -51,6 +51,7 @@ export default () => {
     },
     {
       title: 'Tên tài khoản',
+      search: false,
       dataIndex: 'accountName',
       valueType: 'text',
       sorter: (a, b) => a.accountName - b.accountName,
@@ -77,6 +78,8 @@ export default () => {
       title: 'Số tài khoản',
       dataIndex: 'bankNumber',
       valueType: 'text',
+      width: 150,
+      search: false,
       sorter: (a, b) => a.bankNumber - b.bankNumber,
       copyable: true,
       ellipsis: true,
@@ -185,6 +188,7 @@ export default () => {
     },
     {
       title: 'Ghi chú',
+      width: 100,
       dataIndex: 'description',
       valueType: 'text',
 
