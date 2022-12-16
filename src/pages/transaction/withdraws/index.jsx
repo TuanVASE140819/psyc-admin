@@ -141,31 +141,31 @@ export default () => {
         );
       },
     },
-    {
-      title: 'Số tiền thực tế (VNĐ)',
-      search: false,
-      width: 100,
-      dataIndex: 'actualWithdrawal',
-      valueType: 'text',
-      sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
-      render: (dom, entity) => {
-        return (
-          <div
-            style={{
-              // in đậm
-              fontWeight: 'bold',
-            }}
-          >
-            {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
-            {entity.actualWithdrawal < 999 && entity.actualWithdrawal < 0
-              ? entity.actualWithdrawal
-              : entity.actualWithdrawal < 0
-              ? entity.actualWithdrawal
-              : entity.actualWithdrawal.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
-          </div>
-        );
-      },
-    },
+    // {
+    //   title: 'Số tiền thực tế (VNĐ)',
+    //   search: false,
+    //   width: 100,
+    //   dataIndex: 'actualWithdrawal',
+    //   valueType: 'text',
+    //   sorter: (a, b) => a.actualWithdrawal - b.actualWithdrawal,
+    //   render: (dom, entity) => {
+    //     return (
+    //       <div
+    //         style={{
+    //           // in đậm
+    //           fontWeight: 'bold',
+    //         }}
+    //       >
+    //         {/* {nếu amount nhỏ hơn 999 và lớn hơn 0 thì hiện thị amount và thêm dấu phẩn ở hàng nghìn} */}
+    //         {entity.actualWithdrawal < 999 && entity.actualWithdrawal < 0
+    //           ? entity.actualWithdrawal
+    //           : entity.actualWithdrawal < 0
+    //           ? entity.actualWithdrawal
+    //           : entity.actualWithdrawal.toLocaleString('vi-VN', { minimumFractionDigits: 3 })}
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       title: 'Trạng thái',
       width: 100,
