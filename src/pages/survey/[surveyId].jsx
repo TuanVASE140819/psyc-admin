@@ -128,7 +128,7 @@ const User = (props) => {
       key: 'submitAddUser',
       type: 'primary',
       click: 'submit',
-      name: 'Thay đổi',
+      name: 'Xác nhận',
       loading: false,
     },
   ];

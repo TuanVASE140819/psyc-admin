@@ -98,7 +98,7 @@ const User = () => {
       key: 'submitAddUser',
       type: 'primary',
       click: 'submit',
-      name: 'Thay đổi',
+      name: 'Xác nhận',
       loading: false,
     },
   ];
@@ -329,7 +329,7 @@ const User = () => {
             pageSize: 10,
             showSizeChanger: true,
             total: total,
-            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} khách hàng`,
+            showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} chuyên môn`,
           }}
           search={{
             labelWidth: 'auto',
@@ -345,7 +345,7 @@ const User = () => {
               icon={<PlusOutlined />}
               onClick={() => handleModal()}
             >
-              Thêm loại sự nghiệp
+              Thêm chuyên môn
             </Button>,
           ]}
         />
