@@ -81,7 +81,7 @@ export const layout = ({ initialState, setInitialState }) => {
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
+          {/* {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer
               // tiếng việt
               locale={{
@@ -126,7 +126,7 @@ export const layout = ({ initialState, setInitialState }) => {
                 setInitialState((preInitialState) => ({ ...preInitialState, settings }));
               }}
             />
-          )}
+          )} */}
         </>
       );
     },
