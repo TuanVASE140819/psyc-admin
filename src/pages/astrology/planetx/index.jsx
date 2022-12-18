@@ -472,7 +472,7 @@ const Planet = () => {
           search={{
             labelWidth: 'auto',
             searchText: 'Tìm kiếm',
-            submittext: 'Thay đổi',
+            submittext: 'Xác nhận',
             resetText: 'Quay lại',
             placeholderTitle: 'Tìm kiếm',
           }}
